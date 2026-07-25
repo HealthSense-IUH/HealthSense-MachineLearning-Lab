@@ -10,7 +10,9 @@ data/*
 *.pth
 *.h5
 *.keras
+*.msgpack
 *.ipynb_checkpoints
+
 
 # Python & Caches
 __pycache__/
