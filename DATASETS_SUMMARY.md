@@ -22,6 +22,11 @@
   - Mục tiêu AI: Huấn luyện bộ não AI nhận diện tốt trên mọi thiết bị và mọi môi trường.
   - Kết quả AI: Accuracy ~95.15% (TabPFN) / ~94.80% (Stacking Ensemble), F1-Score 0.9519.
 
+- Link Tải Dữ Liệu Kaggle (Kaggle Datasets):
+  - **MIMIC PERform AF Dataset:** [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset)
+  - **MIT-BIH Database:** [mondejar/mitbih-database](https://www.kaggle.com/datasets/mondejar/mitbih-database)
+  - **PTB-XL Dataset:** [khyeh0719/ptb-xl-dataset](https://www.kaggle.com/datasets/khyeh0719/ptb-xl-dataset)
+
 ---
 
 ## 2. Bảng So Sánh Chi Tiết MIMIC vs PTB-XL

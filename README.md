@@ -39,6 +39,11 @@
    ```
 3. Chạy lần lượt các notebook từ `01_preprocessing` đến `03_model_training`.
 
+### Nguồn Dữ Liệu Kaggle (Datasets)
+- **MIMIC PERform AF Dataset:** [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset)
+- **MIT-BIH Database:** [mondejar/mitbih-database](https://www.kaggle.com/datasets/mondejar/mitbih-database)
+- **PTB-XL Dataset:** [khyeh0719/ptb-xl-dataset](https://www.kaggle.com/datasets/khyeh0719/ptb-xl-dataset)
+
 ### Tài liệu tham khảo
 - [1] Task Force of ESC/NASPE, "Heart rate variability: Standards of measurement, physiological interpretation and clinical use," *European Heart Journal*, vol. 17, pp. 354-381, 1996.
 - [2] Schäfer, A. & Vagedes, J., "How accurate is pulse rate variability as an estimate of heart rate variability? A review on studies comparing photoplethysmographic technology with an electrocardiogram," *International Journal of Cardiology*, 2013.
@@ -86,6 +91,11 @@
    jupyter notebook
    ```
 3. Run the notebooks sequentially from `01_preprocessing` to `03_model_training`.
+
+### Kaggle Datasets
+- **MIMIC PERform AF Dataset:** [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset)
+- **MIT-BIH Database:** [mondejar/mitbih-database](https://www.kaggle.com/datasets/mondejar/mitbih-database)
+- **PTB-XL Dataset:** [khyeh0719/ptb-xl-dataset](https://www.kaggle.com/datasets/khyeh0719/ptb-xl-dataset)
 
 ### References
 - [1] Task Force of ESC/NASPE, "Heart rate variability: Standards of measurement, physiological interpretation and clinical use," *European Heart Journal*, vol. 17, pp. 354-381, 1996.
