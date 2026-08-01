@@ -8,3 +8,7 @@ joblib
 jupyter
 nbconvert
 ipykernel
+lightgbm
+xgboost
+python-dotenv
+tabpfn-client

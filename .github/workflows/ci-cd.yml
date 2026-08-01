@@ -28,29 +28,32 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Tự động Huấn luyện Mô hình (MLOps Training)
+      - name: Tự động Huấn luyện & Đóng gói Mô hình (MLOps Training)
         run: |
-          echo "Bắt đầu chạy Jupyter Notebook để huấn luyện AI..."
-          jupyter nbconvert --to notebook --execute notebooks/MIMIC_Training/02_mimic_model_training.ipynb
+          echo "Bắt đầu chạy Jupyter Notebooks để huấn luyện AI..."
+          jupyter nbconvert --to notebook --execute notebooks/03_model_evaluation.ipynb
+          jupyter nbconvert --to notebook --execute notebooks/04_stacking_ensemble.ipynb
 
       - name: Đóng gói Mô hình (Zip Models)
         run: |
           echo "Nén các file .pkl thành file ZIP để phát hành..."
-          zip -r rf_afib_models.zip models/
+          zip -r healthsense_afib_models.zip models/
 
       - name: Tạo Github Release & Đính kèm Mô hình
         uses: softprops/action-gh-release@v2
         with:
-          files: rf_afib_models.zip
+          files: healthsense_afib_models.zip
           name: Release ${{ github.ref_name }}
           body: |
-            🎉 **Mô hình Random Forest phát hiện Rung tâm nhĩ (AFib)**
+            🎉 **Bộ mô hình AI HealthSense phát hiện Rung tâm nhĩ (AFib)**
             
-            Bản phát hành này được tự động tạo ra bởi hệ thống MLOps Github Action thông qua file Notebook.
-            - **Đầu vào:** Tập dữ liệu đặc trưng (`data/features/mimic_train_features.csv`)
-            - **Thuật toán:** Random Forest Pipeline (Gộp sẵn StandardScaler)
-            - **Thành phẩm:** Bao gồm mô hình dự đoán `mimic_afib_pipeline.pkl` (Bên trong file zip tải về).
+            Bản phát hành này được tự động tạo ra bởi hệ thống MLOps Github Action.
+            - **Đầu vào:** Tập dữ liệu 16 đặc trưng HRV (`data/features/mimic_train_features_advanced.csv`)
+            - **Thuật toán chính:** 
+              - `mimic_afib_pipeline.pkl`: Mô hình LightGBM Pipeline (Accuracy 97.10%, Recall 99.17%)
+              - `mimic_stacking_pipeline.pkl`: Mô hình Stacking Ensemble 2 tầng (LGBM + ExtraTrees + SVM + Meta LR)
+            - **Thành phẩm:** Đóng gói trong file `healthsense_afib_models.zip`.
             
-            *Hãy tải và giải nén file `rf_afib_models.zip` bên dưới để lấy file mô hình tích hợp thẳng vào Backend FastAPI (`HealthSense-AI-Service`).*
+            *Hãy tải và giải nén file `healthsense_afib_models.zip` để lấy mô hình `.pkl` nạp vào Backend FastAPI (`HealthSense-AI-Service`).*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
