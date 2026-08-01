@@ -18,13 +18,11 @@
 - **Môi trường thí nghiệm:** Jupyter Notebook
 
 ### Cấu trúc dự án
-- `data/raw/`: Chứa các file CSV gốc thu thập từ ESP32.
-- `data/processed/`: Chứa các file CSV sau khi đã làm sạch và lọc nhiễu.
-- `data/features/`: Chứa bảng đặc trưng HRV đã trích xuất (16 features).
-- `notebooks/01_preprocessing.ipynb`: Tiền xử lý tín hiệu PPG (Bandpass Filter, Peak Detection).
-- `notebooks/02_feature_engineering.ipynb`: Trích xuất 16 đặc trưng HRV (SDNN, RMSSD, LF/HF, ...).
-- `notebooks/03_model_training.ipynb`: Huấn luyện và đánh giá mô hình Random Forest.
-- `models/`: Chứa file mô hình đã huấn luyện (model.pkl).
+- `data/raw/`: Chứa 3 tập dữ liệu thô (`mitbih/`, `mimic_perform/`, `ptbxl/`).
+- `data/processed/`: Chứa các dữ liệu đã tiền xử lý theo từng nguồn (`mimic_processed/`).
+- `data/features/`: Chứa các bảng đặc trưng HRV đã trích xuất (16 đặc trưng) và các tập dữ liệu đã chuẩn hóa (`*_scaled.csv`).
+- `notebooks/`: Các Jupyter Notebook nghiên cứu phân tích & huấn luyện phân theo từng tập dữ liệu (`general/`, `mimic/`, `ptbxl/`, `mitbih/`).
+- `models/`: Chứa các pipeline mô hình AI đã huấn luyện (`models/mimic_stacking_pipeline.pkl`, `models/ptbxl_stacking_pipeline.pkl`, v.v.).
 
 ### Cài đặt và Sử dụng
 1. Tạo môi trường ảo và cài đặt thư viện:
@@ -33,11 +31,16 @@
    .\venv\Scripts\activate
    pip install -r requirements.txt
    ```
-2. Mở Jupyter Notebook:
+2. Khởi động Jupyter Notebook:
    ```bash
    jupyter notebook
    ```
-3. Chạy lần lượt các notebook từ `01_preprocessing` đến `03_model_training`.
+3. Tiến trình nghiên cứu khoa học từ dữ liệu ➔ huấn luyện mô hình:
+   - **`notebooks/general/` (Quy đổi chung):**
+     1. `01_data_normalization_and_scaling.ipynb`: Chuẩn hóa dữ liệu Z-Score & Min-Max Scaling.
+   - **`notebooks/mimic/` / `notebooks/ptbxl/` / `notebooks/mitbih/` (Phân tích & Train AI):**
+     1. `01_eda_and_preprocessing.ipynb`: Phân tích thống kê y tế EDA & Tiền xử lý dữ liệu.
+     2. `02_model_training_and_evaluation.ipynb`: Huấn luyện & Đánh giá các mô hình AI (Random Forest, LightGBM, SVM, TabPFN, Stacking Ensemble).
 
 ### Nguồn Dữ Liệu Kaggle (Datasets)
 - **MIMIC PERform AF Dataset:** [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset)
@@ -71,13 +74,11 @@
 - **Experimentation:** Jupyter Notebook
 
 ### Project Structure
-- `data/raw/`: Raw CSV files collected from ESP32.
-- `data/processed/`: Cleaned and filtered CSV files.
-- `data/features/`: Extracted HRV feature tables (16 features).
-- `notebooks/01_preprocessing.ipynb`: PPG signal preprocessing (Bandpass Filter, Peak Detection).
-- `notebooks/02_feature_engineering.ipynb`: 16 HRV feature extraction (SDNN, RMSSD, LF/HF, ...).
-- `notebooks/03_model_training.ipynb`: Random Forest model training and evaluation.
-- `models/`: Trained model files (model.pkl).
+- `data/raw/`: Contains 3 raw datasets (`mitbih/`, `mimic_perform/`, `ptbxl/`).
+- `data/processed/`: Contains preprocessed datasets categorized by source (`mimic_processed/`).
+- `data/features/`: Contains extracted 16 HRV feature tables and normalized datasets (`*_scaled.csv`).
+- `notebooks/`: Jupyter Notebooks categorized by dataset (`general/`, `mimic/`, `ptbxl/`, `mitbih/`).
+- `models/`: Contains trained AI model pipelines (`mimic_stacking_pipeline.pkl`, `ptbxl_stacking_pipeline.pkl`, etc.).
 
 ### Installation and Usage
 1. Create a virtual environment and install dependencies:
@@ -90,7 +91,12 @@
    ```bash
    jupyter notebook
    ```
-3. Run the notebooks sequentially from `01_preprocessing` to `03_model_training`.
+3. End-to-end research flow:
+   - **`notebooks/general/` (General Utilities):**
+     1. `01_data_normalization_and_scaling.ipynb`: Z-Score & Min-Max Scaling.
+   - **`notebooks/mimic/` / `notebooks/ptbxl/` / `notebooks/mitbih/` (AI Pipeline):**
+     1. `01_eda_and_preprocessing.ipynb`: Exploratory Data Analysis & Feature Processing.
+     2. `02_model_training_and_evaluation.ipynb`: Model Training & Evaluation (Random Forest, LightGBM, SVM, TabPFN, Stacking Ensemble).
 
 ### Kaggle Datasets
 - **MIMIC PERform AF Dataset:** [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset)

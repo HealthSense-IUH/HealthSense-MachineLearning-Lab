@@ -74,9 +74,9 @@
 
 - File cấu hình môi trường: .env (chứa TABPFN_TOKEN).
 - Thư mục notebooks:
-  - notebooks/mimic/ (03_model_evaluation.ipynb, 04_stacking_ensemble.ipynb)
-  - notebooks/ptbxl/ (01_ptbxl_evaluation.ipynb, 02_ptbxl_stacking_ensemble.ipynb)
-  - notebooks/combined/ (01_combined_evaluation.ipynb, 02_combined_stacking_ensemble.ipynb)
+  - notebooks/general/ (01_data_preprocessing.ipynb, 02_feature_engineering.ipynb, 03_data_scaling_and_normalization.ipynb)
+  - notebooks/mimic/ (01_feature_engineering_and_eda.ipynb, 02_model_training_and_evaluation.ipynb)
+  - notebooks/ptbxl/ (01_feature_engineering_and_eda.ipynb, 02_model_training_and_evaluation.ipynb)
 - Thư mục models:
   - models/mimic_stacking_pipeline.pkl
   - models/ptbxl_stacking_pipeline.pkl
