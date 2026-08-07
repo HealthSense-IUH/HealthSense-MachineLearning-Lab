@@ -1,0 +1,5 @@
+Quy Mô Data,Độ Overlap,Split Method,Model,Accuracy,Recall (Sensitivity),F1-Score,ROC-AUC,False Negative (FN)
+1360 Mẫu,0%,Random Stratified Split (0% Overlap),Random Forest,0.9873417721518988,1.0,0.9895833333333334,0.9964912280701754,0
+4083 Mẫu,66%,Stratified Contiguous Block Split (66% Overlap),Random Forest,0.9412997903563941,0.9788732394366197,0.952054794520548,0.9754433335765891,6
+8165 Mẫu,83%,Stratified Contiguous Block Split (83% Overlap),Random Forest,0.9557894736842105,0.9842105263157894,0.9639175257731959,0.9594506001846721,9
+16358 Mẫu,91%,Stratified Contiguous Block Split (91% Overlap),Random Forest,0.9521807672096689,0.9807524059492564,0.9609944277753965,0.9838496339273379,22
