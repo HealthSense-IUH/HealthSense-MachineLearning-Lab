@@ -3,12 +3,12 @@ name: MLOps Release Pipeline
 on:
   push:
     tags:
-      - 'v*' # Chỉ chạy khi có tag bắt đầu bằng chữ 'v' (VD: v1.0.0, v2.1-final)
+      - 'v*' # Chỉ chạy khi có tag bắt đầu bằng chữ 'v' (VD: v4.0.0)
 
 jobs:
   train-and-release:
     runs-on: ubuntu-latest
-    
+
     # Cấp quyền GITHUB_TOKEN để được phép tạo Release trên repo
     permissions:
       contents: write
@@ -21,39 +21,39 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: 'pip' # Tăng tốc độ cài đặt thư viện cho các lần sau
+          cache: 'pip'
 
       - name: Cài đặt thư viện (Dependencies)
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Tự động Huấn luyện & Đóng gói Mô hình (MLOps Training)
-        run: |
-          echo "Bắt đầu chạy Jupyter Notebooks để huấn luyện AI..."
-          jupyter nbconvert --to notebook --execute notebooks/03_model_evaluation.ipynb
-          jupyter nbconvert --to notebook --execute notebooks/04_stacking_ensemble.ipynb
+      - name: Pipeline v4 — Trích xuất đặc trưng (tự tải dữ liệu)
+        run: python scripts/run_v4_extraction.py
 
-      - name: Đóng gói Mô hình (Zip Models)
-        run: |
-          echo "Nén các file .pkl thành file ZIP để phát hành..."
-          zip -r healthsense_afib_models.zip models/
+      - name: Pipeline v4 — LOSO Benchmark (chống data leakage)
+        run: python scripts/run_v4_benchmark.py
 
-      - name: Tạo Github Release & Đính kèm Mô hình
+      - name: Pipeline v4 — Cross-Dataset MIMIC <-> AFDB
+        run: python scripts/run_cross_dataset.py
+
+      - name: Đóng gói kết quả (Zip Results)
+        run: |
+          zip -r healthsense_afib_v4_results.zip models/benchmark_v4 models/cross_dataset data/features/mimic_features_v4.csv data/features/afdb_features_v4.csv
+
+      - name: Tạo Github Release & Đính kèm kết quả
         uses: softprops/action-gh-release@v2
         with:
-          files: healthsense_afib_models.zip
+          files: healthsense_afib_v4_results.zip
           name: Release ${{ github.ref_name }}
           body: |
-            🎉 **Bộ mô hình AI HealthSense phát hiện Rung tâm nhĩ (AFib)**
-            
-            Bản phát hành này được tự động tạo ra bởi hệ thống MLOps Github Action.
-            - **Đầu vào:** Tập dữ liệu 16 đặc trưng HRV (`data/features/mimic_train_features_advanced.csv`)
-            - **Thuật toán chính:** 
-              - `mimic_afib_pipeline.pkl`: Mô hình LightGBM Pipeline (Accuracy 97.10%, Recall 99.17%)
-              - `mimic_stacking_pipeline.pkl`: Mô hình Stacking Ensemble 2 tầng (LGBM + ExtraTrees + SVM + Meta LR)
-            - **Thành phẩm:** Đóng gói trong file `healthsense_afib_models.zip`.
-            
-            *Hãy tải và giải nén file `healthsense_afib_models.zip` để lấy mô hình `.pkl` nạp vào Backend FastAPI (`HealthSense-AI-Service`).*
+            🎉 **HealthSense ML v4 — Phát hiện Rung Nhĩ (AFib), không data leakage**
+
+            Bản phát hành tự động bởi GitHub Actions:
+            - **Đánh giá:** Leave-One-Subject-Out theo bệnh nhân (MIMIC PERform AF) + Cross-Dataset MIMIC ↔ MIT-BIH AFDB.
+            - **Kết quả LOSO mức bệnh nhân:** Recall 100% (0 FN), Accuracy 94.3%, ROC-AUC 0.93 (Random Forest).
+            - **Nội dung:** metrics CSV, dự đoán từng cửa sổ, biểu đồ, bảng đặc trưng có `record_id`.
+
+            *Chi tiết phương pháp: README mục "Vì sao có v4?" và `docs/pipeline_v4.html`.*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

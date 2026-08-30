@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "HealthSense ML v4 — Pipeline phát hiện Rung Nhĩ (AFib)",
+    "quality_profile": "showcase",
+    "viewBox": [1080, 520],
+    "views": [
+      { "id": "duong-du-lieu", "label": "Đường dữ liệu chính", "focus": ["raw_af", "raw_nonaf", "raw_afdb", "signal", "hrv", "features_csv"], "note": "Từ sóng PPG / annotation ECG theo từng bệnh nhân đến bảng đặc trưng HRV có record_id." },
+      { "id": "chong-leakage", "label": "Chống data leakage", "focus": ["features_csv", "split", "pipe"], "note": "Chia theo bệnh nhân (LOSO) và tiền xử lý fit train-only trong từng fold." },
+      { "id": "ket-qua", "label": "Kết quả & triển khai", "focus": ["pipe", "results", "final", "app"], "note": "3 tầng kiểm định, model cuối gộp 60 bệnh nhân xuất .pkl cho ứng dụng HealthSense." }
+    ]
+  },
+  "stages": [
+    { "label": "Nguồn dữ liệu" },
+    { "label": "Xử lý tín hiệu" },
+    { "label": "Đặc trưng HRV" },
+    { "label": "Huấn luyện" },
+    { "label": "Kết quả" }
+  ],
+  "nodes": [
+    { "id": "raw_af", "type": "database", "label": "MIMIC PERform AF", "sublabel": "19 bệnh nhân AFib", "stage": 0, "row": 0, "width": 152, "tag": "PPG 125 Hz" },
+    { "id": "raw_nonaf", "type": "database", "label": "MIMIC PERform non-AF", "sublabel": "16 bệnh nhân Normal", "stage": 0, "row": 1, "width": 152 },
+    { "id": "raw_afdb", "type": "database", "label": "MIT-BIH AFDB", "sublabel": "25 bệnh nhân, AF kịch phát", "stage": 0, "row": 2, "width": 152, "tag": "ECG 250 Hz" },
+    { "id": "signal", "type": "backend", "label": "Xử lý tín hiệu", "sublabel": "signal_processing.py", "stage": 1, "row": 1, "width": 152, "tag": "Butterworth 0.5-8 Hz" },
+    { "id": "hrv", "type": "backend", "label": "Trích đặc trưng HRV", "sublabel": "hrv_features.py", "stage": 2, "row": 0, "tag": "cửa sổ 30s" },
+    { "id": "features_csv", "type": "database", "label": "features_v4.csv ×2", "sublabel": "MIMIC + AFDB, có record_id", "stage": 2, "row": 2, "width": 158, "tag": "33.033 cửa sổ" },
+    { "id": "split", "type": "security", "label": "LeaveOneGroupOut", "sublabel": "chia theo record_id", "stage": 3, "row": 0, "tag": "LOSO + cross-dataset" },
+    { "id": "pipe", "type": "backend", "label": "Pipeline huấn luyện", "sublabel": "IQR + Scaler train-only", "stage": 3, "row": 2, "width": 158, "tag": "LR / RF / XGBoost" },
+    { "id": "results", "type": "database", "label": "Kết quả đánh giá", "sublabel": "benchmark_v4 + cross_dataset", "stage": 4, "row": 0, "width": 158, "tag": "3 tầng kiểm định" },
+    { "id": "final", "type": "backend", "label": "Model triển khai", "sublabel": "afib_pipeline.pkl", "stage": 4, "row": 1, "width": 158, "yOffset": 24, "tag": "XGBoost, 60 BN" },
+    { "id": "app", "type": "external", "label": "HealthSense App", "sublabel": "AI-Service (FastAPI)", "stage": 4, "row": 2, "yOffset": 24 }
+  ],
+  "flows": [
+    { "id": "af-ppg", "from": "raw_af", "to": "signal", "label": "sóng PPG (AFib)", "classification": "20 phút/người", "variant": "emphasis" },
+    { "id": "nonaf-ppg", "from": "raw_nonaf", "to": "signal", "label": "sóng PPG (Normal)", "classification": "20 phút/người", "variant": "default", "route": "straight", "fromSide": "right", "toSide": "left", "labelAt": [208, 314] },
+    { "id": "afdb-nn", "from": "raw_afdb", "to": "features_csv", "label": "chuỗi NN từ QRS annotation", "classification": "afdb.py — không cần sóng thô", "variant": "default" },
+    { "id": "nn-series", "from": "signal", "to": "hrv", "label": "chuỗi NN (ms)", "classification": "sau phát hiện nhịp", "variant": "emphasis" },
+    { "id": "feature-rows", "from": "hrv", "to": "features_csv", "label": "đặc trưng theo cửa sổ", "classification": "kèm record_id", "variant": "emphasis" },
+    { "id": "grouped-table", "from": "features_csv", "to": "split", "label": "bảng đặc trưng", "classification": "nhóm theo bệnh nhân", "variant": "emphasis" },
+    { "id": "fold-train", "from": "split", "to": "pipe", "label": "train N-1 / test 1", "classification": "mỗi fold", "variant": "security", "labelDy": 32, "labelDx": 10 },
+    { "id": "fold-preds", "from": "pipe", "to": "results", "label": "dự đoán bệnh nhân mới", "classification": "LOSO / cross-dataset / pooled", "variant": "emphasis", "labelAt": [834, 244] },
+    { "id": "train-final", "from": "pipe", "to": "final", "label": "train gộp 60 BN", "classification": "cân bằng nguồn", "variant": "emphasis", "labelAt": [794, 320] },
+    { "id": "deploy", "from": "final", "to": "app", "label": "P(AFib)", "classification": "joblib.load + predict_proba", "variant": "dashed" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Đường dữ liệu chính",
+      "items": [
+        "Dữ liệu giữ nguyên danh tính bệnh nhân (record_id) xuyên suốt pipeline",
+        "MIMIC: PPG lọc bandpass, phát hiện nhịp; AFDB: chuỗi NN dựng thẳng từ QRS annotation",
+        "Cửa sổ 30s ➔ 16 đặc trưng HRV, huấn luyện dùng 13 (loại nhóm LF không đủ tin cậy ở 30s)"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Chống data leakage (sửa lỗi v1-v3)",
+      "items": [
+        "LOSO: toàn bộ cửa sổ của bệnh nhân test không bao giờ nằm trong train",
+        "IQR outlier và StandardScaler chỉ fit trên train của từng fold",
+        "3 tầng kiểm định: LOSO MIMIC ➔ cross-dataset MIMIC↔AFDB ➔ pooled LOSO 60 bệnh nhân"
+      ]
+    },
+    {
+      "dot": "orange",
+      "title": "Kết quả & triển khai",
+      "items": [
+        "LOSO MIMIC: Recall 100% mức bệnh nhân; cross-dataset AUC 0.976-0.987",
+        "Model cuối (XGBoost, gộp 60 BN cân bằng nguồn): Accuracy 95.9%, AUC 0.988",
+        "Xuất models/final/healthsense_afib_pipeline.pkl + model_card.json; cần kiểm định thêm trên MAX30102 cổ tay"
+      ]
+    }
+  ]
+}

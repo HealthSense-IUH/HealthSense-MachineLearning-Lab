@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "HealthSense — Kiến trúc thành phần hệ thống",
+    "quality_profile": "showcase",
+    "viewBox": [1140, 540],
+    "views": [
+      { "id": "duong-do", "label": "Đường đo trực tiếp", "focus": ["max30102", "mpu6050", "firmware", "ble", "app"], "note": "Từ cảm biến qua firmware, BLE đến ứng dụng di động." },
+      { "id": "duong-ai", "label": "Đường suy luận AI", "focus": ["app", "ai", "model"], "note": "App gửi dữ liệu đo lên AI-Service; model .pkl chấm điểm P(AFib)." },
+      { "id": "offline", "label": "Huấn luyện offline", "focus": ["datasets", "mllab", "model", "logger"], "note": "ML Lab huấn luyện từ 60 bệnh nhân và xuất model; logger thu dữ liệu thiết bị thật." }
+    ]
+  },
+  "components": [
+    { "id": "max30102", "type": "external", "label": "MAX30102", "sublabel": "PPG Red + IR", "pos": [40, 120], "size": [130, 60], "tag": "I2C, INT D6" },
+    { "id": "mpu6050", "type": "external", "label": "MPU6050", "sublabel": "gia tốc 3 trục", "pos": [40, 260], "size": [130, 60], "tag": "I2C, INT D2" },
+    { "id": "firmware", "type": "backend", "label": "Firmware", "sublabel": "PPG + StateManager", "pos": [250, 190], "size": [150, 64], "tag": "Maxim SpO2, median IBI" },
+    { "id": "ble", "type": "messagebus", "label": "BLE GATT", "sublabel": "notify + write", "pos": [480, 190], "size": [130, 60] },
+    { "id": "app", "type": "frontend", "label": "Mobile App", "sublabel": "hiển thị & điều khiển", "pos": [680, 190], "size": [140, 60] },
+    { "id": "ai", "type": "backend", "label": "HealthSense-AI-Service", "sublabel": "FastAPI", "pos": [900, 190], "size": [170, 64], "tag": "P(AFib)" },
+    { "id": "model", "type": "database", "label": "afib_pipeline.pkl", "sublabel": "XGBoost + Scaler", "pos": [910, 400], "size": [150, 60], "tag": "models/final" },
+    { "id": "mllab", "type": "backend", "label": "ML Lab (offline)", "sublabel": "pipeline v4 — LOSO", "pos": [660, 400], "size": [150, 64] },
+    { "id": "datasets", "type": "database", "label": "MIMIC + AFDB", "sublabel": "60 bệnh nhân", "pos": [430, 400], "size": [140, 60] },
+    { "id": "logger", "type": "backend", "label": "log_to_csv.py", "sublabel": "thu dữ liệu thiết bị", "pos": [200, 400], "size": [140, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Thiết bị đeo — Seeed XIAO ESP32-C3", "wraps": ["max30102", "mpu6050", "firmware", "ble"] },
+    { "kind": "region", "label": "Offline — nghiên cứu & huấn luyện", "wraps": ["logger", "datasets", "mllab", "model"] }
+  ],
+  "connections": [
+    { "id": "ppg-raw", "from": "max30102", "to": "firmware", "label": "Red/IR 100 Hz", "variant": "emphasis" },
+    { "id": "motion-int", "from": "mpu6050", "to": "firmware", "label": "ngắt chuyển động", "labelAt": [210, 334] },
+    { "id": "fw-ble", "from": "firmware", "to": "ble", "label": "packet PPG + BPM/SpO2", "variant": "emphasis", "labelAt": [440, 186] },
+    { "id": "ble-app", "from": "ble", "to": "app", "label": "BLE notify", "variant": "emphasis", "labelAt": [645, 264] },
+    { "id": "app-cmd", "from": "app", "to": "ble", "label": "lệnh chế độ (Write)", "variant": "dashed", "labelAt": [645, 186] },
+    { "id": "app-ai", "from": "app", "to": "ai", "label": "dữ liệu đo (REST)", "variant": "emphasis", "labelAt": [860, 186] },
+    { "id": "model-ai", "from": "model", "to": "ai", "label": "joblib.load", "fromSide": "top", "toSide": "bottom" },
+    { "id": "lab-model", "from": "mllab", "to": "model", "label": "xuất .pkl", "variant": "emphasis" },
+    { "id": "data-lab", "from": "datasets", "to": "mllab", "label": "đặc trưng HRV" },
+    { "id": "fw-logger", "from": "firmware", "to": "logger", "label": "Serial CSV 100 Hz", "variant": "dashed", "fromSide": "bottom", "toSide": "top" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Thiết bị đeo", "items": ["MAX30102 đo PPG, MPU6050 phát hiện cử động để chống nhiễu", "Firmware tính BPM (median IBI) và SpO2 (thuật toán Maxim) ngay trên chip", "BLE truyền raw PPG + sinh hiệu; nhận lệnh chế độ từ app"] },
+    { "dot": "emerald", "title": "Suy luận AFib", "items": ["App chuyển dữ liệu đo lên AI-Service (FastAPI)", "Model XGBoost + Scaler đóng gói một pipeline .pkl, nạp bằng joblib", "Đầu ra P(AFib) cho từng cửa sổ 30 giây"] },
+    { "dot": "violet", "title": "Nghiên cứu offline", "items": ["ML Lab huấn luyện trên 60 bệnh nhân (MIMIC + AFDB), kiểm định LOSO + cross-dataset", "log_to_csv.py thu dữ liệu MAX30102 thật — dùng kiểm định chéo miền trước khi triển khai", "Chi tiết pipeline: docs/pipeline_v4.html"] }
+  ]
+}

@@ -12,3 +12,5 @@ lightgbm
 xgboost
 python-dotenv
 tabpfn-client
+kagglehub
+wfdb

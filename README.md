@@ -1,33 +1,52 @@
 # HealthSense ML
 
+> 📚 **Tài liệu:** mở [`docs/index.html`](docs/index.html) — trang chủ docs liên kết sơ đồ kiến trúc thành phần ([`components.html`](docs/components.html)), sơ đồ pipeline ML ([`pipeline_v4.html`](docs/pipeline_v4.html), tương tác: guided views, pan/zoom, dark mode, export), giải thích thuật ngữ và kết quả.
+
 ## Tiếng Việt
 
 **HealthSense ML** là kho chứa mã nguồn dành riêng cho việc phân tích dữ liệu tín hiệu sinh lý (ECG/PPG), trích xuất đặc trưng biến thiên nhịp tim (HRV) và huấn luyện các mô hình Machine Learning phát hiện Rung Nhĩ (AFib) cho dự án HealthSense dựa trên tập dữ liệu y tế chuẩn **MIMIC-III (PERform AFib Dataset)**.
 
 ### Chức năng chính
-- Thu thập và xử lý dữ liệu sóng thô ECG/PPG từ cảm biến y tế và dữ liệu thực tế (`data/raw/mimic_perform/ppg_af_dataset.csv` - 5.25 triệu điểm sóng thô).
-- Tiền xử lý tín hiệu: loại bỏ nhiễu chuyển động (Motion Artifact), lọc dải thông Butterworth và Baseline Wander.
-- Trích xuất **16 đặc trưng biến thiên nhịp tim HRV** y tế chuẩn Task Force 1996 theo 4 quy mô dung lượng bằng kỹ thuật Cửa Sổ Trượt (Sliding Window: 1,360, 4,083, 8,165, 16,358 mẫu).
-- Huấn luyện & Đánh giá mô hình AI phát hiện **Rung Nhĩ (AFib)** với hiệu năng xuất sắc (**Recall > 99.3%**, **Accuracy > 98.5%**, **ROC-AUC = 0.9941**).
+- Xử lý sóng PPG thô **theo từng bệnh nhân** từ 2 dataset y tế công khai: MIMIC PERform AF (35 bệnh nhân PPG) và MIT-BIH AFDB (23 bệnh nhân ECG, AF kịch phát).
+- Tiền xử lý tín hiệu: lọc Butterworth bandpass 0.5–8 Hz, phát hiện nhịp, trích chuỗi NN.
+- Trích xuất **16 đặc trưng HRV** chuẩn Task Force 1996 (time / frequency / nonlinear) bằng cửa sổ trượt 30s, mỗi hàng gắn `record_id`.
+- Đánh giá **không data leakage**: LOSO theo bệnh nhân + cross-dataset MIMIC ↔ AFDB. Kết quả v4 (mức bệnh nhân): **Recall 100% (0 ca AFib bị bỏ sót), Accuracy 94.3%, ROC-AUC 0.93** — con số phản ánh bệnh nhân chưa từng thấy.
 
 ### Công nghệ
 - **Ngôn ngữ:** Python 3.12+
-- **Xử lý tín hiệu & Chuẩn hóa:** SciPy (Butterworth Filter, Welch Periodogram, Find Peaks), Scikit-learn (StandardScaler, MinMaxScaler)
-- **Phân tích & Quản lý dữ liệu:** Pandas, NumPy, Matplotlib, Seaborn
-- **Machine Learning & Ensemble:** Scikit-learn, XGBoost, LightGBM, PyTorch / MLP Neural Network
-- **Môi trường thí nghiệm:** Jupyter Notebook
+- **Xử lý tín hiệu:** SciPy (Butterworth sosfiltfilt, find_peaks, Welch)
+- **Dữ liệu:** Pandas, NumPy, kagglehub (tải MIMIC), wfdb (annotation PhysioNet AFDB)
+- **Machine Learning:** Scikit-learn (Pipeline, LeaveOneGroupOut, GroupKFold), XGBoost
+- **Biểu đồ:** Matplotlib, Seaborn
 
-### Cấu trúc dự án
-- `data/raw/`: Chứa dữ liệu thô MIMIC-III (`mimic_perform/ppg_af_dataset.csv`).
-- `data/features/`: Chứa các bảng đặc trưng HRV đa quy mô đã trích xuất từ dữ liệu thô (`mimic_features_1360.csv`, `mimic_features_4083.csv`, `mimic_features_8165.csv`, `mimic_features_16358.csv`).
-- `data/processed/`: Chứa các tập dữ liệu đã chuẩn hóa biên độ Z-Score & Min-Max Scaling cho cả 4 quy mô sẵn sàng cho huấn luyện AI.
-- `notebooks/`:
-  - `general/`: 
-    - `00_raw_feature_extraction.ipynb`: Trích xuất 16 đặc trưng HRV đa quy mô từ sóng thô RAW (`data/raw/` ➔ `data/features/`).
-    - `01_data_normalization_and_scaling.ipynb`: Phân tích EDA, Imputation và Chuẩn hóa dữ liệu Z-Score & Min-Max Scaling (`data/features/` ➔ `data/processed/`).
-  - `mimic/`:
-    - `02_model_training_and_evaluation.ipynb`: Pipeline huấn luyện & Đánh giá Y tế chuyên sâu phát hiện Rung Nhĩ AFib từ tập MIMIC-III (Hỗ trợ tùy chọn quy mô 1360, 4083, 8165, 16358).
-- `models/`: Chứa các pipeline mô hình AI đã huấn luyện (`models/mimic/`).
+### Cấu trúc dự án (v4)
+- `src/healthsense_ml/`: **Package Python trung tâm** — toàn bộ logic pipeline nằm ở đây:
+  - `config.py`: Đường dẫn, hằng số tín hiệu, danh sách đặc trưng, tham số huấn luyện.
+  - `data_loading.py`: Nạp dữ liệu MIMIC PERform **theo từng bệnh nhân** (`record_id`), tự tải từ Kaggle.
+  - `signal_processing.py`: Lọc Butterworth bandpass 0.5–8 Hz, phát hiện nhịp, trích chuỗi NN.
+  - `hrv_features.py`: 16 đặc trưng HRV chuẩn Task Force 1996 (time/frequency/nonlinear).
+  - `feature_extraction.py`: Cửa sổ trượt 30s/10s ➔ bảng đặc trưng **có `record_id`**.
+  - `training.py`: Benchmark LOSO chống data leakage (chi tiết bên dưới).
+  - `evaluation.py`: Metrics 2 cấp (cửa sổ & bệnh nhân) + biểu đồ.
+  - `afdb.py`: Dataset thứ hai MIT-BIH AFDB — dựng chuỗi NN từ annotation QRS (không cần tải sóng thô).
+- `scripts/`:
+  - `run_v4_extraction.py`: Bước 1 — raw ➔ `data/features/mimic_features_v4.csv`.
+  - `run_v4_benchmark.py`: Bước 2 — LOSO benchmark ➔ `models/benchmark_v4/`.
+  - `run_cross_dataset.py`: Bước 3 — cross-dataset MIMIC ↔ AFDB ➔ `models/cross_dataset/`.
+  - `run_final_model.py`: Bước 4 — gộp 60 bệnh nhân (pooled LOSO + cân bằng nguồn) ➔ `models/final/` (.pkl triển khai).
+  - `legacy/`: Script v3 cũ (bị leakage, chỉ tham khảo).
+- `data/raw/mimic_perform/`: Dữ liệu thô theo từng bệnh nhân (19 AF + 16 non-AF, PPG 125 Hz).
+- `data/features/`: Bảng đặc trưng HRV có `record_id` (`mimic_features_v4.csv`, `afdb_features_v4.csv`).
+- `models/`: Kết quả hiện hành (`benchmark_v4/`, `cross_dataset/`, `final/` — model triển khai .pkl + model card).
+- `docs/`: Sơ đồ kiến trúc tương tác (`pipeline_v4.html`) + giải thích thuật ngữ (`GIAI_THICH_THUAT_NGU.md`).
+- `legacy/`: TOÀN BỘ thí nghiệm v1–v3 (notebooks, features cũ, kết quả benchmark v3) — chỉ để tham khảo, kết quả bị data leakage (xem bên dưới); có README riêng bên trong.
+
+### ⚠️ Vì sao có v4? (Data Leakage trong v1–v3)
+Các phiên bản trước có 2 lỗi phương pháp khiến kết quả 98–99% bị thổi phồng:
+1. **Subject leakage:** đặc trưng không mang `record_id`, dữ liệu được chia random theo cửa sổ — các cửa sổ của cùng một bệnh nhân nằm ở cả train lẫn test, mô hình chỉ cần "nhận mặt" bệnh nhân là đạt điểm cao.
+2. **Preprocessing leakage:** Scaler và ngưỡng lọc outlier IQR được fit trên toàn bộ dữ liệu (gồm cả test) trước khi chia.
+
+v4 sửa tận gốc: **Leave-One-Subject-Out** theo bệnh nhân, tiền xử lý fit train-only trong từng fold, tuning nested (GroupKFold), loại nhóm đặc trưng LF không đủ tin cậy trên cửa sổ 30s, và báo cáo metric ở **mức bệnh nhân** — con số phản ánh đúng khả năng nhận diện bệnh nhân chưa từng thấy.
 
 ### Cài đặt và Sử dụng
 1. Tạo môi trường ảo và cài đặt thư viện:
@@ -36,17 +55,22 @@
    .\venv\Scripts\activate
    pip install -r requirements.txt
    ```
-2. Khởi động Jupyter Notebook:
+2. Chạy pipeline 4 bước (dữ liệu tự tải nếu chưa có — MIMIC từ Kaggle ~100MB, AFDB chỉ tải annotation từ PhysioNet ~vài MB):
    ```bash
-   jupyter notebook
+   python scripts/run_v4_extraction.py
+   python scripts/run_v4_benchmark.py
+   python scripts/run_cross_dataset.py
+   python scripts/run_final_model.py
    ```
-3. Tiến trình nghiên cứu khoa học tinh gọn 3 bước từ dữ liệu thô ➔ huấn luyện mô hình:
-   - **Bước 0: Trích xuất đặc trưng thô (`notebooks/general/00_raw_feature_extraction.ipynb`)**: Trích xuất 16 đặc trưng HRV từ tín hiệu sóng thô RAW cho cả 4 quy mô (1360, 4083, 8165, 16358 mẫu).
-   - **Bước 1: EDA & Chuẩn hóa dữ liệu (`notebooks/general/01_data_normalization_and_scaling.ipynb`)**: Thống kê phân bố, Imputation & Chuẩn hóa Z-Score / Min-Max Scaling cho cả 4 quy mô.
-   - **Bước 2: Huấn luyện & Đánh giá AI (`notebooks/mimic/02_model_training_and_evaluation.ipynb`)**: Huấn luyện & Đánh giá các mô hình AI (XGBoost, Logistic Regression, MLP Neural Network, Soft Voting, Stacking Ensemble) với bộ chọn `DATASET_SCALE`.
+   - Thêm cờ `--full16` cho benchmark nếu muốn dùng đủ 16 đặc trưng (mặc định loại nhóm LF).
+3. Kết quả:
+   - `models/benchmark_v4/` — LOSO trên MIMIC: `benchmark_results_v4.csv` (metrics 2 cấp), `loso_predictions.csv`, confusion matrix / ROC / biểu đồ xác suất theo bệnh nhân.
+   - `models/cross_dataset/` — kiểm định chéo MIMIC (PPG) ↔ MIT-BIH AFDB (ECG): train trên dataset này, test trên dataset kia — bằng chứng tổng quát hóa mạnh nhất.
+   - `models/final/` — **mô hình triển khai**: pooled LOSO 60 bệnh nhân (cân bằng nguồn) + `healthsense_afib_pipeline.pkl` (kèm scaler, nạp thẳng vào `HealthSense-AI-Service`) + `model_card.json`.
 
-### Nguồn Dữ Liệu Kaggle (Datasets)
-- **MIMIC PERform AF Dataset:** [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset)
+### Nguồn Dữ Liệu (Datasets)
+- **MIMIC PERform AF** (Kaggle): [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset) — tự tải bằng `kagglehub`.
+- **MIT-BIH AFDB** (PhysioNet): [physionet.org/content/afdb](https://physionet.org/content/afdb/) — chỉ tải annotation QRS + rhythm bằng `wfdb`.
 
 ### Tài liệu tham khảo
 - [1] Task Force of ESC/NASPE, "Heart rate variability: Standards of measurement, physiological interpretation and clinical use," *European Heart Journal*, vol. 17, pp. 354-381, 1996.
@@ -62,10 +86,10 @@
 **HealthSense ML** is the dedicated repository for physiological signal processing (ECG/PPG), Heart Rate Variability (HRV) feature extraction, and Machine Learning model training for Atrial Fibrillation (AFib) detection in the HealthSense project, centered around the **MIMIC-III (PERform AFib Dataset)**.
 
 ### Key Features
-- Processes raw ECG/PPG waveform data from medical sensors and clinical datasets (`data/raw/mimic_perform/ppg_af_dataset.csv` - 5.25M raw points).
-- Signal Preprocessing: Bandpass filtering, Motion Artifact removal, and Baseline Wander correction.
-- Multi-Scale Feature Extraction: Computes 16 medical-grade HRV features across 4 scales (1,360, 4,083, 8,165, and 16,358 samples).
-- High-Performance AFib Detection Training (**Recall > 99.3%**, **Accuracy > 98.5%**, **ROC-AUC = 0.9941**).
+- Processes raw PPG **per patient** from 2 public clinical datasets: MIMIC PERform AF (35 PPG patients) and MIT-BIH AFDB (23 ECG patients, paroxysmal AF).
+- Signal preprocessing: Butterworth bandpass 0.5–8 Hz, beat detection, NN-interval extraction.
+- Extracts **16 Task Force 1996 HRV features** (time / frequency / nonlinear) via 30s sliding windows, every row tagged with `record_id`.
+- **Leakage-free** evaluation: patient-wise LOSO + MIMIC ↔ AFDB cross-dataset validation. v4 results (subject level): **Recall 100% (zero missed AFib patients), Accuracy 94.3%, ROC-AUC 0.93** on unseen patients.
 
 ### Tech Stack
 - **Language:** Python 3.12+
@@ -74,17 +98,29 @@
 - **Machine Learning:** Scikit-learn, XGBoost, LightGBM, Neural Networks (MLP)
 - **Experimentation Environment:** Jupyter Notebook
 
-### Project Structure
-- `data/raw/`: Raw MIMIC-III waveform dataset (`mimic_perform/ppg_af_dataset.csv`).
-- `data/features/`: Extracted multi-scale 16-HRV feature tables (`mimic_features_1360.csv`, `mimic_features_4083.csv`, `mimic_features_8165.csv`, `mimic_features_16358.csv`).
-- `data/processed/`: Scaled multi-scale datasets (`mimic_zscore_*.csv`, `mimic_minmax_*.csv`) ready for ML training.
-- `notebooks/`:
-  - `general/`: 
-    - `00_raw_feature_extraction.ipynb`: Multi-scale raw signal feature extraction (`data/raw/` ➔ `data/features/`).
-    - `01_data_normalization_and_scaling.ipynb`: Exploratory Data Analysis & Multi-scale Z-Score / Min-Max Scaling (`data/features/` ➔ `data/processed/`).
-  - `mimic/`:
-    - `02_model_training_and_evaluation.ipynb`: Deep pipeline for AFib Detection using MIMIC-III (Supports multi-scale dataset selection via `DATASET_SCALE`).
-- `models/`: Serialized trained AI models (`models/mimic/`).
+### Project Structure (v4)
+- `src/healthsense_ml/`: **Core Python package** — all pipeline logic lives here:
+  - `config.py`: Paths, signal constants, feature lists, training parameters.
+  - `data_loading.py`: Loads MIMIC PERform **per patient** (`record_id`), auto-downloads from Kaggle.
+  - `signal_processing.py`: Butterworth bandpass 0.5–8 Hz, beat detection, NN-interval extraction.
+  - `hrv_features.py`: 16 Task Force 1996 HRV features (time / frequency / nonlinear).
+  - `feature_extraction.py`: 30s/10s sliding window ➔ feature table **with `record_id`**.
+  - `training.py`: Leakage-free LOSO benchmark (see below).
+  - `evaluation.py`: Two-level metrics (window & subject) + plots.
+  - `afdb.py`: Second dataset (MIT-BIH AFDB) — NN series from QRS annotations, no raw waveform download needed.
+- `scripts/`: `run_v4_extraction.py` (Step 1), `run_v4_benchmark.py` (Step 2), `run_cross_dataset.py` (Step 3), `run_final_model.py` (Step 4 — pooled deployment model), `legacy/` (old v3 scripts).
+- `data/raw/mimic_perform/`: Per-patient raw data (19 AF + 16 non-AF, 125 Hz PPG).
+- `data/features/`: HRV feature tables with `record_id` (`mimic_features_v4.csv`, `afdb_features_v4.csv`).
+- `models/`: Current results (`benchmark_v4/`, `cross_dataset/`).
+- `docs/`: Interactive architecture diagram (`pipeline_v4.html`) + plain-language glossary (`GIAI_THICH_THUAT_NGU.md`).
+- `legacy/`: ALL v1–v3 experiments (notebooks, old features, v3 benchmark results) — reference only, results suffer from data leakage (see note below); has its own README.
+
+### ⚠️ Why v4? (Data Leakage in v1–v3)
+Earlier versions had two methodological flaws that inflated the reported 98–99% results:
+1. **Subject leakage:** features carried no `record_id` and windows were split randomly — windows from the same patient appeared in both train and test.
+2. **Preprocessing leakage:** scalers and IQR outlier thresholds were fit on the full dataset (including test) before splitting.
+
+v4 fixes both at the root: **Leave-One-Subject-Out** splitting by patient, train-only preprocessing inside each fold, nested hyperparameter tuning (GroupKFold), removal of LF features (unreliable on 30s windows), and **subject-level** reporting — numbers that reflect performance on unseen patients.
 
 ### Installation and Usage
 1. Create a virtual environment and install dependencies:
@@ -93,14 +129,13 @@
    .\venv\Scripts\activate
    pip install -r requirements.txt
    ```
-2. Launch Jupyter Notebook:
+2. Run the 2-step pipeline (data auto-downloads from Kaggle if missing, ~100MB):
    ```bash
-   jupyter notebook
+   python scripts/run_v4_extraction.py
+   python scripts/run_v4_benchmark.py
    ```
-3. Streamlined 3-Step Research Pipeline:
-   - **Step 0: Raw Signal Extraction (`notebooks/general/00_raw_feature_extraction.ipynb`)**: Extract 16 HRV metrics for 4 scales (1360, 4083, 8165, 16358 samples).
-   - **Step 1: EDA & Multi-Scale Normalization (`notebooks/general/01_data_normalization_and_scaling.ipynb`)**: EDA, Imputation & Z-Score / Min-Max Scaling for all scales.
-   - **Step 2: AI Training & Evaluation (`notebooks/mimic/02_model_training_and_evaluation.ipynb`)**: Train and evaluate ML models (XGBoost, Logistic Regression, MLP, Soft Voting, Stacking Ensemble) with `DATASET_SCALE` parameter.
+   - Add `--full16` to the benchmark to use all 16 features (LF group excluded by default).
+3. Outputs land in `models/benchmark_v4/`.
 
 ### Kaggle Datasets
 - **MIMIC PERform AF Dataset:** [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset)

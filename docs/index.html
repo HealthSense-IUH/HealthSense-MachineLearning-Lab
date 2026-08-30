@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HealthSense ML — Tài liệu</title>
+<style>
+  :root {
+    --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b;
+    --accent: #0d9488; --border: #e2e8f0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --muted: #94a3b8; --border: #334155; }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.6; padding: 48px 24px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 1.9rem; margin-bottom: 6px; }
+  .sub { color: var(--muted); margin-bottom: 36px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 36px; }
+  a.card { display: block; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px; text-decoration: none; color: var(--text); transition: transform .12s, border-color .12s; }
+  a.card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .card .icon { font-size: 1.6rem; }
+  .card h2 { font-size: 1.05rem; margin: 8px 0 4px; }
+  .card p { font-size: .88rem; color: var(--muted); }
+  .stats { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 36px; }
+  .stats h2 { font-size: 1.05rem; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; }
+  .foot { color: var(--muted); font-size: .82rem; }
+  .badge { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; font-size: .72rem; padding: 2px 8px; vertical-align: middle; margin-left: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🩺 HealthSense ML <span class="badge">v4</span></h1>
+  <p class="sub">Phát hiện Rung Nhĩ (AFib) từ tín hiệu PPG — pipeline chống data leakage, kiểm định 3 tầng.</p>
+
+  <div class="grid">
+    <a class="card" href="components.html">
+      <div class="icon">🏗️</div>
+      <h2>Kiến trúc thành phần</h2>
+      <p>Toàn cảnh hệ thống: vòng đeo ESP32-C3 → BLE → App → AI-Service, và nhánh nghiên cứu offline.</p>
+    </a>
+    <a class="card" href="pipeline_v4.html">
+      <div class="icon">📐</div>
+      <h2>Sơ đồ pipeline ML</h2>
+      <p>Data flow từ 2 dataset (MIMIC + AFDB) qua đặc trưng HRV, LOSO đến model triển khai. Tương tác: pan/zoom, guided views, export.</p>
+    </a>
+    <a class="card" href="GIAI_THICH_THUAT_NGU.md">
+      <div class="icon">📖</div>
+      <h2>Giải thích thuật ngữ</h2>
+      <p>Mọi term từ PPG, HRV, SampEn đến LOSO, cross-dataset — bằng ngôn ngữ đời thường.</p>
+    </a>
+    <a class="card" href="../DATASETS_SUMMARY.md">
+      <div class="icon">📊</div>
+      <h2>Dữ liệu &amp; kết quả</h2>
+      <p>Chi tiết 2 dataset, kết quả đầy đủ của cả 3 tầng kiểm định và mô hình cuối.</p>
+    </a>
+    <a class="card" href="../README.md">
+      <div class="icon">🚀</div>
+      <h2>README — chạy pipeline</h2>
+      <p>Cài đặt và tái lập toàn bộ bằng 4 lệnh; giải thích "Vì sao có v4".</p>
+    </a>
+    <a class="card" href="../models/final/model_card.json">
+      <div class="icon">🏷️</div>
+      <h2>Model card</h2>
+      <p>Đặc tả input/output của <code>healthsense_afib_pipeline.pkl</code>, điểm số, giới hạn sử dụng.</p>
+    </a>
+  </div>
+
+  <div class="stats">
+    <h2>Kết quả tóm tắt (không data leakage)</h2>
+    <table>
+      <tr><th>Bài kiểm định</th><th>Model</th><th>Accuracy</th><th>Recall</th><th>ROC-AUC</th></tr>
+      <tr><td>LOSO MIMIC — mức bệnh nhân (35 người)</td><td>Random Forest</td><td>94.3%</td><td><b>100%</b> (0 FN)</td><td>0.931</td></tr>
+      <tr><td>Cross-dataset: MIMIC → AFDB</td><td>XGBoost</td><td>94.6%</td><td>97.0%</td><td>0.987</td></tr>
+      <tr><td>Cross-dataset: AFDB → MIMIC</td><td>Random Forest</td><td>91.9%</td><td>97.4%</td><td>0.976</td></tr>
+      <tr><td><b>Pooled LOSO 60 bệnh nhân (model cuối)</b></td><td><b>XGBoost</b></td><td><b>95.9%</b></td><td><b>97.2%</b></td><td><b>0.988</b></td></tr>
+    </table>
+  </div>
+
+  <p class="foot">⚠️ Mô hình phục vụ nghiên cứu/sàng lọc, chưa kiểm định trên PPG cổ tay MAX30102 — không phải thiết bị chẩn đoán y tế. Cập nhật: 30/08/2026.</p>
+</div>
+</body>
+</html>
