@@ -42,6 +42,6 @@
   "cards": [
     { "dot": "cyan", "title": "Thiết bị đeo", "items": ["MAX30102 đo PPG, MPU6050 phát hiện cử động để chống nhiễu", "Firmware tính BPM (median IBI) và SpO2 (thuật toán Maxim) ngay trên chip", "BLE truyền raw PPG + sinh hiệu; nhận lệnh chế độ từ app"] },
     { "dot": "emerald", "title": "Suy luận AFib", "items": ["App chuyển dữ liệu đo lên AI-Service (FastAPI)", "Model XGBoost + Scaler đóng gói một pipeline .pkl, nạp bằng joblib", "Đầu ra P(AFib) cho từng cửa sổ 30 giây"] },
-    { "dot": "violet", "title": "Nghiên cứu offline", "items": ["ML Lab huấn luyện trên 60 bệnh nhân (MIMIC + AFDB), kiểm định LOSO + cross-dataset", "log_to_csv.py thu dữ liệu MAX30102 thật — dùng kiểm định chéo miền trước khi triển khai", "Chi tiết pipeline: docs/pipeline_v4.html"] }
+    { "dot": "violet", "title": "Nghiên cứu offline", "items": ["ML Lab huấn luyện trên 60 bệnh nhân (MIMIC + AFDB), kiểm định LOSO + cross-dataset", "log_to_csv.py thu dữ liệu MAX30102 thật — dùng kiểm định chéo miền trước khi triển khai", "Chi tiết pipeline: tab Pipeline ML trong docs/index.html"] }
   ]
 }
