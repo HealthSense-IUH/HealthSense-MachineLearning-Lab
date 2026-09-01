@@ -92,8 +92,7 @@ def loso(df, feature_cols, model_factory, label_col='status',
         raise ValueError(
             f"Bảng đặc trưng thiếu cột '{group_col}'. Không có danh tính bệnh "
             f"nhân thì KHÔNG THỂ chia theo người — đây chính là lý do các "
-            f"bảng đặc trưng v3 cũ (legacy/data/features/v3_scales/) không "
-            f"thể kiểm định lại được.")
+            f"bảng đặc trưng v3 cũ không thể kiểm định lại được.")
 
     X = df[feature_cols].to_numpy(dtype=np.float64)
     y = df[label_col].to_numpy(dtype=int)

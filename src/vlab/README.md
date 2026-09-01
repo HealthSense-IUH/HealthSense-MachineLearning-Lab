@@ -33,9 +33,9 @@ fold; test giữ nguyên 100%.
 ## Vì sao bảng đặc trưng luôn có `record_id`?
 
 Các phiên bản v1–v3 lịch sử **không có** cột này — và đó chính là lý do chúng
-không thể tự kiểm định lại được (thấy rõ nhất ở
-`legacy/data/features/v3_scales/`: các bảng đó vĩnh viễn không chấm lại được
-vì đã mất danh tính bệnh nhân).
+không thể tự kiểm định lại được. Rõ nhất là các bảng đặc trưng đa quy mô của
+v3: một khi đã mất danh tính bệnh nhân, chúng vĩnh viễn không chấm lại được,
+dù dữ liệu vẫn còn nguyên.
 
 Bảo tàng luôn giữ `record_id` để có thể chấm lại bằng LOSO. Phần huấn luyện
 của mỗi phiên bản cũ vẫn **bỏ cột này đi** đúng như bản gốc — xem

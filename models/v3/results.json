@@ -55,7 +55,7 @@
     "rf_1360_accuracy": 0.9873,
     "rf_1360_auc": 0.9965,
     "mlp_8165_accuracy": 0.9871,
-    "source": "legacy/notebooks/v3_pipeline/mimic/02_model_training_and_evaluation.ipynb, 04_mimic_v3_benchmark.ipynb; legacy/models/benchmark_v3/"
+    "source": "notebook gốc v3_pipeline/mimic 02_model_training_and_evaluation, 04_mimic_v3_benchmark"
   },
   "scale_table": [
     {

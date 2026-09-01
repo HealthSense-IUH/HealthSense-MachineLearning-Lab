@@ -11,6 +11,7 @@ notebook chứ không chép tay.
 | [`v2_bao_cao.ipynb`](v2_bao_cao.ipynb) | Khi "làm sạch dữ liệu" biến thành xóa câu khó khỏi đề thi |
 | [`v3_bao_cao.ipynb`](v3_bao_cao.ipynb) | Bốn lỗi chồng nhau, và quy luật "càng chồng lấn điểm giả càng đẹp" |
 | [`v4_bao_cao.ipynb`](v4_bao_cao.ipynb) | Cách chữa, và vì sao chấp nhận tụt 4 điểm |
+| [`bao_cao_san_pham.ipynb`](bao_cao_san_pham.ipynb) | Báo cáo sản phẩm: 3 tầng kiểm định, cross-dataset, kiểm chứng dò nhịp bằng ECG, 2 ca đặc biệt |
 
 ## Cách mở
 
@@ -70,12 +71,12 @@ Vì vậy con số tái dựng không trùng khít con số lịch sử (ví d�
 Con số gốc của từng phiên bản được ghi trong trường `original_claim` của mỗi
 `results.json` để đối chiếu.
 
-Notebook cũ nguyên bản vẫn nằm nguyên trong `legacy/notebooks/`.
+Notebook thí nghiệm gốc của v1–v3 đã được gỡ khỏi repo cho gọn. Nếu cần đối
+chiếu nguyên bản, chúng vẫn nằm trong lịch sử git (commit `e61e601` trở về trước).
 
 ## Liên quan
 
 - Mã nguồn từng phiên bản: [`src/v1`](../v1) · [`src/v2`](../v2) · [`src/v3`](../v3) · [`src/v4`](../v4)
 - Tiện ích dùng chung: [`src/vlab`](../vlab)
 - Pipeline sản phẩm đầy đủ: [`src/healthsense_ml`](../healthsense_ml) + `scripts/run_*.py`
-- Báo cáo sản phẩm (gồm AFDB, cross-dataset, mô hình gộp): [`notebooks/BaoCao_HealthSense_ML_v4.ipynb`](../../notebooks/BaoCao_HealthSense_ML_v4.ipynb)
 - Bộ slide giải thích toàn bộ phần ML: [`docs/HealthSense_ML_Slides.pptx`](../../docs/HealthSense_ML_Slides.pptx)

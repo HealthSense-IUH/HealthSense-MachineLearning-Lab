@@ -47,10 +47,10 @@ báo cáo đầy đủ ở [`src/report/v1_bao_cao.ipynb`](../report/v1_bao_cao.
 
 Trước v1 trên MIMIC còn hai nhánh thử nghiệm nay đã dừng:
 
-- **Thiết bị tự chế** (`legacy/notebooks/Custom_PPG_Walking/`): tự đo bằng
-  MAX30102, 33 cửa sổ, một người, một nhãn — không đủ để huấn luyện. Notebook
-  huấn luyện và đánh giá chỉ còn là khung rỗng.
-- **MIT-BIH AFDB trên ECG** (`legacy/notebooks/MIT_BIH_AF/`): 29.087 cửa sổ,
+- **Thiết bị tự chế** (Custom_PPG_Walking): tự đo bằng MAX30102, 33 cửa sổ,
+  một người, một nhãn — không đủ để huấn luyện. Notebook huấn luyện và đánh
+  giá chỉ còn là khung rỗng.
+- **MIT-BIH AFDB trên ECG** (MIT_BIH_AF): 29.087 cửa sổ,
   25 bệnh nhân, 10 đặc trưng. Chứng minh được ý tưởng HRV→AFib hoạt động.
   Đáng chú ý: bảng đặc trưng **có sẵn cột `record`** (danh tính bệnh nhân)
   nhưng dòng huấn luyện lại chủ động bỏ đi rồi chia ngẫu nhiên. Công cụ để

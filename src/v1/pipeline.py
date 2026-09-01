@@ -30,13 +30,14 @@ WINDOW_S = 30.0
 STEP_S = 30.0          # = WINDOW_S -> các cửa sổ không chồng lên nhau
 FEATURES = LINEAR_13   # 13 cột
 
-# Con số phiên bản gốc từng công bố (từ legacy/notebooks/MIMIC_Training/02-03)
+# Con số phiên bản gốc từng công bố (notebook thí nghiệm cũ, nay chỉ còn
+# trong lịch sử git — xem README của repo)
 ORIGINAL_CLAIM = {
     'random_forest_accuracy': 0.9517,
     'best_tuned_accuracy': 0.9591,
     'best_tuned_model': 'XGBoost / LightGBM (tuned)',
     'n_windows': 1342,
-    'source': 'legacy/notebooks/MIMIC_Training/02_mimic_model_training.ipynb, 03_*.ipynb',
+    'source': 'notebook gốc MIMIC_Training 02_mimic_model_training, 03_mimic_model_comparison',
 }
 
 

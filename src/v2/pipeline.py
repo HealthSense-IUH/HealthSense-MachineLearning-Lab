@@ -35,8 +35,8 @@ ORIGINAL_CLAIM = {
     'nonlinear_16feat_accuracy': 0.9627,
     'final_fair_eval_accuracy': 0.9710,
     'n_windows_after_cleaning': 1325,
-    'source': ('legacy/notebooks/MIMIC_Training/04_mimic_clean_data_training.ipynb, '
-               '07_mimic_nonlinear_features.ipynb, 11_mimic_fair_model_evaluation.ipynb'),
+    'source': ('notebook gốc MIMIC_Training 04_mimic_clean_data_training, '
+               '07_mimic_nonlinear_features, 11_mimic_fair_model_evaluation'),
 }
 
 

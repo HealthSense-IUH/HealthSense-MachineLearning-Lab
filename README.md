@@ -36,19 +36,17 @@
   - `run_final_model.py`: Bước 4 — gộp 60 bệnh nhân (pooled LOSO + cân bằng nguồn) ➔ `models/final/` (.pkl triển khai).
   - `run_beat_validation.py`: Kiểm chứng dò nhịp PPG bằng ECG đồng bộ ➔ `models/beat_validation/` (xem mục Kết quả chi tiết).
   - `build_docs.py`: Tái tạo `docs/index.html` từ 2 spec sơ đồ.
-  - `legacy/`: Script v3 cũ (bị leakage, chỉ tham khảo).
 - `data/raw/mimic_perform/`: Dữ liệu thô theo từng bệnh nhân (19 AF + 16 non-AF, PPG 125 Hz).
 - `data/features/`: Bảng đặc trưng HRV có `record_id` (`mimic_features_v4.csv`, `afdb_features_v4.csv`).
 - `models/`: Kết quả hiện hành (`benchmark_v4/`, `cross_dataset/`, `final/` — model triển khai .pkl + model card).
 - `docs/`: `index.html` — toàn bộ tài liệu trong 1 file (kết quả, 2 sơ đồ tương tác, giải thích thuật ngữ); kèm 2 spec `.json` để tái tạo sơ đồ; `HealthSense_ML_Slides.pptx` — bộ slide giải thích toàn bộ phần ML.
-- `legacy/`: TOÀN BỘ thí nghiệm v1–v3 (notebooks, features cũ, kết quả benchmark v3) — chỉ để tham khảo, kết quả bị data leakage (xem bên dưới); có README riêng bên trong.
 
 ### 📚 Bảo tàng phiên bản (`src/v1` … `src/v4` + `src/report`)
 Bốn phiên bản pipeline được **tái dựng thành code chạy được**, đặt cạnh nhau trên cùng một bộ dữ liệu và chấm bằng cùng một thước đo — để thấy rõ phần "tiến bộ" nào là thật, phần nào do data leakage tạo ra.
 
 - `src/v1/` … `src/v4/`: mỗi thư mục là một phiên bản, gồm `pipeline.py` (chạy được: `python src/vN/pipeline.py`) và `README.md` dạng "thẻ phiên bản" ghi rõ cấu hình, chỗ đúng, chỗ sai.
 - `src/vlab/`: tiện ích dùng chung — đọc tín hiệu thô theo kênh, cửa sổ trượt tham số hóa, metrics 2 cấp, biểu đồ, và **`honest.py`** (chấm cùng một bảng theo 2 cách: ngẫu nhiên vs LOSO).
-- `src/report/`: **5 notebook tiếng Việt đã chạy sẵn, nhúng đủ kết quả + biểu đồ.** Bắt đầu từ [`00_tong_quan.ipynb`](src/report/00_tong_quan.ipynb).
+- `src/report/`: **6 notebook tiếng Việt đã chạy sẵn, nhúng đủ kết quả + biểu đồ** (5 báo cáo phiên bản + báo cáo sản phẩm). Bắt đầu từ [`00_tong_quan.ipynb`](src/report/00_tong_quan.ipynb).
 - `models/vN/results.json`: kết quả từng phiên bản (kèm `original_claim` — con số bản gốc từng công bố, để đối chiếu).
 
 Kết quả cốt lõi: điểm **công bố** tăng dần 95.9% → 97.4% → 98.7%, nhưng khi chấm bằng LOSO thì **cả bốn phiên bản đều quanh 92%**. Toàn bộ "tiến bộ" nằm trong cái thước đo hỏng. Chi tiết cách tái dựng và giới hạn của nó: [`src/report/README.md`](src/report/README.md).
@@ -194,7 +192,7 @@ Kết quả từng bệnh nhân: `models/beat_validation/beat_validation.csv`.
 - **Package `src/healthsense_ml/`**: config, data_loading, signal_processing, hrv_features, feature_extraction, training, evaluation, afdb.
 - **Scripts v4**: `scripts/run_v4_extraction.py` ➔ `scripts/run_v4_benchmark.py` ➔ `scripts/run_cross_dataset.py`.
 - **Tài liệu**: `docs/index.html` — toàn bộ trong 1 file (kết quả, sơ đồ kiến trúc hệ thống, sơ đồ pipeline, giải thích thuật ngữ).
-- **Legacy (v1–v3)**: tất cả gom về `legacy/` (notebooks, features cũ, benchmark v3) + `scripts/legacy/` — giữ để tham khảo, không dùng cho báo cáo. Xem `legacy/README.md`.
+- **Bảo tàng phiên bản (v1–v4)**: `src/v1` … `src/v4` (mỗi phiên bản một `pipeline.py` chạy được) + `src/vlab` (tiện ích dùng chung) + `src/report` (5 notebook báo cáo). Notebook thí nghiệm gốc của v1–v3 đã được gỡ khỏi repo — xem lịch sử git nếu cần đối chiếu.
 
 ---
 
@@ -225,12 +223,12 @@ Kết quả từng bệnh nhân: `models/beat_validation/beat_validation.csv`.
   - `training.py`: Leakage-free LOSO benchmark (see below).
   - `evaluation.py`: Two-level metrics (window & subject) + plots.
   - `afdb.py`: Second dataset (MIT-BIH AFDB) — NN series from QRS annotations, no raw waveform download needed.
-- `scripts/`: `run_v4_extraction.py` (Step 1), `run_v4_benchmark.py` (Step 2), `run_cross_dataset.py` (Step 3), `run_final_model.py` (Step 4 — pooled deployment model), `legacy/` (old v3 scripts).
+- `scripts/`: `run_v4_extraction.py` (Step 1), `run_v4_benchmark.py` (Step 2), `run_cross_dataset.py` (Step 3), `run_final_model.py` (Step 4 — pooled deployment model).
 - `data/raw/mimic_perform/`: Per-patient raw data (19 AF + 16 non-AF, 125 Hz PPG).
 - `data/features/`: HRV feature tables with `record_id` (`mimic_features_v4.csv`, `afdb_features_v4.csv`).
 - `models/`: Current results (`benchmark_v4/`, `cross_dataset/`).
 - `docs/`: `index.html` — all documentation in one file (results, 2 interactive diagrams, plain-language glossary); plus 2 `.json` specs to regenerate the diagrams.
-- `legacy/`: ALL v1–v3 experiments (notebooks, old features, v3 benchmark results) — reference only, results suffer from data leakage (see note below); has its own README.
+- `src/v1` … `src/v4`, `src/vlab`, `src/report`: **version museum** — all four pipeline generations rebuilt as runnable code, scored side by side on the same data with the same metric. Start at [`src/report/00_tong_quan.ipynb`](src/report/00_tong_quan.ipynb). The original v1–v3 experiment notebooks have been removed from the repo; see git history if you need them.
 
 ### ⚠️ Why v4? (Data Leakage in v1–v3)
 Earlier versions had two methodological flaws that inflated the reported 98–99% results:
