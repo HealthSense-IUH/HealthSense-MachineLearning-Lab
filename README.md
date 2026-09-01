@@ -39,7 +39,8 @@
 - `data/raw/mimic_perform/`: Dữ liệu thô theo từng bệnh nhân (19 AF + 16 non-AF, PPG 125 Hz).
 - `data/features/`: Bảng đặc trưng HRV có `record_id` (`mimic_features_v4.csv`, `afdb_features_v4.csv`).
 - `models/`: Kết quả hiện hành (`benchmark_v4/`, `cross_dataset/`, `final/` — model triển khai .pkl + model card).
-- `docs/`: `index.html` — toàn bộ tài liệu trong 1 file (kết quả, 2 sơ đồ tương tác, giải thích thuật ngữ); kèm 2 spec `.json` để tái tạo sơ đồ; `HealthSense_ML_Slides.pptx` — bộ slide giải thích toàn bộ phần ML.
+- `docs/`: 2 tài liệu chính đọc trực tiếp — `index.html` (toàn bộ tài liệu trong 1 file: kết quả, 2 sơ đồ tương tác, giải thích thuật ngữ) và `HealthSense_ML_Slides.pptx` (bộ slide giải thích toàn bộ phần ML).
+  - `docs/component/`: nguyên liệu dựng nên `index.html` — 2 spec sơ đồ `.json` dùng cho `scripts/build_docs.py`.
 
 ### 📚 Bảo tàng phiên bản (`src/v1` … `src/v4` + `src/report`)
 Bốn phiên bản pipeline được **tái dựng thành code chạy được**, đặt cạnh nhau trên cùng một bộ dữ liệu và chấm bằng cùng một thước đo — để thấy rõ phần "tiến bộ" nào là thật, phần nào do data leakage tạo ra.

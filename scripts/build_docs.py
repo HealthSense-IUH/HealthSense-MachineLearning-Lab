@@ -2,25 +2,44 @@
 """Gộp toàn bộ docs của HealthSense ML thành 1 file docs/index.html duy nhất.
 
 Cách tái tạo khi sửa sơ đồ:
-1. Sửa spec: docs/components.architecture.json hoặc docs/pipeline_v4.dataflow.json
+1. Sửa spec: docs/component/components.architecture.json
+   hoặc docs/component/pipeline_v4.dataflow.json
 2. Render lại 2 file HTML trung gian bằng archify (validate + deliver showcase):
-   components.html và pipeline_v4.html trong docs/
-3. Khôi phục docs/GIAI_THICH_THUAT_NGU.md nếu cần sửa glossary
+   components.html và pipeline_v4.html, đặt vào docs/component/
+3. Khôi phục docs/component/GIAI_THICH_THUAT_NGU.md nếu cần sửa glossary
    (nội dung hiện tại đã nằm trong index.html, tab "Giải thích thuật ngữ")
 4. Chạy: venv/Scripts/python scripts/build_docs.py
 5. Xóa các file trung gian, chỉ giữ index.html
+
+LƯU Ý: script này hiện KHÔNG chạy được — cả 3 file đầu vào ở bước 2-3
+(components.html, pipeline_v4.html, GIAI_THICH_THUAT_NGU.md) đều đã bị xóa
+khỏi repo. Chỉ còn 2 file spec .json. Muốn dựng lại index.html thì phải
+render 2 file HTML trung gian trước, và viết lại phần glossary.
 """
+import os
+
 import html
 import markdown
 
-DOCS = r"D:\Projects\HealthSense\HealthSense-MachineLearning-Lab\docs"
+_HERE = os.path.dirname(os.path.abspath(__file__))
+DOCS = os.path.join(os.path.dirname(_HERE), 'docs')
+COMPONENT = os.path.join(DOCS, 'component')
 
-with open(f"{DOCS}\\components.html", encoding="utf-8") as f:
-    components_html = f.read()
-with open(f"{DOCS}\\pipeline_v4.html", encoding="utf-8") as f:
-    pipeline_html = f.read()
-with open(f"{DOCS}\\GIAI_THICH_THUAT_NGU.md", encoding="utf-8") as f:
-    glossary_md = f.read()
+def _read(name):
+    """Đọc file trung gian trong docs/component/, báo lỗi rõ ràng nếu thiếu."""
+    path = os.path.join(COMPONENT, name)
+    if not os.path.exists(path):
+        raise FileNotFoundError(
+            f'Thiếu file đầu vào: docs/component/{name}\n'
+            f'Xem hướng dẫn ở đầu file này — cần render lại các file trung '
+            f'gian từ 2 spec .json trước khi dựng index.html.')
+    with open(path, encoding='utf-8') as f:
+        return f.read()
+
+
+components_html = _read('components.html')
+pipeline_html = _read('pipeline_v4.html')
+glossary_md = _read('GIAI_THICH_THUAT_NGU.md')
 
 glossary_html = markdown.markdown(glossary_md, extensions=["tables"])
 # Bỏ dòng link cuối trỏ tới file cũ
@@ -142,7 +161,7 @@ page = page.replace("__COMPONENTS__", comp_escaped)
 page = page.replace("__PIPELINE__", pipe_escaped)
 page = page.replace("__GLOSSARY__", glossary_html)
 
-out = f"{DOCS}\\index.html"
+out = os.path.join(DOCS, 'index.html')
 with open(out, "w", encoding="utf-8") as f:
     f.write(page)
 print(f"OK: {out} ({len(page)/1024:.0f} KB)")
