@@ -13,3 +13,13 @@ cho kết quả báo cáo** vì có data leakage (xem README gốc, mục "Vì s
 | `models/summary_top_models.csv` | Bảng tổng hợp mô hình cũ (Stacking/MLP 98%+ — bị leakage). |
 
 Pipeline hiện hành: `src/healthsense_ml/` + `scripts/run_v4_*.py` + `scripts/run_cross_dataset.py`.
+
+## Muốn hiểu v1–v3 mà không phải đọc 20 notebook cũ?
+
+Toàn bộ các phiên bản này đã được **tái dựng thành code chạy được** ở
+`src/v1/` … `src/v4/`, kèm 5 notebook báo cáo tiếng Việt ở `src/report/`
+(đã chạy sẵn, nhúng đủ kết quả và biểu đồ).
+
+Bắt đầu ở [`src/report/00_tong_quan.ipynb`](../src/report/00_tong_quan.ipynb).
+
+Thư mục `legacy/` này giữ nguyên các notebook **gốc** để đối chiếu khi cần.

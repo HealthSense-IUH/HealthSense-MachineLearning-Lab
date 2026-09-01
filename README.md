@@ -40,8 +40,18 @@
 - `data/raw/mimic_perform/`: Dữ liệu thô theo từng bệnh nhân (19 AF + 16 non-AF, PPG 125 Hz).
 - `data/features/`: Bảng đặc trưng HRV có `record_id` (`mimic_features_v4.csv`, `afdb_features_v4.csv`).
 - `models/`: Kết quả hiện hành (`benchmark_v4/`, `cross_dataset/`, `final/` — model triển khai .pkl + model card).
-- `docs/`: `index.html` — toàn bộ tài liệu trong 1 file (kết quả, 2 sơ đồ tương tác, giải thích thuật ngữ); kèm 2 spec `.json` để tái tạo sơ đồ.
+- `docs/`: `index.html` — toàn bộ tài liệu trong 1 file (kết quả, 2 sơ đồ tương tác, giải thích thuật ngữ); kèm 2 spec `.json` để tái tạo sơ đồ; `HealthSense_ML_Slides.pptx` — bộ slide giải thích toàn bộ phần ML.
 - `legacy/`: TOÀN BỘ thí nghiệm v1–v3 (notebooks, features cũ, kết quả benchmark v3) — chỉ để tham khảo, kết quả bị data leakage (xem bên dưới); có README riêng bên trong.
+
+### 📚 Bảo tàng phiên bản (`src/v1` … `src/v4` + `src/report`)
+Bốn phiên bản pipeline được **tái dựng thành code chạy được**, đặt cạnh nhau trên cùng một bộ dữ liệu và chấm bằng cùng một thước đo — để thấy rõ phần "tiến bộ" nào là thật, phần nào do data leakage tạo ra.
+
+- `src/v1/` … `src/v4/`: mỗi thư mục là một phiên bản, gồm `pipeline.py` (chạy được: `python src/vN/pipeline.py`) và `README.md` dạng "thẻ phiên bản" ghi rõ cấu hình, chỗ đúng, chỗ sai.
+- `src/vlab/`: tiện ích dùng chung — đọc tín hiệu thô theo kênh, cửa sổ trượt tham số hóa, metrics 2 cấp, biểu đồ, và **`honest.py`** (chấm cùng một bảng theo 2 cách: ngẫu nhiên vs LOSO).
+- `src/report/`: **5 notebook tiếng Việt đã chạy sẵn, nhúng đủ kết quả + biểu đồ.** Bắt đầu từ [`00_tong_quan.ipynb`](src/report/00_tong_quan.ipynb).
+- `models/vN/results.json`: kết quả từng phiên bản (kèm `original_claim` — con số bản gốc từng công bố, để đối chiếu).
+
+Kết quả cốt lõi: điểm **công bố** tăng dần 95.9% → 97.4% → 98.7%, nhưng khi chấm bằng LOSO thì **cả bốn phiên bản đều quanh 92%**. Toàn bộ "tiến bộ" nằm trong cái thước đo hỏng. Chi tiết cách tái dựng và giới hạn của nó: [`src/report/README.md`](src/report/README.md).
 
 ### ⚠️ Vì sao có v4? (Data Leakage trong v1–v3)
 Các phiên bản trước có 2 lỗi phương pháp khiến kết quả 98–99% bị thổi phồng:

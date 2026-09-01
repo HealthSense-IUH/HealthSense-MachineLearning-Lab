@@ -1,0 +1,276 @@
+{
+  "version": "v3",
+  "title": "Benchmark đa quy mô trên kênh ECG",
+  "config": {
+    "channel": "ECG",
+    "window_s": 30.0,
+    "scales": [
+      {
+        "step_s": 30.0,
+        "overlap_pct": 0.0
+      },
+      {
+        "step_s": 10.0,
+        "overlap_pct": 66.7
+      },
+      {
+        "step_s": 5.0,
+        "overlap_pct": 83.3
+      },
+      {
+        "step_s": 2.5,
+        "overlap_pct": 91.7
+      }
+    ],
+    "n_features": 16,
+    "features": [
+      "HR_mean",
+      "Mean_NN",
+      "SDNN",
+      "RMSSD",
+      "NN50",
+      "pNN50",
+      "CV",
+      "LF",
+      "HF",
+      "Total_Power",
+      "LF_HF_Ratio",
+      "LF_norm",
+      "HF_norm",
+      "SD1",
+      "SD2",
+      "SampEn"
+    ],
+    "cleaning": "IQR x1.5 tính trên toàn bộ bảng",
+    "scaling": "StandardScaler fit toàn bộ dữ liệu trước khi chia",
+    "split": "ngẫu nhiên theo cửa sổ 80/20",
+    "model": "Random Forest (so sánh) + LR/RF/Stacking (bảng xếp hạng)"
+  },
+  "data": {
+    "n_windows": 4130,
+    "n_subjects": 35
+  },
+  "original_claim": {
+    "stacking_4083_accuracy": 0.9865,
+    "rf_1360_accuracy": 0.9873,
+    "rf_1360_auc": 0.9965,
+    "mlp_8165_accuracy": 0.9871,
+    "source": "legacy/notebooks/v3_pipeline/mimic/02_model_training_and_evaluation.ipynb, 04_mimic_v3_benchmark.ipynb; legacy/models/benchmark_v3/"
+  },
+  "scale_table": [
+    {
+      "step_s": 30.0,
+      "overlap_pct": 0.0,
+      "label": "không chồng lấn",
+      "n_windows": 1400,
+      "n_dropped_iqr": 356,
+      "leaky_accuracy": 0.9809,
+      "leaky_auc": 0.997,
+      "loso_accuracy": 0.9079,
+      "loso_auc": 0.9791,
+      "loso_subject_accuracy": 0.9429,
+      "inflation": 0.073
+    },
+    {
+      "step_s": 10.0,
+      "overlap_pct": 66.7,
+      "label": "chồng 67%",
+      "n_windows": 4130,
+      "n_dropped_iqr": 1037,
+      "leaky_accuracy": 0.9919,
+      "leaky_auc": 0.9987,
+      "loso_accuracy": 0.9199,
+      "loso_auc": 0.9799,
+      "loso_subject_accuracy": 0.9714,
+      "inflation": 0.072
+    },
+    {
+      "step_s": 5.0,
+      "overlap_pct": 83.3,
+      "label": "chồng 83%",
+      "n_windows": 8225,
+      "n_dropped_iqr": 2102,
+      "leaky_accuracy": 0.9927,
+      "leaky_auc": 0.9993,
+      "loso_accuracy": 0.9195,
+      "loso_auc": 0.9807,
+      "loso_subject_accuracy": 0.9714,
+      "inflation": 0.0732
+    },
+    {
+      "step_s": 2.5,
+      "overlap_pct": 91.7,
+      "label": "chồng 92%",
+      "n_windows": 16415,
+      "n_dropped_iqr": 4167,
+      "leaky_accuracy": 0.9951,
+      "leaky_auc": 0.9995,
+      "loso_accuracy": 0.9198,
+      "loso_auc": 0.9808,
+      "loso_subject_accuracy": 0.9714,
+      "inflation": 0.0753
+    }
+  ],
+  "leaderboard": [
+    {
+      "Mô hình": "Logistic Regression",
+      "Accuracy": 0.9499,
+      "Recall": 0.9637,
+      "ROC-AUC": 0.9882
+    },
+    {
+      "Mô hình": "Random Forest",
+      "Accuracy": 0.9919,
+      "Recall": 0.9916,
+      "ROC-AUC": 0.9987
+    },
+    {
+      "Mô hình": "Stacking Ensemble",
+      "Accuracy": 0.9935,
+      "Recall": 0.9944,
+      "ROC-AUC": 0.9984
+    }
+  ],
+  "reproduced_leaky": {
+    "accuracy": 0.9919,
+    "roc_auc": 0.9987
+  },
+  "regraded_loso_window": {
+    "accuracy": 0.9199,
+    "roc_auc": 0.9799
+  },
+  "regraded_loso_subject": {
+    "accuracy": 0.9714,
+    "precision": 0.95,
+    "recall": 1.0,
+    "f1": 0.9744,
+    "specificity": 0.9375,
+    "tn": 15,
+    "fp": 1,
+    "fn": 0,
+    "tp": 19,
+    "roc_auc": 0.9967,
+    "n_subjects": 35
+  },
+  "subject_detail": {
+    "subjects": [
+      "mimic_perform_af_001",
+      "mimic_perform_af_002",
+      "mimic_perform_af_003",
+      "mimic_perform_af_004",
+      "mimic_perform_af_005",
+      "mimic_perform_af_006",
+      "mimic_perform_af_007",
+      "mimic_perform_af_008",
+      "mimic_perform_af_009",
+      "mimic_perform_af_010",
+      "mimic_perform_af_011",
+      "mimic_perform_af_012",
+      "mimic_perform_af_013",
+      "mimic_perform_af_014",
+      "mimic_perform_af_015",
+      "mimic_perform_af_016",
+      "mimic_perform_af_017",
+      "mimic_perform_af_018",
+      "mimic_perform_af_019",
+      "mimic_perform_non_af_001",
+      "mimic_perform_non_af_002",
+      "mimic_perform_non_af_003",
+      "mimic_perform_non_af_004",
+      "mimic_perform_non_af_005",
+      "mimic_perform_non_af_006",
+      "mimic_perform_non_af_007",
+      "mimic_perform_non_af_008",
+      "mimic_perform_non_af_009",
+      "mimic_perform_non_af_010",
+      "mimic_perform_non_af_011",
+      "mimic_perform_non_af_012",
+      "mimic_perform_non_af_013",
+      "mimic_perform_non_af_014",
+      "mimic_perform_non_af_015",
+      "mimic_perform_non_af_016"
+    ],
+    "proba": [
+      0.9973,
+      0.8969,
+      0.9114,
+      0.9525,
+      0.5963,
+      0.6677,
+      0.9797,
+      0.882,
+      0.9759,
+      0.8935,
+      0.9726,
+      0.9972,
+      0.797,
+      0.9771,
+      0.8367,
+      0.99,
+      0.9209,
+      0.9937,
+      0.9412,
+      0.1376,
+      0.2286,
+      0.0165,
+      0.0162,
+      0.0,
+      0.0677,
+      0.0153,
+      0.0369,
+      0.3604,
+      0.1554,
+      0.137,
+      0.4987,
+      0.0,
+      0.3005,
+      0.6232,
+      0.0112
+    ],
+    "true": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "inflation": 0.072,
+  "leakage": [
+    "Cửa sổ chồng lấn tới 92%: bản sao gần đúng của mẫu test nằm trong train.",
+    "StandardScaler fit trên toàn bộ dữ liệu trước khi chia.",
+    "Lọc IQR tính ngưỡng trên toàn bộ bảng, xóa cả ca khó trong test.",
+    "Chia ngẫu nhiên theo cửa sổ, không theo bệnh nhân.",
+    "Trích đặc trưng từ kênh ECG — không phải PPG như sản phẩm thật."
+  ]
+}
