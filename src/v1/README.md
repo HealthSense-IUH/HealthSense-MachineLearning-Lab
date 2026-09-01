@@ -40,7 +40,7 @@ python src/v1/pipeline.py
 ```
 
 Script chấm cùng một bảng dữ liệu theo hai cách — cách gốc và LOSO theo
-bệnh nhân — rồi in ra phần chênh lệch. Kết quả lưu ở `models/v1/results.json`,
+bệnh nhân — rồi in ra phần chênh lệch. Kết quả lưu ở `results/v1.json`,
 báo cáo đầy đủ ở [`src/report/01_v1_report.ipynb`](../report/01_v1_report.ipynb).
 
 ## Ghi chú lịch sử

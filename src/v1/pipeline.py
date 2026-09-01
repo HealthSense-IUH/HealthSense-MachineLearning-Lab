@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from sklearn.ensemble import RandomForestClassifier
 
-from vlab import honest, store
+from vlab import export, honest, store
 from vlab.extract import LINEAR_13, extract_table
 
 VERSION_ID = 'v1'
@@ -96,6 +96,8 @@ def run(verbose=True):
         ],
     }
     store.save(VERSION_ID, payload)
+    export.export(VERSION_ID, df, FEATURES, make_model, payload,
+                  channel=CHANNEL, verbose=verbose)
 
     if verbose:
         _print_summary(payload, result)

@@ -77,7 +77,7 @@ thiết bị khác, thậm chí loại tín hiệu khác. Qua được tầng n�
 python src/v4/pipeline.py
 ```
 
-Kết quả lưu ở `models/v4/results.json`. Báo cáo đầy đủ ở
+Kết quả lưu ở `results/v4.json`. Báo cáo đầy đủ ở
 [`src/report/04_v4_report.ipynb`](../report/04_v4_report.ipynb).
 
 Engine của pipeline sản phẩm vẫn nằm ở `src/healthsense_ml/`, nhưng các script

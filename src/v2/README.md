@@ -58,5 +58,5 @@ Ba đặc trưng phi tuyến thêm vào — **SD1, SD2** (Poincaré) và **SampE
 python src/v2/pipeline.py
 ```
 
-Kết quả lưu ở `models/v2/results.json`, báo cáo đầy đủ ở
+Kết quả lưu ở `results/v2.json`, báo cáo đầy đủ ở
 [`src/report/02_v2_report.ipynb`](../report/02_v2_report.ipynb).

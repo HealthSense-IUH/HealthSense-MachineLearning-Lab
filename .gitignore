@@ -9,8 +9,12 @@ data/*
 data/features/museum_*.csv
 
 # Models & Checkpoints
-# (Đã mở khóa hoàn toàn thư mục models)
 *.pkl
+# ...trừ thư mục models/: đây là các hiện vật muốn giữ lại trong repo.
+#   healthsense_afib_pipeline.pkl — model triển khai, KHÔNG tái tạo được nữa
+#     (script sinh ra nó đã bị gỡ; xem models/README.md)
+#   v1..v4.pkl — 4 đời pipeline, mỗi file ~200 KB, kèm thẻ vN.json
+!models/*.pkl
 *.pth
 *.h5
 *.keras

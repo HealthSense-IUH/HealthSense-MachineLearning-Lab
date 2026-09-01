@@ -30,7 +30,7 @@ from sklearn.ensemble import RandomForestClassifier, StackingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
-from vlab import honest, store
+from vlab import export, honest, store
 from vlab.extract import ALL_FEATURES, extract_table
 
 VERSION_ID = 'v3'
@@ -228,6 +228,11 @@ def run(verbose=True):
         ],
     }
     store.save(VERSION_ID, payload)
+    # Xuất model ở quy mô mặc định (bước 10s). Kênh ECG — ghi rõ vào thẻ model
+    # vì đem áp lên PPG của vòng đeo là sai loại tín hiệu.
+    export.export(VERSION_ID, biggest_df, FEATURES, make_model, payload,
+                  train_filter=train_only_iqr_mask,
+                  channel=CHANNEL, verbose=verbose)
 
     if verbose:
         print('\n' + scale_table[['label', 'n_windows', 'leaky_accuracy',

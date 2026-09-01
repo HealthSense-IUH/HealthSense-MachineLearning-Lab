@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import pandas as pd
 
-from vlab import honest, store
+from vlab import export, honest, store
 from vlab.extract import ALL_FEATURES, extract_table
 
 VERSION_ID = 'v2'
@@ -168,6 +168,11 @@ def run(verbose=True):
         ],
     }
     store.save(VERSION_ID, payload)
+    # Luật làm sạch chỉ áp lên dữ liệu HUẤN LUYỆN — hợp lệ; cái sai của v2
+    # ngày đó là áp luôn lên tập test.
+    export.export(VERSION_ID, df, FEATURES, make_model, payload,
+                  train_filter=lambda d: label_conditioned_mask(d).to_numpy(),
+                  channel=CHANNEL, verbose=verbose)
 
     if verbose:
         print('\n' + result['table'].to_string(index=False))

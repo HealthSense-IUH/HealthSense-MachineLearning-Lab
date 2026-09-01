@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from sklearn.ensemble import RandomForestClassifier
 
-from vlab import honest, store
+from vlab import export, honest, store
 from vlab.extract import CORE_13, extract_table
 from vlab.raw import MODELS_DIR
 
@@ -59,8 +59,8 @@ def train_only_iqr_mask(df_train, features=FEATURES, multiplier=IQR_MULTIPLIER):
 
 
 def load_production_results():
-    """Nạp kết quả benchmark thật của sản phẩm (models/final/model_card.json)."""
-    path = os.path.join(MODELS_DIR, 'final', 'model_card.json')
+    """Nạp kết quả benchmark thật của sản phẩm (models/model_card.json)."""
+    path = os.path.join(MODELS_DIR, 'model_card.json')
     if not os.path.exists(path):
         return None
     with open(path, encoding='utf-8') as f:
@@ -127,6 +127,9 @@ def run(verbose=True):
         ],
     }
     store.save(VERSION_ID, payload)
+    export.export(VERSION_ID, df, FEATURES, make_model, payload,
+                  train_filter=train_only_iqr_mask,
+                  channel=CHANNEL, verbose=verbose)
 
     if verbose:
         print('\n' + result['table'].to_string(index=False))

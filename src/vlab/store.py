@@ -9,14 +9,16 @@ Nếu chưa có kết quả, notebook sẽ tự chạy pipeline (mất vài phú
 import json
 import os
 
-from .raw import MODELS_DIR
+from .raw import RESULTS_DIR
 
 
 def results_path(version):
-    """models/<version>/results.json"""
-    d = os.path.join(MODELS_DIR, version)
-    os.makedirs(d, exist_ok=True)
-    return os.path.join(d, 'results.json')
+    """results/<version>.json — số liệu, KHÔNG phải model.
+
+    Model của từng phiên bản nằm ở models/<version>.pkl (xem vlab/export.py).
+    """
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    return os.path.join(RESULTS_DIR, f'{version}.json')
 
 
 def save(version, payload):

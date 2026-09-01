@@ -21,7 +21,12 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.dirname(_HERE))
 RAW_DIR = os.path.join(PROJECT_ROOT, 'data', 'raw', 'mimic_perform')
 FEATURES_DIR = os.path.join(PROJECT_ROOT, 'data', 'features')
+
+# Hai thư mục tách bạch, đừng trộn:
+#   models/  = thứ NẠP ĐƯỢC vào chương trình (.pkl + thẻ model đi kèm)
+#   results/ = thứ ĐEM ĐI BÁO CÁO (số liệu, biểu đồ)
 MODELS_DIR = os.path.join(PROJECT_ROOT, 'models')
+RESULTS_DIR = os.path.join(PROJECT_ROOT, 'results')
 
 
 def list_records():
