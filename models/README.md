@@ -43,11 +43,14 @@ python src/v1/pipeline.py
 
 **1. Luôn gói scaler vào trong Pipeline.**
 
-Trong `HealthSense-AI-Service/app/models/` có file `best_model_8165.pkl` —
-một `MLPClassifier` **trần, không kèm scaler**, sinh ra từ pipeline v3 vốn
-chuẩn hóa dữ liệu toàn cục từ trước. Ai nạp nó rồi đưa đặc trưng thô vào sẽ
-nhận kết quả rác **mà không có lỗi nào báo ra**. Gói scaler vào Pipeline khiến
-chuyện đó không thể xảy ra.
+`HealthSense-AI-Service/app/models/` từng chứa `best_model_8165.pkl` — một
+`MLPClassifier` **trần, không kèm scaler**, sinh ra từ pipeline v3 vốn chuẩn
+hóa dữ liệu toàn cục từ trước. Ai nạp nó rồi đưa đặc trưng thô vào sẽ nhận kết
+quả rác **mà không có lỗi nào báo ra**.
+
+File đó đã được gỡ khỏi service, và `load_model()` bên đó nay từ chối mọi model
+không đóng gói tiền xử lý bên trong Pipeline. Gói scaler vào Pipeline khiến
+chuyện này không thể xảy ra ngay từ đầu.
 
 **2. Luôn kèm thẻ ghi điểm thật.**
 

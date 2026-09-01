@@ -6,11 +6,11 @@ file model như thế nào? Đây là câu trả lời — 4 file, một cho m�
 HAI QUY TẮC AN TOÀN, học từ chính sai lầm có thật trong dự án
 --------------------------------------------------------------
 1. LUÔN gói trong sklearn Pipeline (scaler nằm bên trong).
-   Trong `HealthSense-AI-Service/app/models/` có file `best_model_8165.pkl` —
-   một MLPClassifier TRẦN, không kèm scaler, sinh ra từ pipeline v3 vốn chuẩn
-   hóa dữ liệu toàn cục từ trước. Ai nạp nó rồi đưa đặc trưng thô vào sẽ nhận
-   kết quả rác mà không có lỗi nào báo ra. Gói scaler vào trong Pipeline khiến
-   chuyện đó không thể xảy ra.
+   `HealthSense-AI-Service/app/models/` từng chứa `best_model_8165.pkl` — một
+   MLPClassifier TRẦN, không kèm scaler, sinh ra từ pipeline v3 vốn chuẩn hóa
+   dữ liệu toàn cục từ trước. Ai nạp nó rồi đưa đặc trưng thô vào sẽ nhận kết
+   quả rác mà không có lỗi nào báo ra. File đó đã được gỡ, và service nay từ
+   chối mọi model không đóng gói tiền xử lý bên trong Pipeline.
 
 2. LUÔN kèm file .json ghi ĐIỂM THẬT (LOSO), không phải điểm bản gốc công bố.
    Điểm bản gốc của v1-v3 bị thổi phồng 6-7 điểm do data leakage. File model
