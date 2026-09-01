@@ -19,6 +19,8 @@
 - **Machine Learning:** Scikit-learn (Pipeline, LeaveOneGroupOut, GroupKFold), XGBoost
 - **Biểu đồ:** Matplotlib, Seaborn
 
+> 🗺️ **Mở `src/` lần đầu?** Đọc [`src/README.md`](src/README.md) — bản đồ 2 phút giải thích 7 thư mục con là gì và cái nào gọi cái nào.
+
 ### Cấu trúc dự án (v4)
 - `src/healthsense_ml/`: **Package Python trung tâm** — toàn bộ logic pipeline nằm ở đây:
   - `config.py`: Đường dẫn, hằng số tín hiệu, danh sách đặc trưng, tham số huấn luyện.

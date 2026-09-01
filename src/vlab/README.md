@@ -1,8 +1,16 @@
-# vlab — tiện ích dùng chung cho bảo tàng phiên bản
+# vlab — cái thước
+
+**Tên viết tắt của "version lab"** — phòng thí nghiệm so sánh các phiên bản.
+
+Thư mục này **không biết AFib là gì** và không chẩn đoán ai cả. Phần y học nằm
+ở [`healthsense_ml/`](../healthsense_ml/README.md). Việc của `vlab` chỉ là:
+đưa cho tôi một bảng số + một mô hình, tôi chấm điểm và vẽ biểu đồ.
 
 Bốn thư mục `src/v1` … `src/v4` khác nhau ở **phương pháp**. Những thứ không
 thuộc về phương pháp — đọc file thô, đo metrics, vẽ biểu đồ, lưu kết quả —
 được gom vào đây, để mỗi thư mục `vN` chỉ còn đúng phần "chất riêng" của nó.
+
+Bản đồ toàn bộ `src/`: [`../README.md`](../README.md)
 
 | Module | Nội dung |
 |---|---|
