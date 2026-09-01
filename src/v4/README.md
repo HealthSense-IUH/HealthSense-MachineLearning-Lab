@@ -77,7 +77,10 @@ thiết bị khác, thậm chí loại tín hiệu khác. Qua được tầng n�
 python src/v4/pipeline.py
 ```
 
-Kết quả lưu ở `models/v4/results.json`. Pipeline sản phẩm đầy đủ (gồm AFDB,
-cross-dataset, mô hình gộp và xuất `.pkl`) nằm ở `scripts/run_*.py` và
-`src/healthsense_ml/`. Báo cáo đầy đủ ở
-[`src/report/v4_bao_cao.ipynb`](../report/v4_bao_cao.ipynb).
+Kết quả lưu ở `models/v4/results.json`. Báo cáo đầy đủ ở
+[`src/report/04_v4_report.ipynb`](../report/04_v4_report.ipynb).
+
+Engine của pipeline sản phẩm vẫn nằm ở `src/healthsense_ml/`, nhưng các script
+dựng nên mô hình triển khai (AFDB, cross-dataset, mô hình gộp, xuất `.pkl`) đã
+được gỡ khỏi repo — kết quả của chúng còn trong `models/`, khôi phục script
+bằng `git checkout d3123cf -- scripts`.

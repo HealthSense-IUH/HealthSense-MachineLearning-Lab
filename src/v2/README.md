@@ -59,4 +59,4 @@ python src/v2/pipeline.py
 ```
 
 Kết quả lưu ở `models/v2/results.json`, báo cáo đầy đủ ở
-[`src/report/v2_bao_cao.ipynb`](../report/v2_bao_cao.ipynb).
+[`src/report/02_v2_report.ipynb`](../report/02_v2_report.ipynb).

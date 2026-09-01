@@ -38,8 +38,9 @@ def list_records():
 
     if not records:
         raise FileNotFoundError(
-            f'Không tìm thấy dữ liệu raw tại {config.RAW_DIR}. '
-            f'Chạy: python scripts/download_mimic_perform.py'
+            f'Không tìm thấy dữ liệu raw tại {config.RAW_DIR}.\n'
+            f'Tải về bằng: python -c "import sys; sys.path.insert(0, \'src\'); '
+            f'from healthsense_ml.data_loading import download_dataset; download_dataset()"'
         )
     return records
 

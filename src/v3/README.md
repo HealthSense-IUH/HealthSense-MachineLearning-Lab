@@ -83,4 +83,4 @@ python src/v3/pipeline.py
 Script chạy cả 4 quy mô, mỗi quy mô chấm hai lần (cách gốc và LOSO), để thấy
 rõ một quy luật: **càng chồng lấn nhiều, điểm gốc càng đẹp và phần điểm ảo
 càng lớn**. Kết quả lưu ở `models/v3/results.json`, báo cáo đầy đủ ở
-[`src/report/v3_bao_cao.ipynb`](../report/v3_bao_cao.ipynb).
+[`src/report/03_v3_report.ipynb`](../report/03_v3_report.ipynb).
