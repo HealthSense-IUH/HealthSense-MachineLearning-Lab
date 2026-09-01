@@ -40,6 +40,17 @@ dùng để chuẩn hóa train đã được tính có phần đóng góp của 
 
 **4. Vẫn chia ngẫu nhiên, không theo bệnh nhân.**
 
+## Một cái bẫy khi so sánh
+
+Chấm lại bằng LOSO, v3 cho ~97% ở mức bệnh nhân — **cao hơn v4 (~94%)**. Đừng
+vội kết luận v3 tốt hơn: chênh lệch này đến từ **loại tín hiệu**, không phải
+phương pháp. ECG có sóng R rất nhọn, dễ dò chính xác; PPG thì sóng tù và dễ
+nhiễu. Đo bằng ECG rồi khoe điểm, trong khi sản phẩm chạy bằng PPG, là so sánh
+khập khiễng — và đó chính là vấn đề của v3, không phải điểm cộng.
+
+So công bằng thì phải so cùng loại tín hiệu: v1, v2, v4 (đều dùng PPG) cho
+~94% mức bệnh nhân, ngang nhau.
+
 ## Một chi tiết ít ai để ý
 
 v3 trích đặc trưng từ **kênh ECG** (`sub['ecg'].values`), không phải PPG.
