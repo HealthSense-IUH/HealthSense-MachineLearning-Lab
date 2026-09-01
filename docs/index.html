@@ -71,7 +71,7 @@
         <tr><td>MIT-BIH AFDB</td><td>25 bệnh nhân ECG 250 Hz (AF kịch phát), 28.903 cửa sổ từ QRS annotation</td></tr>
         <tr><td>Đặc trưng</td><td>13 HRV (time / frequency / nonlinear), loại nhóm LF không đủ tin cậy ở 30s</td></tr>
         <tr><td>Model triển khai</td><td><code>models/final/healthsense_afib_pipeline.pkl</code> — XGBoost + StandardScaler, train gộp 60 bệnh nhân cân bằng nguồn; đặc tả trong <code>model_card.json</code></td></tr>
-        <tr><td>Tái lập</td><td>4 lệnh: <code>run_v4_extraction.py</code> → <code>run_v4_benchmark.py</code> → <code>run_cross_dataset.py</code> → <code>run_final_model.py</code></td></tr>
+        <tr><td>Tái lập</td><td>Bảo tàng phiên bản: <code>python src/vN/pipeline.py</code>. Các script dựng mô hình sản phẩm đã gỡ khỏi repo — khôi phục bằng <code>git checkout d3123cf -- scripts</code></td></tr>
       </table>
       <p class="links">Chi tiết đầy đủ: <a href="../README.md">README.md</a> · <a href="../models/final/model_card.json">model_card.json</a></p>
     </div>

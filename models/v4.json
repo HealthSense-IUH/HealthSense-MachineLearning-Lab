@@ -1,0 +1,42 @@
+{
+  "version": "v4",
+  "title": "Pipeline hiện hành (LOSO, chống leakage)",
+  "channel": "PPG",
+  "input": "Cửa sổ 30s -> 13 đặc trưng HRV, ĐÚNG THỨ TỰ trong \"features\"",
+  "features": [
+    "HR_mean",
+    "Mean_NN",
+    "SDNN",
+    "RMSSD",
+    "NN50",
+    "pNN50",
+    "CV",
+    "HF",
+    "Total_Power",
+    "HF_norm",
+    "SD1",
+    "SD2",
+    "SampEn"
+  ],
+  "output": "predict_proba[:, 1] = P(AFib); ngưỡng mặc định 0.5",
+  "trained_on": {
+    "dataset": "MIMIC PERform AF",
+    "n_subjects": 35,
+    "n_windows_available": 4130,
+    "n_windows_used": 3830,
+    "n_windows_dropped_by_cleaning": 300
+  },
+  "honest_score_loso": {
+    "window_accuracy": 0.9167,
+    "window_roc_auc": 0.9319,
+    "subject_accuracy": 0.9429,
+    "subject_recall": 1.0
+  },
+  "score_if_graded_the_old_way": {
+    "accuracy": 0.9806,
+    "note": "Chia ngẫu nhiên theo cửa sổ — con số bị thổi phồng."
+  },
+  "inflation_points": 0.0639,
+  "known_leakage": [],
+  "warning": "Model đối chứng của bảo tàng (Random Forest, 35 bệnh nhân MIMIC). KHÁC với model triển khai models/healthsense_afib_pipeline.pkl (XGBoost, 60 bệnh nhân, có cân bằng nguồn)."
+}
