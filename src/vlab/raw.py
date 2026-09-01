@@ -45,10 +45,32 @@ def list_records():
     if not records:
         raise FileNotFoundError(
             f'Không tìm thấy dữ liệu thô tại {RAW_DIR}.\n'
-            f'Chạy: python -c "import sys; sys.path.insert(0, \'src\'); '
-            f'from healthsense_ml.data_loading import download_dataset; download_dataset()"'
+            f'Tải về bằng: python -c "import sys; sys.path.insert(0, \'src\'); '
+            f'from vlab.raw import download_dataset; download_dataset()"'
         )
     return records
+
+
+def download_dataset():
+    """Tải dataset MIMIC PERform AF từ Kaggle về data/raw/mimic_perform.
+
+    Dùng kagglehub — dataset public, không cần API token.
+    """
+    import shutil
+
+    import kagglehub
+
+    cache_path = kagglehub.dataset_download(
+        'raditya0/mimic-perform-iii-af-and-non-af-dataset')
+
+    os.makedirs(RAW_DIR, exist_ok=True)
+    for item in os.listdir(cache_path):
+        src = os.path.join(cache_path, item)
+        dst = os.path.join(RAW_DIR, item)
+        if not os.path.exists(dst):
+            shutil.move(src, dst)
+    print(f'Dataset sẵn sàng tại: {RAW_DIR}')
+    return RAW_DIR
 
 
 def load_channel(csv_path, channel='PPG'):
