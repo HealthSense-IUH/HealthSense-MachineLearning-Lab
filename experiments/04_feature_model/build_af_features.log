@@ -1,0 +1,48 @@
+[01/35] mimic_perform_af_001
+[02/35] mimic_perform_af_002
+[03/35] mimic_perform_af_003
+[04/35] mimic_perform_af_004
+[05/35] mimic_perform_af_005
+[06/35] mimic_perform_af_006
+[07/35] mimic_perform_af_007
+[08/35] mimic_perform_af_008
+[09/35] mimic_perform_af_009
+[10/35] mimic_perform_af_010
+[11/35] mimic_perform_af_011
+[12/35] mimic_perform_af_012
+[13/35] mimic_perform_af_013
+[14/35] mimic_perform_af_014
+[15/35] mimic_perform_af_015
+[16/35] mimic_perform_af_016
+[17/35] mimic_perform_af_017
+[18/35] mimic_perform_af_018
+[19/35] mimic_perform_af_019
+[20/35] mimic_perform_non_af_001
+[21/35] mimic_perform_non_af_002
+[22/35] mimic_perform_non_af_003
+[23/35] mimic_perform_non_af_004
+[24/35] mimic_perform_non_af_005
+[25/35] mimic_perform_non_af_006
+[26/35] mimic_perform_non_af_007
+[27/35] mimic_perform_non_af_008
+[28/35] mimic_perform_non_af_009
+[29/35] mimic_perform_non_af_010
+[30/35] mimic_perform_non_af_011
+[31/35] mimic_perform_non_af_012
+[32/35] mimic_perform_non_af_013
+[33/35] mimic_perform_non_af_014
+[34/35] mimic_perform_non_af_015
+[35/35] mimic_perform_non_af_016
+
+Windows : 4130
+Subjects: 35
+
+           pNN40      pNN70        TPR     MAD_NN     nRMSSD  SD1_SD2_ratio
+count  4130.0000  4130.0000  4130.0000  4130.0000  4130.0000      4130.0000
+mean     56.9013    46.3665     0.6064    68.8920     0.2412         0.9973
+std      32.9644    31.5369     0.0945    65.4948     0.1678         0.3168
+min       0.0000     0.0000     0.2857     0.0000     0.0088         0.2233
+25%      22.9121    10.6383     0.5455    16.0000     0.0632         0.8018
+50%      72.9167    58.0645     0.6111    56.0000     0.2455         0.9546
+75%      83.7838    72.7273     0.6744    96.0000     0.3557         1.1343
+max     100.0000   100.0000     0.8889   448.0000     0.8026         2.7498

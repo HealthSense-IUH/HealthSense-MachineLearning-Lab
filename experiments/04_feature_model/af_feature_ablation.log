@@ -1,0 +1,75 @@
+
+==========================================================================================
+baseline13
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn']
+==========================================================================================
+Logistic Regression | 13 features
+Random Forest | 13 features
+XGBoost | 13 features
+
+==========================================================================================
+plus_pnn
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn', 'pNN40', 'pNN70']
+==========================================================================================
+Logistic Regression | 15 features
+Random Forest | 15 features
+XGBoost | 15 features
+
+==========================================================================================
+plus_tpr
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn', 'TPR']
+==========================================================================================
+Logistic Regression | 14 features
+Random Forest | 14 features
+XGBoost | 14 features
+
+==========================================================================================
+plus_robust
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn', 'MAD_NN', 'nRMSSD', 'SD1_SD2_ratio']
+==========================================================================================
+Logistic Regression | 16 features
+Random Forest | 16 features
+XGBoost | 16 features
+
+==========================================================================================
+plus_all_simple
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn', 'pNN40', 'pNN70', 'TPR', 'MAD_NN', 'nRMSSD', 'SD1_SD2_ratio']
+==========================================================================================
+Logistic Regression | 19 features
+Random Forest | 19 features
+XGBoost | 19 features
+
+==============================================================================================================
+AF FEATURE ABLATION
+==============================================================================================================
+    Feature_Set  N_Features               Model   Level  Accuracy  Recall (Sensitivity)  Specificity  F1-Score  ROC-AUC  FN  FP
+     baseline13          13 Logistic Regression  window    0.9138                0.9661       0.8517    0.9241   0.8756  76 280
+     baseline13          13 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+     baseline13          13       Random Forest  window    0.9174                0.9661       0.8596    0.9270   0.9509  76 265
+     baseline13          13       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9375   0   2
+     baseline13          13             XGBoost  window    0.9206                0.9679       0.8644    0.9297   0.9576  72 256
+     baseline13          13             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9342   0   2
+       plus_pnn          15 Logistic Regression  window    0.9140                0.9657       0.8528    0.9242   0.8734  77 278
+       plus_pnn          15 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+       plus_pnn          15       Random Forest  window    0.9174                0.9692       0.8559    0.9272   0.9454  69 272
+       plus_pnn          15       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9375   0   2
+       plus_pnn          15             XGBoost  window    0.9208                0.9688       0.8639    0.9300   0.9528  70 257
+       plus_pnn          15             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9243   0   2
+       plus_tpr          14 Logistic Regression  window    0.9138                0.9661       0.8517    0.9241   0.8759  76 280
+       plus_tpr          14 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+       plus_tpr          14       Random Forest  window    0.9186                0.9670       0.8612    0.9281   0.9513  74 262
+       plus_tpr          14       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9441   0   2
+       plus_tpr          14             XGBoost  window    0.9201                0.9670       0.8644    0.9293   0.9525  74 256
+       plus_tpr          14             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9342   0   2
+    plus_robust          16 Logistic Regression  window    0.9136                0.9697       0.8469    0.9241   0.8911  68 289
+    plus_robust          16 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.9046   0   2
+    plus_robust          16       Random Forest  window    0.9201                0.9701       0.8607    0.9295   0.9387  67 263
+    plus_robust          16       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9309   0   2
+    plus_robust          16             XGBoost  window    0.9220                0.9692       0.8660    0.9310   0.9576  69 253
+    plus_robust          16             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9276   0   2
+plus_all_simple          19 Logistic Regression  window    0.9174                0.9755       0.8485    0.9277   0.8873  55 286
+plus_all_simple          19 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8980   0   2
+plus_all_simple          19       Random Forest  window    0.9179                0.9701       0.8559    0.9277   0.9509  67 272
+plus_all_simple          19       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9342   0   2
+plus_all_simple          19             XGBoost  window    0.9211                0.9697       0.8633    0.9303   0.9348  68 258
+plus_all_simple          19             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9211   0   2
