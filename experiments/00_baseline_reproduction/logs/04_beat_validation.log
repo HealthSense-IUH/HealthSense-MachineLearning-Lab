@@ -1,0 +1,73 @@
+======================================================================
+🔬 KIỂM CHỨNG DÒ NHỊP PPG BẰNG ECG ĐỒNG BỘ (MIMIC PERform)
+   Dung sai khớp nhịp: ±150 ms (sau khi bù PTT)
+======================================================================
+  [ 1/35] mimic_perform_af_001: F1=0.819 Sens=0.816 PPV=0.821 PTT=112ms HR-MAE=0.95bpm
+  [ 2/35] mimic_perform_af_002: F1=0.994 Sens=0.992 PPV=0.996 PTT=664ms HR-MAE=1.35bpm
+  [ 3/35] mimic_perform_af_003: F1=0.998 Sens=0.998 PPV=0.999 PTT=504ms HR-MAE=0.95bpm
+  [ 4/35] mimic_perform_af_004: F1=0.764 Sens=0.751 PPV=0.778 PTT=272ms HR-MAE=6.10bpm
+  [ 5/35] mimic_perform_af_005: F1=0.983 Sens=0.987 PPV=0.980 PTT=680ms HR-MAE=1.70bpm
+  [ 6/35] mimic_perform_af_006: F1=0.891 Sens=0.853 PPV=0.932 PTT=216ms HR-MAE=11.05bpm
+  [ 7/35] mimic_perform_af_007: F1=0.950 Sens=0.923 PPV=0.979 PTT=720ms HR-MAE=4.85bpm
+  [ 8/35] mimic_perform_af_008: F1=0.107 Sens=0.107 PPV=0.106 PTT=336ms HR-MAE=4.70bpm
+  [ 9/35] mimic_perform_af_009: F1=0.832 Sens=0.786 PPV=0.885 PTT=200ms HR-MAE=13.85bpm
+  [10/35] mimic_perform_af_010: F1=0.933 Sens=0.913 PPV=0.955 PTT=640ms HR-MAE=5.05bpm
+  [11/35] mimic_perform_af_011: F1=0.606 Sens=0.588 PPV=0.626 PTT=180ms HR-MAE=7.40bpm
+  [12/35] mimic_perform_af_012: F1=0.779 Sens=0.787 PPV=0.771 PTT=160ms HR-MAE=3.60bpm
+  [13/35] mimic_perform_af_013: F1=0.482 Sens=0.479 PPV=0.485 PTT=240ms HR-MAE=1.55bpm
+  [14/35] mimic_perform_af_014: F1=0.440 Sens=0.439 PPV=0.440 PTT=176ms HR-MAE=1.25bpm
+  [15/35] mimic_perform_af_015: F1=0.908 Sens=0.833 PPV=0.999 PTT=704ms HR-MAE=14.85bpm
+  [16/35] mimic_perform_af_016: F1=0.855 Sens=0.836 PPV=0.874 PTT=112ms HR-MAE=5.30bpm
+  [17/35] mimic_perform_af_017: F1=0.995 Sens=0.996 PPV=0.993 PTT=560ms HR-MAE=1.65bpm
+  [18/35] mimic_perform_af_018: F1=0.717 Sens=0.702 PPV=0.734 PTT=176ms HR-MAE=4.75bpm
+  [19/35] mimic_perform_af_019: F1=0.956 Sens=0.942 PPV=0.969 PTT=600ms HR-MAE=3.50bpm
+  [20/35] mimic_perform_non_af_001: F1=0.967 Sens=0.966 PPV=0.969 PTT=632ms HR-MAE=1.40bpm
+  [21/35] mimic_perform_non_af_002: F1=0.999 Sens=0.999 PPV=0.999 PTT=720ms HR-MAE=0.90bpm
+  [22/35] mimic_perform_non_af_003: F1=0.994 Sens=0.989 PPV=0.998 PTT=584ms HR-MAE=1.10bpm
+  [23/35] mimic_perform_non_af_004: F1=0.989 Sens=0.982 PPV=0.997 PTT=128ms HR-MAE=2.10bpm
+  [24/35] mimic_perform_non_af_005: F1=1.000 Sens=1.000 PPV=1.000 PTT=56ms HR-MAE=0.60bpm
+  [25/35] mimic_perform_non_af_006: F1=0.965 Sens=0.961 PPV=0.968 PTT=40ms HR-MAE=1.10bpm
+  [26/35] mimic_perform_non_af_007: F1=0.954 Sens=0.966 PPV=0.943 PTT=696ms HR-MAE=3.10bpm
+  [27/35] mimic_perform_non_af_008: F1=0.991 Sens=0.993 PPV=0.989 PTT=616ms HR-MAE=0.90bpm
+  [28/35] mimic_perform_non_af_009: F1=0.999 Sens=1.000 PPV=0.998 PTT=624ms HR-MAE=1.10bpm
+  [29/35] mimic_perform_non_af_010: F1=0.973 Sens=0.972 PPV=0.974 PTT=728ms HR-MAE=1.65bpm
+  [30/35] mimic_perform_non_af_011: F1=0.998 Sens=0.999 PPV=0.998 PTT=624ms HR-MAE=0.50bpm
+  [31/35] mimic_perform_non_af_012: F1=0.355 Sens=0.294 PPV=0.449 PTT=288ms HR-MAE=29.90bpm
+  [32/35] mimic_perform_non_af_013: F1=0.995 Sens=0.994 PPV=0.995 PTT=24ms HR-MAE=0.50bpm
+  [33/35] mimic_perform_non_af_014: F1=0.196 Sens=0.226 PPV=0.173 PTT=432ms HR-MAE=23.95bpm
+  [34/35] mimic_perform_non_af_015: F1=0.995 Sens=0.999 PPV=0.991 PTT=672ms HR-MAE=1.05bpm
+  [35/35] mimic_perform_non_af_016: F1=0.991 Sens=0.991 PPV=0.991 PTT=672ms HR-MAE=0.70bpm
+
+======================================================================
+📋 TỔNG KẾT (35/35 bệnh nhân có ECG đủ tin cậy để chấm)
+======================================================================
+
+  Nhóm AFib (19 người):
+    F1 dò nhịp   : median 0.855 | min 0.107 | max 0.998
+    Sensitivity  : median 0.833
+    PPV          : median 0.885
+    HR MAE (bpm) : median 4.70
+
+  Nhóm Normal (16 người):
+    F1 dò nhịp   : median 0.991 | min 0.196 | max 1.000
+    Sensitivity  : median 0.990
+    PPV          : median 0.991
+    HR MAE (bpm) : median 1.10
+
+  ⚠️ 5 bệnh nhân dò nhịp kém nhất:
+               record_id  label    f1  sensitivity   ppv  hr_mae_bpm
+    mimic_perform_af_008   AFib 0.107        0.107 0.106       4.700
+mimic_perform_non_af_014 Normal 0.196        0.226 0.173      23.950
+mimic_perform_non_af_012 Normal 0.355        0.294 0.449      29.900
+    mimic_perform_af_014   AFib 0.440        0.439 0.440       1.250
+    mimic_perform_af_013   AFib 0.482        0.479 0.485       1.550
+
+  🔎 THẨM ĐỊNH NHÃN bằng RMSSD/pNN50 tính từ ECG (không qua PPG):
+    Normal khác (median): RMSSD=47ms, pNN50=6%
+    AFib (median)       : RMSSD=170ms, pNN50=74%
+    mimic_perform_non_af_012: RMSSD=233ms, pNN50=41%
+    mimic_perform_non_af_014: RMSSD=31ms, pNN50=2%
+
+💾 Đã lưu: /media/phuc/New Volume/HeathSense_rungtamnhi/models/beat_validation/beat_validation.csv
+
+✅ HOÀN TẤT KIỂM CHỨNG DÒ NHỊP!
