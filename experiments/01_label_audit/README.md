@@ -51,3 +51,21 @@ This experiment supports keeping AFIB and AFL as distinct rhythm classes.
 Use AFIB-only positive labels for binary AF classification in v5.
 
 AFL may later be introduced as a separate class in a multiclass model.
+
+## Pooled LOSO follow-up
+
+After removing AFL from the AF-positive class:
+
+Random Forest on the MIMIC PPG target domain improved:
+
+- Window accuracy: 0.9109 -> 0.9215
+- Specificity: 0.8395 -> 0.8628
+- F1: 0.9221 -> 0.9307
+- ROC-AUC: 0.9446 -> 0.9486
+- Subject accuracy: 0.9143 -> 0.9429
+- Subject false positives: 3 -> 2
+
+XGBoost target-domain accuracy also improved, although its MIMIC
+ROC-AUC remained approximately unchanged.
+
+Decision: keep AFIB-only labels for subsequent v5 experiments.
