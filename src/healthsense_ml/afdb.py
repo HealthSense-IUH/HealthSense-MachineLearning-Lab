@@ -33,17 +33,25 @@ AFDB_STEP_S = 30
 # đoạn chuyển tiếp hỗn hợp bị bỏ.
 LABEL_PURITY = 0.8
 
-FEATURES_AFDB_FILE = os.path.join(config.FEATURES_DIR, 'afdb_features_v4.csv')
+FEATURES_AFDB_FILE = os.path.join(config.FEATURES_DIR, 'afdb_features_v5_afib_only.csv')
 
 
 def _rhythm_label(aux_note):
-    """Map aux_note của AFDB -> nhãn. 1=AFib/AFL, 0=Normal, None=loại."""
+    """Map AFDB rhythm annotation cho binary AF classification.
+
+    1 = AFIB
+    0 = non-AF sinus rhythm (N)
+    None = AFL, junctional rhythm và rhythm khác
+    """
     aux = aux_note.strip().upper()
-    if 'AFIB' in aux or 'AFL' in aux:
+
+    if 'AFIB' in aux:
         return 1
+
     if aux.startswith('(N'):
         return 0
-    return None  # (J - junctional rhythm và các loại khác: loại khỏi bài toán
+
+    return None
 
 
 def load_record_annotations(rec_name):
