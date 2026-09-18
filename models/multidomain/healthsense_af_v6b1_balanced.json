@@ -1,0 +1,21 @@
+{
+  "model": "v6b1_balanced",
+  "features": [
+    "HR_mean",
+    "Mean_NN",
+    "SDNN",
+    "RMSSD",
+    "NN50",
+    "pNN50",
+    "CV",
+    "HF",
+    "Total_Power",
+    "HF_norm",
+    "SD1",
+    "SD2",
+    "SampEn",
+    "PPG_AC"
+  ],
+  "train_rows": 49137,
+  "sha256": "45e12ed24411ac4fc7e0d912a3f43ea4f51744691652815a635018e8409cd5ad"
+}
