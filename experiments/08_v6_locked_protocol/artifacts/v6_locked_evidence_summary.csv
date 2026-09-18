@@ -1,0 +1,21 @@
+section,dataset,metric,value,evidence_level,interpretation
+LODO,DEEPBEAT,AUROC,0.8383643904459626,RETROSPECTIVE_DOMAIN_GENERALIZATION,Entire domain excluded from training and meta-learning.
+LODO,DEEPBEAT,Sensitivity@0.5,0.5314296665389038,RETROSPECTIVE_DOMAIN_GENERALIZATION,Fixed 0.5 threshold diagnostic; not threshold tuning.
+LODO,PULSEWATCH,AUROC,0.9877382169532588,RETROSPECTIVE_DOMAIN_GENERALIZATION,Entire domain excluded from training and meta-learning.
+LODO,PULSEWATCH,Sensitivity@0.5,0.9631878873590948,RETROSPECTIVE_DOMAIN_GENERALIZATION,Fixed 0.5 threshold diagnostic; not threshold tuning.
+LODO,LIU,AUROC,0.9797417762940328,RETROSPECTIVE_DOMAIN_GENERALIZATION,Entire domain excluded from training and meta-learning.
+LODO,LIU,Sensitivity@0.5,0.9752949852507374,RETROSPECTIVE_DOMAIN_GENERALIZATION,Fixed 0.5 threshold diagnostic; not threshold tuning.
+LODO,MIMIC_PERFORM,AUROC,0.9855980397344986,RETROSPECTIVE_DOMAIN_GENERALIZATION,Entire domain excluded from training and meta-learning.
+LODO,MIMIC_PERFORM,Sensitivity@0.5,0.9049955396966992,RETROSPECTIVE_DOMAIN_GENERALIZATION,Fixed 0.5 threshold diagnostic; not threshold tuning.
+PPG_AC_ABLATION,deepbeat,delta_AUROC_14_minus_13,0.0285567769905699,MATCHED_DEV_ABLATION,Positive value favors retaining PPG_AC.
+PPG_AC_ABLATION,liu,delta_AUROC_14_minus_13,0.0006995522865366,MATCHED_DEV_ABLATION,Positive value favors retaining PPG_AC.
+PPG_AC_ABLATION,pulsewatch,delta_AUROC_14_minus_13,0.0036269030176623,MATCHED_DEV_ABLATION,Positive value favors retaining PPG_AC.
+DEEPBEAT_LODO_PPG_AC,DEEPBEAT,delta_AUROC_14_minus_13,0.0247531928584268,RETROSPECTIVE_LODO_ABLATION,Matched 13F vs 14F with DeepBeat completely excluded from training.
+DEEPBEAT_LODO_PPG_AC,DEEPBEAT,delta_PR_AUC_14_minus_13,0.0714471862533305,RETROSPECTIVE_LODO_ABLATION,Matched 13F vs 14F with DeepBeat completely excluded from training.
+DEEPBEAT_LODO_PPG_AC,DEEPBEAT,Brier_improvement_14_vs_13,0.0134725011911363,RETROSPECTIVE_LODO_ABLATION,Matched 13F vs 14F with DeepBeat completely excluded from training.
+DEEPBEAT_LODO_PPG_AC,DEEPBEAT,delta_sensitivity_at_0.5,-0.0251054043694902,RETROSPECTIVE_LODO_ABLATION,Matched 13F vs 14F with DeepBeat completely excluded from training.
+DEEPBEAT_LODO_PPG_AC,DEEPBEAT,delta_specificity_at_0.5,0.071515479248344,RETROSPECTIVE_LODO_ABLATION,Matched 13F vs 14F with DeepBeat completely excluded from training.
+PAC_PVC_CHALLENGE,PULSEWATCH_PAC_PVC_TEST,window_FPR_ge_0_5,0.0454545454545454,HARD_NEGATIVE_CHALLENGE,Window-level false-positive rate; not temporal subject-alert rate.
+PAC_PVC_CHALLENGE,PULSEWATCH_PAC_PVC_TEST,window_FPR_ge_0_9,0.0075757575757575,HARD_NEGATIVE_CHALLENGE,Window-level false-positive rate; not temporal subject-alert rate.
+PAC_PVC_CHALLENGE,PEAKDET_PAC_PVC,window_FPR_ge_0_5,0.18,HARD_NEGATIVE_CHALLENGE,Window-level false-positive rate; not temporal subject-alert rate.
+PAC_PVC_CHALLENGE,PEAKDET_PAC_PVC,window_FPR_ge_0_9,0.12,HARD_NEGATIVE_CHALLENGE,Window-level false-positive rate; not temporal subject-alert rate.

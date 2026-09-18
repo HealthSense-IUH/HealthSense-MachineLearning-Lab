@@ -1,0 +1,22 @@
+{
+  "heldout_domain": "PULSEWATCH",
+  "evaluation_type": "RETROSPECTIVE_LEAVE_ONE_DOMAIN_OUT",
+  "heldout_domain_used_for_training": false,
+  "heldout_domain_used_for_meta_training": false,
+  "group_definition": "domain:subject_id",
+  "n_splits": 5,
+  "train_rows": 28334,
+  "train_groups": 174,
+  "eval_rows": 156978,
+  "eval_subjects": 106,
+  "elapsed_seconds": 43.451791286468506,
+  "AUROC": 0.9877382169532588,
+  "PR_AUC": 0.9417058711925822,
+  "Brier": 0.05600318018355332,
+  "TP": 23156,
+  "TN": 124331,
+  "FP": 8606,
+  "FN": 885,
+  "sensitivity_at_0.5": 0.9631878873590949,
+  "specificity_at_0.5": 0.9352625679833304
+}

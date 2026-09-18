@@ -1,0 +1,22 @@
+{
+  "heldout_domain": "MIMIC_PERFORM",
+  "evaluation_type": "RETROSPECTIVE_LEAVE_ONE_DOMAIN_OUT",
+  "heldout_domain_used_for_training": false,
+  "heldout_domain_used_for_meta_training": false,
+  "group_definition": "domain:subject_id",
+  "n_splits": 5,
+  "train_rows": 133345,
+  "train_groups": 213,
+  "eval_rows": 4130,
+  "eval_subjects": 35,
+  "elapsed_seconds": 159.02959609031677,
+  "AUROC": 0.9855980397344986,
+  "PR_AUC": 0.9866941262084461,
+  "Brier": 0.0529943349772039,
+  "TP": 2029,
+  "TN": 1803,
+  "FP": 85,
+  "FN": 213,
+  "sensitivity_at_0.5": 0.9049955396966993,
+  "specificity_at_0.5": 0.954978813559322
+}

@@ -1,0 +1,23 @@
+{
+  "model": "/home/phuc/Documents/HealthSense_rungtamnhi/models/multidomain/healthsense_af_v6c_stacking.pkl",
+  "model_features": [
+    "HR_mean",
+    "Mean_NN",
+    "SDNN",
+    "RMSSD",
+    "NN50",
+    "pNN50",
+    "CV",
+    "HF",
+    "Total_Power",
+    "HF_norm",
+    "SD1",
+    "SD2",
+    "SampEn",
+    "PPG_AC"
+  ],
+  "principle": "Tune all decision rules on DEV only. Do not select operating points using TEST. TEST is explicitly marked reused where it has already been inspected.",
+  "mimic_source": "MIMIC_PERform_AF",
+  "mimic_iii_ext_ppg_status": "NOT_USED_PENDING_ACCESS",
+  "triggersaf_status": "NOT_USED_PENDING_ACCESS"
+}

@@ -1,0 +1,22 @@
+{
+  "heldout_domain": "DEEPBEAT",
+  "evaluation_type": "RETROSPECTIVE_LEAVE_ONE_DOMAIN_OUT",
+  "heldout_domain_used_for_training": false,
+  "heldout_domain_used_for_meta_training": false,
+  "group_definition": "domain:subject_id",
+  "n_splits": 5,
+  "train_rows": 117634,
+  "train_groups": 140,
+  "eval_rows": 25230,
+  "eval_subjects": 128,
+  "elapsed_seconds": 120.42523455619812,
+  "AUROC": 0.8383643904459626,
+  "PR_AUC": 0.8289433257877925,
+  "Brier": 0.1898499831488984,
+  "TP": 5546,
+  "TN": 14297,
+  "FP": 497,
+  "FN": 4890,
+  "sensitivity_at_0.5": 0.5314296665389038,
+  "specificity_at_0.5": 0.9664052994457213
+}
