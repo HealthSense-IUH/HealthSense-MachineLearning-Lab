@@ -85,3 +85,20 @@ experiments/07_v6_multidomain/artifacts/
 experiments/08_v6_locked_protocol/artifacts/*predictions.csv
 experiments/08_v6_locked_protocol/artifacts/*verified_streams.csv
 experiments/08_v6_locked_protocol/artifacts/dev_global_rule*_grid.csv
+
+# ------------------------------------------------------------
+# Local research workspace / non-canonical outputs
+# ------------------------------------------------------------
+
+# Backup / broken experiment files
+*.bak
+*.broken.py
+
+# Local experiment logs
+experiments/07_v6_multidomain/logs/
+
+# Work-in-progress V7 generated assets
+data/features/v7/
+
+# Local third-party checkout handled separately
+# third_party/
