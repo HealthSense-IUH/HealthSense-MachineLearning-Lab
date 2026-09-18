@@ -1,0 +1,14 @@
+class_name,format,trial,segments,feature_ok,median_beats,timing_fallback,coverage
+AF,1col_legacy,af_trial,98,84,38.0,0,0.8571428571428571
+AF,1col_legacy,clinical,170,155,35.5,0,0.9117647058823529
+AF,3col,af_trial,68,64,36.0,0,0.9411764705882353
+AF,3col,clinical,14,13,26.5,0,0.9285714285714286
+AF,4col,af_trial,24205,23725,35.0,83,0.9801693864903945
+NSR,1col_legacy,clinical,48464,44026,34.0,0,0.9084268735556289
+NSR,3col,af_trial,16,13,40.0,0,0.8125
+NSR,3col,clinical,79178,73415,32.0,109,0.9272146303266059
+NSR,4col,af_trial,2247,2119,23.0,0,0.943035157988429
+PAC_PVC,1col_legacy,clinical,2162,1959,31.0,0,0.9061054579093432
+PAC_PVC,3col,af_trial,6,6,34.0,0,1.0
+PAC_PVC,3col,clinical,11585,11345,32.0,25,0.9792835563228313
+PAC_PVC,4col,af_trial,56,54,25.0,0,0.9642857142857143

@@ -1,0 +1,7 @@
+rule,level,n,false_positive,false_positive_rate
+fixed_090,segment,50,9.0,0.18
+fixed_085,segment,50,13.0,0.26
+hr_lt60_080_else090,segment,50,9.0,0.18
+fixed_090,subject_macro,3,,0.31196581196581197
+fixed_085,subject_macro,3,,0.40427350427350434
+hr_lt60_080_else090,subject_macro,3,,0.31196581196581197
