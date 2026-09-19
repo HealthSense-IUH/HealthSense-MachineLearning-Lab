@@ -1,0 +1,102 @@
+[01/35] mimic_perform_af_001
+ERROR mimic_perform_af_001 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[02/35] mimic_perform_af_002
+ERROR mimic_perform_af_002 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[03/35] mimic_perform_af_003
+ERROR mimic_perform_af_003 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[04/35] mimic_perform_af_004
+ERROR mimic_perform_af_004 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[05/35] mimic_perform_af_005
+ERROR mimic_perform_af_005 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[06/35] mimic_perform_af_006
+ERROR mimic_perform_af_006 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[07/35] mimic_perform_af_007
+ERROR mimic_perform_af_007 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[08/35] mimic_perform_af_008
+ERROR mimic_perform_af_008 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[09/35] mimic_perform_af_009
+ERROR mimic_perform_af_009 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[10/35] mimic_perform_af_010
+ERROR mimic_perform_af_010 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[11/35] mimic_perform_af_011
+ERROR mimic_perform_af_011 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[12/35] mimic_perform_af_012
+ERROR mimic_perform_af_012 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[13/35] mimic_perform_af_013
+ERROR mimic_perform_af_013 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[14/35] mimic_perform_af_014
+ERROR mimic_perform_af_014 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[15/35] mimic_perform_af_015
+ERROR mimic_perform_af_015 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[16/35] mimic_perform_af_016
+ERROR mimic_perform_af_016 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[17/35] mimic_perform_af_017
+ERROR mimic_perform_af_017 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[18/35] mimic_perform_af_018
+ERROR mimic_perform_af_018 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[19/35] mimic_perform_af_019
+ERROR mimic_perform_af_019 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[20/35] mimic_perform_non_af_001
+ERROR mimic_perform_non_af_001 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[21/35] mimic_perform_non_af_002
+ERROR mimic_perform_non_af_002 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[22/35] mimic_perform_non_af_003
+ERROR mimic_perform_non_af_003 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[23/35] mimic_perform_non_af_004
+ERROR mimic_perform_non_af_004 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[24/35] mimic_perform_non_af_005
+ERROR mimic_perform_non_af_005 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[25/35] mimic_perform_non_af_006
+ERROR mimic_perform_non_af_006 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[26/35] mimic_perform_non_af_007
+ERROR mimic_perform_non_af_007 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[27/35] mimic_perform_non_af_008
+ERROR mimic_perform_non_af_008 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[28/35] mimic_perform_non_af_009
+ERROR mimic_perform_non_af_009 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[29/35] mimic_perform_non_af_010
+ERROR mimic_perform_non_af_010 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[30/35] mimic_perform_non_af_011
+ERROR mimic_perform_non_af_011 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[31/35] mimic_perform_non_af_012
+ERROR mimic_perform_non_af_012 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[32/35] mimic_perform_non_af_013
+ERROR mimic_perform_non_af_013 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[33/35] mimic_perform_non_af_014
+ERROR mimic_perform_non_af_014 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[34/35] mimic_perform_non_af_015
+ERROR mimic_perform_non_af_015 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+[35/35] mimic_perform_non_af_016
+ERROR mimic_perform_non_af_016 xqrs: AttributeError: module 'wfdb' has no attribute 'processing'
+
+=====================================================================================
+ECG REFERENCE AGREEMENT
+=====================================================================================
+reference comparison  label  n_subjects  median_f1   min_f1  median_sensitivity  median_ppv
+  current   neurokit     AF          19    0.99787 0.907655            0.998626    0.998174
+  current   neurokit Non-AF          16    0.99914 0.960569            0.998985    0.999712
+
+=====================================================================================
+WORST ECG DISAGREEMENTS
+=====================================================================================
+               record_id  label reference comparison       f1  sensitivity      ppv  ref_beats  test_beats
+    mimic_perform_af_015     AF   current   neurokit 0.907655     0.834637 0.994674       1790        1502
+mimic_perform_non_af_012 Non-AF   current   neurokit 0.960569     0.936416 0.986001       1730        1643
+    mimic_perform_af_004     AF   current   neurokit 0.968142     0.946985 0.990267       2471        2363
+    mimic_perform_af_010     AF   current   neurokit 0.978947     0.970435 0.987611       1725        1695
+    mimic_perform_af_005     AF   current   neurokit 0.978956     0.994458 0.963929       1263        1303
+mimic_perform_non_af_006 Non-AF   current   neurokit 0.984371     0.973427 0.995563       1844        1803
+    mimic_perform_af_011     AF   current   neurokit 0.985798     0.977659 0.994074       2059        2025
+    mimic_perform_af_019     AF   current   neurokit 0.992744     0.987701 0.997839       1870        1851
+mimic_perform_non_af_014 Non-AF   current   neurokit 0.994234     0.992327 0.996149       1564        1558
+    mimic_perform_af_009     AF   current   neurokit 0.995940     0.994325 0.997560       2467        2459
+    mimic_perform_af_003     AF   current   neurokit 0.997257     0.998626 0.995890       1456        1460
+mimic_perform_non_af_010 Non-AF   current   neurokit 0.997375     0.995416 0.999343       1527        1521
+    mimic_perform_af_002     AF   current   neurokit 0.997437     0.999266 0.995614       1363        1368
+    mimic_perform_af_008     AF   current   neurokit 0.997870     0.997567 0.998174       1644        1643
+mimic_perform_non_af_003 Non-AF   current   neurokit 0.997912     0.995833 1.000000       1920        1912
+mimic_perform_non_af_001 Non-AF   current   neurokit 0.997947     0.997537 0.998357       1218        1217
+    mimic_perform_af_014     AF   current   neurokit 0.998301     0.998301 0.998301       1766        1766
+mimic_perform_non_af_011 Non-AF   current   neurokit 0.999118     0.998824 0.999412       1701        1700
+mimic_perform_non_af_008 Non-AF   current   neurokit 0.999134     0.998270 1.000000       1734        1731
+mimic_perform_non_af_009 Non-AF   current   neurokit 0.999146     0.999146 0.999146       1171        1171

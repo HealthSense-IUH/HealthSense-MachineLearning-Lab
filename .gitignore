@@ -43,3 +43,62 @@ env.bak/
 
 # File tam cua PowerPoint
 ~$*
+
+# ============================================================
+# HealthSense research-generated artifacts
+# ============================================================
+
+# Large/generated feature matrices
+data/features/v6/
+data/features/v7/
+data/features/afdb_features_v5_afib_only.csv
+
+# Training library scratch output
+catboost_info/
+
+# Generated logs
+experiments/**/*.log
+
+# Jupyter generated figure directory
+notebooks/figures_v5/
+
+# Large/generated model artifacts
+models/multidomain/*.pkl
+models/multidomain/*.joblib
+
+# Large intermediate feature/prediction matrices from external validation
+experiments/06_external_validation/*_features.csv
+experiments/06_external_validation/*_predictions.csv
+experiments/06_external_validation/*_segment_features.csv
+
+# NumPy generated binary artifacts
+experiments/06_external_validation/*.npy
+
+# Temporary Octave detector IO
+experiments/02_beat_detector/octave_input/
+experiments/02_beat_detector/octave_output/
+
+# V6 generated multidomain artifacts
+experiments/07_v6_multidomain/artifacts/
+
+# V6 locked row-level/generated outputs
+experiments/08_v6_locked_protocol/artifacts/*predictions.csv
+experiments/08_v6_locked_protocol/artifacts/*verified_streams.csv
+experiments/08_v6_locked_protocol/artifacts/dev_global_rule*_grid.csv
+
+# ------------------------------------------------------------
+# Local research workspace / non-canonical outputs
+# ------------------------------------------------------------
+
+# Backup / broken experiment files
+*.bak
+*.broken.py
+
+# Local experiment logs
+experiments/07_v6_multidomain/logs/
+
+# Work-in-progress V7 generated assets
+data/features/v7/
+
+# Local third-party checkout handled separately
+# third_party/

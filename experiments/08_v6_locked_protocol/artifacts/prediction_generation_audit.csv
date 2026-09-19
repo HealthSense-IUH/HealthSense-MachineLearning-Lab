@@ -1,0 +1,7 @@
+key,dataset,split,exists,rows_input,rows_valid,subjects,AF_windows,nonAF_windows,session_key,order_key,temporal_quality
+deepbeat_dev,deepbeat,dev,True,4026,4026,13,509,3517,source,timestamp,verified_candidate
+deepbeat_test,deepbeat,test_reused,True,1363,1363,7,611,752,source,timestamp,verified_candidate
+pulsewatch_dev,pulsewatch,dev,True,17679,17679,16,2320,15359,trial,segment,candidate_requires_audit
+pulsewatch_test,pulsewatch,test_reused,True,30158,30158,16,3472,26686,trial,segment,candidate_requires_audit
+liu_dev,liu,dev,True,997,997,7,53,944,,idx_0,verified_candidate
+liu_test,liu,test_reused,True,920,920,7,440,480,,idx_0,verified_candidate

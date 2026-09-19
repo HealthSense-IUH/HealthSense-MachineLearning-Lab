@@ -1,0 +1,73 @@
+
+==========================================================================================
+current13
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn']
+==========================================================================================
+
+Logistic Regression | 13 features
+
+Random Forest | 13 features
+
+XGBoost | 13 features
+
+==========================================================================================
+no_frequency
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'SD1', 'SD2', 'SampEn']
+==========================================================================================
+
+Logistic Regression | 10 features
+
+Random Forest | 10 features
+
+XGBoost | 10 features
+
+==========================================================================================
+no_sampen
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2']
+==========================================================================================
+
+Logistic Regression | 12 features
+
+Random Forest | 12 features
+
+XGBoost | 12 features
+
+==========================================================================================
+no_frequency_no_sampen
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'SD1', 'SD2']
+==========================================================================================
+
+Logistic Regression | 9 features
+
+Random Forest | 9 features
+
+XGBoost | 9 features
+
+==============================================================================================================
+FEATURE ABLATION
+==============================================================================================================
+           Feature_Set  N_Features               Model   Level  Accuracy  Recall (Sensitivity)  Specificity  F1-Score  ROC-AUC  FN  FP
+             current13          13 Logistic Regression  window    0.9138                0.9661       0.8517    0.9241   0.8756  76 280
+             current13          13 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+             current13          13       Random Forest  window    0.9174                0.9661       0.8596    0.9270   0.9509  76 265
+             current13          13       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9375   0   2
+             current13          13             XGBoost  window    0.9206                0.9679       0.8644    0.9297   0.9576  72 256
+             current13          13             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9342   0   2
+          no_frequency          10 Logistic Regression  window    0.9099                0.9665       0.8427    0.9210   0.8746  75 297
+          no_frequency          10 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+          no_frequency          10       Random Forest  window    0.9155                0.9643       0.8575    0.9253   0.9518  80 269
+          no_frequency          10       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9342   0   2
+          no_frequency          10             XGBoost  window    0.9174                0.9621       0.8644    0.9267   0.9442  85 256
+          no_frequency          10             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9211   0   2
+             no_sampen          12 Logistic Regression  window    0.9150                0.9674       0.8528    0.9251   0.8759  73 278
+             no_sampen          12 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+             no_sampen          12       Random Forest  window    0.9184                0.9683       0.8591    0.9280   0.9480  71 266
+             no_sampen          12       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9375   0   2
+             no_sampen          12             XGBoost  window    0.9160                0.9621       0.8612    0.9256   0.9452  85 262
+             no_sampen          12             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9178   0   2
+no_frequency_no_sampen           9 Logistic Regression  window    0.9111                0.9661       0.8459    0.9219   0.8749  76 291
+no_frequency_no_sampen           9 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+no_frequency_no_sampen           9       Random Forest  window    0.9172                0.9670       0.8581    0.9269   0.9424  74 268
+no_frequency_no_sampen           9       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9342   0   2
+no_frequency_no_sampen           9             XGBoost  window    0.9140                0.9599       0.8596    0.9238   0.9393  90 265
+no_frequency_no_sampen           9             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9178   0   2

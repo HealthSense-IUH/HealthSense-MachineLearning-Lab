@@ -1,0 +1,36 @@
+==========================================================================================
+IQR RETENTION
+==========================================================================================
+        median_retention  min_retention  median_removed
+label                                                  
+AF                0.9282          0.917           160.0
+Non-AF            0.9258          0.922           137.0
+
+Logistic Regression | IQR
+
+Random Forest | IQR
+
+XGBoost | IQR
+
+Logistic Regression | NO-IQR
+
+Random Forest | NO-IQR
+
+XGBoost | NO-IQR
+
+====================================================================================================
+IQR vs NO-IQR
+====================================================================================================
+   IQR               Model   Level  Accuracy  Recall (Sensitivity)  Specificity  F1-Score  ROC-AUC  FN  FP
+   IQR Logistic Regression  window    0.9228                0.9822       0.8522    0.9325   0.8707  40 279
+   IQR Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+   IQR       Random Forest  window    0.9213                0.9746       0.8581    0.9308   0.9398  57 268
+   IQR       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9309   0   2
+   IQR             XGBoost  window    0.9182                0.9630       0.8649    0.9274   0.9129  83 255
+   IQR             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9013   0   2
+NO-IQR Logistic Regression  window    0.9138                0.9661       0.8517    0.9241   0.8756  76 280
+NO-IQR Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+NO-IQR       Random Forest  window    0.9174                0.9661       0.8596    0.9270   0.9509  76 265
+NO-IQR       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9375   0   2
+NO-IQR             XGBoost  window    0.9206                0.9679       0.8644    0.9297   0.9576  72 256
+NO-IQR             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9342   0   2

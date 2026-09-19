@@ -1,0 +1,22 @@
+{
+  "heldout_domain": "LIU",
+  "evaluation_type": "RETROSPECTIVE_LEAVE_ONE_DOMAIN_OUT",
+  "heldout_domain_used_for_training": false,
+  "heldout_domain_used_for_meta_training": false,
+  "group_definition": "domain:subject_id",
+  "n_splits": 5,
+  "train_rows": 133112,
+  "train_groups": 217,
+  "eval_rows": 6280,
+  "eval_subjects": 45,
+  "elapsed_seconds": 153.9296588897705,
+  "AUROC": 0.9797417762940329,
+  "PR_AUC": 0.9598656796981946,
+  "Brier": 0.05002119145386315,
+  "TP": 2645,
+  "TN": 3250,
+  "FP": 318,
+  "FN": 67,
+  "sensitivity_at_0.5": 0.9752949852507374,
+  "specificity_at_0.5": 0.9108744394618834
+}

@@ -1,0 +1,43 @@
+======================================================================
+🔬 HEALTHSENSE ML v4 — LOSO BENCHMARK (chống data leakage)
+   Split : Leave-One-Subject-Out theo record_id
+   Tiền xử lý: IQR x3.0 + StandardScaler (fit train-only)
+   Đặc trưng : 13 (loại nhóm LF (30s không đủ tin cậy))
+======================================================================
+
+📊 4130 cửa sổ | 35 bệnh nhân (19 AFib, 16 Normal)
+
+🏋️ Logistic Regression — LOSO 35 folds (nested GroupKFold(3) tuning)...
+    fold 10/35 xong...
+    fold 20/35 xong...
+    fold 30/35 xong...
+
+🏋️ Random Forest — LOSO 35 folds (nested GroupKFold(3) tuning)...
+    fold 10/35 xong...
+    fold 20/35 xong...
+    fold 30/35 xong...
+
+🏋️ XGBoost — LOSO 35 folds (nested GroupKFold(3) tuning)...
+    fold 10/35 xong...
+    fold 20/35 xong...
+    fold 30/35 xong...
+
+======================================================================
+📋 KẾT QUẢ (không leakage — con số phản ánh bệnh nhân CHƯA TỪNG THẤY)
+======================================================================
+
+📊 MỨC CỬA SỔ 30s:
+              Model  Accuracy  Recall (Sensitivity)  Specificity  F1-Score  ROC-AUC  FN  FP
+Logistic Regression    0.9228                0.9822       0.8522    0.9325   0.8707  40 279
+      Random Forest    0.9213                0.9746       0.8581    0.9308   0.9398  57 268
+            XGBoost    0.9182                0.9630       0.8649    0.9274   0.9129  83 255
+
+📊 MỨC BỆNH NHÂN:
+              Model  Accuracy  Recall (Sensitivity)  Specificity  F1-Score  ROC-AUC  FN  FP
+Logistic Regression    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+      Random Forest    0.9429                1.0000       0.8750    0.9500   0.9309   0   2
+            XGBoost    0.9429                1.0000       0.8750    0.9500   0.9013   0   2
+
+🎨 Tạo biểu đồ...
+
+✅ HOÀN TẤT! Kết quả tại: /media/phuc/New Volume/HeathSense_rungtamnhi/results/benchmark_v4

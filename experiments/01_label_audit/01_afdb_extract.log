@@ -1,0 +1,37 @@
+  Tìm thấy 25 record AFDB trên PhysioNet
+  [ 1/25]    00735: 1197 cửa sổ (8 AFib / 1189 Normal)
+  [ 2/25]    03665: 583 cửa sổ (195 AFib / 388 Normal)
+  [ 3/25]    04015: 1194 cửa sổ (6 AFib / 1188 Normal)
+  [ 4/25]    04043: 1099 cửa sổ (214 AFib / 885 Normal)
+  [ 5/25]    04048: 1162 cửa sổ (7 AFib / 1155 Normal)
+  [ 6/25]    04126: 1190 cửa sổ (42 AFib / 1148 Normal)
+  [ 7/25]    04746: 1194 cửa sổ (649 AFib / 545 Normal)
+  [ 8/25]    04908: 1182 cửa sổ (98 AFib / 1084 Normal)
+  [ 9/25]    04936: 1069 cửa sổ (864 AFib / 205 Normal)
+  [10/25]    05091: 1196 cửa sổ (1 AFib / 1195 Normal)
+  [11/25]    05121: 1167 cửa sổ (761 AFib / 406 Normal)
+  [12/25]    05261: 1189 cửa sổ (11 AFib / 1178 Normal)
+  [13/25]    06426: 1168 cửa sổ (1131 AFib / 37 Normal)
+  [14/25]    06453: 1099 cửa sổ (8 AFib / 1091 Normal)
+  [15/25]    06995: 1193 cửa sổ (547 AFib / 646 Normal)
+  [16/25]    07162: 1200 cửa sổ (1200 AFib / 0 Normal)
+  [17/25]    07859: 1199 cửa sổ (1199 AFib / 0 Normal)
+  [18/25]    07879: 1196 cửa sổ (739 AFib / 457 Normal)
+  [19/25]    07910: 1179 cửa sổ (165 AFib / 1014 Normal)
+  [20/25]    08215: 1196 cửa sổ (960 AFib / 236 Normal)
+  [21/25]    08219: 1150 cửa sổ (239 AFib / 911 Normal)
+  [22/25]    08378: 1141 cửa sổ (254 AFib / 887 Normal)
+  [23/25]    08405: 1197 cửa sổ (857 AFib / 340 Normal)
+  [24/25]    08434: 1195 cửa sổ (45 AFib / 1150 Normal)
+  [25/25]    08455: 1199 cửa sổ (821 AFib / 378 Normal)
+
+Tổng AFDB: 28734 cửa sổ (11021 AFib / 17713 Normal) từ 25 bệnh nhân
+Đã lưu: /media/phuc/New Volume/HeathSense_rungtamnhi/data/features/afdb_features_v5_afib_only.csv
+
+Windows : 28734
+Subjects: 25
+
+status
+0    17713
+1    11021
+Name: count, dtype: int64

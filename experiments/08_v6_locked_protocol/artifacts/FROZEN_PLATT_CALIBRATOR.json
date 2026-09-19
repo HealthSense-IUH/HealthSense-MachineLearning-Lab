@@ -1,0 +1,12 @@
+{
+  "version": "v6_global_platt_calibrator_1",
+  "input": "meta_probability",
+  "formula": "calibrated_probability = sigmoid(intercept + slope * logit(meta_probability))",
+  "intercept": -0.3018931368960221,
+  "slope": 0.9670078956917348,
+  "fit_data": "DEV_ONLY",
+  "fit_weighting": "equal dataset weight, equal subject weight within dataset, equal row weight within subject",
+  "development_oof": "5-fold GroupKFold using dataset:subject_id",
+  "test_used_for_fit": false,
+  "protocol_note": "Calibration is frozen for future external validation. Reused test metrics remain exploratory."
+}

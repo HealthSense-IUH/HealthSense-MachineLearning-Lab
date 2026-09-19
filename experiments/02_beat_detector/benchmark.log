@@ -1,0 +1,67 @@
+[01/35] mimic_perform_af_001
+[02/35] mimic_perform_af_002
+[03/35] mimic_perform_af_003
+[04/35] mimic_perform_af_004
+[05/35] mimic_perform_af_005
+[06/35] mimic_perform_af_006
+[07/35] mimic_perform_af_007
+[08/35] mimic_perform_af_008
+[09/35] mimic_perform_af_009
+[10/35] mimic_perform_af_010
+[11/35] mimic_perform_af_011
+[12/35] mimic_perform_af_012
+[13/35] mimic_perform_af_013
+[14/35] mimic_perform_af_014
+[15/35] mimic_perform_af_015
+[16/35] mimic_perform_af_016
+[17/35] mimic_perform_af_017
+[18/35] mimic_perform_af_018
+[19/35] mimic_perform_af_019
+[20/35] mimic_perform_non_af_001
+[21/35] mimic_perform_non_af_002
+[22/35] mimic_perform_non_af_003
+[23/35] mimic_perform_non_af_004
+[24/35] mimic_perform_non_af_005
+[25/35] mimic_perform_non_af_006
+[26/35] mimic_perform_non_af_007
+[27/35] mimic_perform_non_af_008
+[28/35] mimic_perform_non_af_009
+[29/35] mimic_perform_non_af_010
+[30/35] mimic_perform_non_af_011
+[31/35] mimic_perform_non_af_012
+[32/35] mimic_perform_non_af_013
+[33/35] mimic_perform_non_af_014
+[34/35] mimic_perform_non_af_015
+[35/35] mimic_perform_non_af_016
+
+================================================================================
+SUMMARY
+================================================================================
+          method  label  n_subjects  median_f1  median_sensitivity  median_ppv  median_hr_mae  median_ptt_ms
+   current_scipy     AF          19   0.854839            0.832961    0.884580           4.70          272.0
+   current_scipy Non-AF          16   0.990786            0.989920    0.991022           1.10          620.0
+neurokit_elgendi     AF          19   0.837176            0.802074    0.882294           4.65          264.0
+neurokit_elgendi Non-AF          16   0.992053            0.989622    0.996125           1.00          628.0
+
+================================================================================
+AF vs NON-AF F1 GAP
+================================================================================
+label                   AF    Non-AF       gap
+method                                        
+current_scipy     0.854839  0.990786  0.135947
+neurokit_elgendi  0.837176  0.992053  0.154876
+
+================================================================================
+10 WORST RECORD/METHOD COMBINATIONS
+================================================================================
+               record_id  label           method       f1  sensitivity      ppv  hr_mae_bpm  ptt_ms
+    mimic_perform_af_008     AF neurokit_elgendi 0.100468     0.097932 0.103139        4.65   280.0
+    mimic_perform_af_008     AF    current_scipy 0.106667     0.107056 0.106280        4.70   336.0
+mimic_perform_non_af_014 Non-AF    current_scipy 0.195731     0.225703 0.172785       23.95   432.0
+mimic_perform_non_af_012 Non-AF    current_scipy 0.354997     0.293642 0.448763       29.90   288.0
+mimic_perform_non_af_012 Non-AF neurokit_elgendi 0.373541     0.305202 0.481313       31.65   272.0
+    mimic_perform_af_014     AF    current_scipy 0.439785     0.439411 0.440159        1.25   176.0
+    mimic_perform_af_013     AF neurokit_elgendi 0.472556     0.466220 0.479067        2.90   248.0
+    mimic_perform_af_013     AF    current_scipy 0.482222     0.479113 0.485371        1.55   240.0
+    mimic_perform_af_014     AF neurokit_elgendi 0.500142     0.497169 0.503152        1.55   160.0
+    mimic_perform_af_011     AF neurokit_elgendi 0.565206     0.535697 0.598156       11.85   184.0

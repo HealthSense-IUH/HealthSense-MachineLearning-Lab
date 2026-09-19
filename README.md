@@ -1,268 +1,480 @@
-# HealthSense ML
+# HealthSense Machine Learning Lab
 
-> 📚 **Tài liệu:** mở [`docs/index.html`](docs/index.html) — TOÀN BỘ docs trong 1 file: tổng quan kết quả, sơ đồ kiến trúc hệ thống, sơ đồ pipeline ML (tương tác: guided views, pan/zoom, export), và giải thích thuật ngữ dễ hiểu. Nguyên liệu dựng nên nó (2 spec sơ đồ `.json`) nằm trong `docs/component/`.
+> **HealthSense Machine Learning** là kho nghiên cứu dành cho xử lý tín hiệu sinh lý, trích xuất đặc trưng và phát triển mô hình hỗ trợ **tầm soát rung nhĩ (Atrial Fibrillation, AF)** từ **quang thể tích ký (Photoplethysmography, PPG)**.  
+> Trạng thái nghiên cứu hiện tại: **V6_RESEARCH_FREEZE_2026_09**.
+
+> **Phạm vi lâm sàng:** hệ thống hỗ trợ **sàng lọc và cảnh báo dấu hiệu nghi ngờ rung nhĩ từ PPG**. Kết quả PPG không thay thế xác nhận bằng **điện tâm đồ (Electrocardiography, ECG)** và không phải chẩn đoán y khoa [8].
+
+---
 
 ## Tiếng Việt
 
-**HealthSense ML** là kho chứa mã nguồn dành riêng cho việc phân tích dữ liệu tín hiệu sinh lý (ECG/PPG), trích xuất đặc trưng biến thiên nhịp tim (HRV) và huấn luyện các mô hình Machine Learning phát hiện Rung Nhĩ (AFib) cho dự án HealthSense dựa trên tập dữ liệu y tế chuẩn **MIMIC-III (PERform AFib Dataset)**.
+## 1. Trạng thái nghiên cứu hiện tại
 
-### Chức năng chính
-- Xử lý sóng PPG thô **theo từng bệnh nhân** từ 2 dataset y tế công khai: MIMIC PERform AF (35 bệnh nhân PPG) và MIT-BIH AFDB (23 bệnh nhân ECG, AF kịch phát).
-- Tiền xử lý tín hiệu: lọc Butterworth bandpass 0.5–8 Hz, phát hiện nhịp, trích chuỗi NN.
-- Trích xuất **16 đặc trưng HRV** chuẩn Task Force 1996 (time / frequency / nonlinear) bằng cửa sổ trượt 30s, mỗi hàng gắn `record_id`.
-- Đánh giá **không data leakage**: LOSO theo bệnh nhân + cross-dataset MIMIC ↔ AFDB. Kết quả v4 (mức bệnh nhân): **Recall 100% (0 ca AFib bị bỏ sót), Accuracy 94.3%, ROC-AUC 0.93** — con số phản ánh bệnh nhân chưa từng thấy.
+Quá trình phát triển đã đi từ V4 → V5 → V6. Phiên bản hiện tại được đóng băng ở **V6 Research Freeze** để tránh tiếp tục tối ưu trên các benchmark đã được sử dụng nhiều lần và chuẩn bị cho external validation trên dữ liệu chưa từng tham gia training hoặc tuning.
 
-### Công nghệ
-- **Ngôn ngữ:** Python 3.12+
-- **Xử lý tín hiệu:** SciPy (Butterworth sosfiltfilt, find_peaks, Welch)
-- **Dữ liệu:** Pandas, NumPy, kagglehub (tải MIMIC), wfdb (annotation PhysioNet AFDB)
-- **Machine Learning:** Scikit-learn (Pipeline, LeaveOneGroupOut, GroupKFold), XGBoost
-- **Biểu đồ:** Matplotlib, Seaborn
+### Mô hình nghiên cứu hiện tại
 
-> 🗺️ **Mở `src/` lần đầu?** Đọc [`src/README.md`](src/README.md) — bản đồ 2 phút giải thích 7 thư mục con là gì và cái nào gọi cái nào.
-
-### Cấu trúc dự án (v4)
-- `src/healthsense_ml/`: **Định nghĩa gốc của phép đo HRV** — 3 module, 214 dòng, là bản tham chiếu mà `HealthSense-AI-Service` phải sao chép đúng (có parity test đối chiếu):
-  - `config.py`: Đường dẫn, hằng số tín hiệu, danh sách đặc trưng.
-  - `signal_processing.py`: Lọc Butterworth bandpass 0.5–8 Hz ➔ phát hiện nhịp ➔ chuỗi NN.
-  - `hrv_features.py`: Chuỗi NN ➔ 16 đặc trưng HRV chuẩn Task Force 1996.
-  - Chi tiết và cảnh báo khi sửa: [`src/healthsense_ml/README.md`](src/healthsense_ml/README.md).
-- `data/raw/mimic_perform/`: Dữ liệu thô theo từng bệnh nhân (19 AF + 16 non-AF, PPG 125 Hz).
-- `data/features/`: Bảng đặc trưng HRV có `record_id` (`mimic_features_v4.csv`, `afdb_features_v4.csv`).
-- `models/`: **Chỉ chứa model** — `healthsense_afib_pipeline.pkl` (đang triển khai) + `v1.pkl`…`v4.pkl` (4 đời, hiện vật học tập), mỗi file kèm thẻ `.json`. Xem [`models/README.md`](models/README.md).
-- `results/`: **Chỉ chứa số liệu** — `v1.json`…`v4.json` (bảo tàng phiên bản), `benchmark_v4/`, `cross_dataset/`, `beat_validation/`, `pooled_loso_*.csv`. Xem [`results/README.md`](results/README.md).
-- `docs/`: 2 tài liệu chính đọc trực tiếp — `index.html` (toàn bộ tài liệu trong 1 file: kết quả, 2 sơ đồ tương tác, giải thích thuật ngữ) và `HealthSense_ML_Slides.pptx` (bộ slide giải thích toàn bộ phần ML).
-  - `docs/component/`: nguyên liệu dựng nên `index.html` — 2 spec sơ đồ `.json`.
-
-### 📚 Bảo tàng phiên bản (`src/v1` … `src/v4` + `src/report`)
-Bốn phiên bản pipeline được **tái dựng thành code chạy được**, đặt cạnh nhau trên cùng một bộ dữ liệu và chấm bằng cùng một thước đo — để thấy rõ phần "tiến bộ" nào là thật, phần nào do data leakage tạo ra.
-
-- `src/v1/` … `src/v4/`: mỗi thư mục là một phiên bản, gồm `pipeline.py` (chạy được: `python src/vN/pipeline.py`) và `README.md` dạng "thẻ phiên bản" ghi rõ cấu hình, chỗ đúng, chỗ sai.
-- `src/vlab/`: tiện ích dùng chung — đọc tín hiệu thô theo kênh, cửa sổ trượt tham số hóa, metrics 2 cấp, biểu đồ, và **`honest.py`** (chấm cùng một bảng theo 2 cách: ngẫu nhiên vs LOSO).
-- `src/report/`: **5 notebook tiếng Việt đã chạy sẵn, nhúng đủ kết quả + biểu đồ.** Bắt đầu từ [`00_final_report.ipynb`](src/report/00_final_report.ipynb) — báo cáo tổng hợp gồm 2 phần: kết quả sản phẩm (3 tầng kiểm định) và hành trình 4 phiên bản. Sau đó là `01_v1_report` … `04_v4_report` cho chi tiết từng phiên bản.
-- `results/vN.json`: số liệu từng phiên bản (kèm `original_claim` — con số bản gốc từng công bố, để đối chiếu). `models/vN.pkl`: model tương ứng, kèm thẻ `models/vN.json` ghi **điểm thật**.
-
-Kết quả cốt lõi: điểm **công bố** tăng dần 95.9% → 97.4% → 98.7%, nhưng khi chấm bằng LOSO thì **cả bốn phiên bản đều quanh 92%**. Toàn bộ "tiến bộ" nằm trong cái thước đo hỏng.
-
-> **Lưu ý về khả năng tái tạo:** phần tái dựng 4 phiên bản chạy được độc lập (`python src/vN/pipeline.py`). Nhưng các script dựng nên **mô hình sản phẩm** (`models/healthsense_afib_pipeline.pkl`, cross-dataset, beat validation) đã được gỡ khỏi repo — xem mục "Cài đặt và Sử dụng".
-
-### ⚠️ Vì sao có v4? (Data Leakage trong v1–v3)
-Các phiên bản trước có 2 lỗi phương pháp khiến kết quả 98–99% bị thổi phồng:
-1. **Subject leakage:** đặc trưng không mang `record_id`, dữ liệu được chia random theo cửa sổ — các cửa sổ của cùng một bệnh nhân nằm ở cả train lẫn test, mô hình chỉ cần "nhận mặt" bệnh nhân là đạt điểm cao.
-2. **Preprocessing leakage:** Scaler và ngưỡng lọc outlier IQR được fit trên toàn bộ dữ liệu (gồm cả test) trước khi chia.
-
-v4 sửa tận gốc: **Leave-One-Subject-Out** theo bệnh nhân, tiền xử lý fit train-only trong từng fold, tuning nested (GroupKFold), loại nhóm đặc trưng LF không đủ tin cậy trên cửa sổ 30s, và báo cáo metric ở **mức bệnh nhân** — con số phản ánh đúng khả năng nhận diện bệnh nhân chưa từng thấy.
-
-### Cài đặt và Sử dụng
-1. Tạo môi trường ảo và cài đặt thư viện:
-   ```bash
-   python -m venv venv
-   .\venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
-2. Chạy lại bất kỳ phiên bản nào trong bảo tàng (dữ liệu MIMIC tự tải từ Kaggle nếu chưa có, ~100MB):
-   ```bash
-   python src/v1/pipeline.py
-   python src/v2/pipeline.py
-   python src/v3/pipeline.py
-   python src/v4/pipeline.py
-   ```
-   Mỗi lần chạy ghi ra 3 thứ: `results/vN.json` (số liệu), `models/vN.pkl` (model) và `models/vN.json` (thẻ model). Bảng đặc trưng được cache trong `data/features/museum_*.csv`.
-
-3. Mở bộ báo cáo (đã chạy sẵn, mở là đọc được ngay):
-   ```bash
-   python -m jupyter lab src/report
-   ```
-
-> **Các script dựng mô hình sản phẩm đã được gỡ khỏi repo.** Trước đây `scripts/run_v4_extraction.py` → `run_v4_benchmark.py` → `run_cross_dataset.py` → `run_final_model.py` là chuỗi 4 bước sinh ra `models/healthsense_afib_pipeline.pkl` (mô hình `HealthSense-AI-Service` đang dùng), cùng `run_beat_validation.py` và `build_docs.py`.
->
-> Các file kết quả chúng tạo ra **vẫn còn nguyên** trong `results/` và `docs/`, nhưng hiện **không dựng lại được**. Cần khôi phục thì lấy từ lịch sử git:
-> ```bash
-> git checkout d3123cf -- scripts .github
-> ```
-
-4. Kết quả đã có sẵn trong repo:
-   - `results/benchmark_v4/` — LOSO trên MIMIC: `benchmark_results_v4.csv` (metrics 2 cấp), `loso_predictions.csv`, confusion matrix / ROC / biểu đồ xác suất theo bệnh nhân.
-   - `results/cross_dataset/` — kiểm định chéo MIMIC (PPG) ↔ MIT-BIH AFDB (ECG): train trên dataset này, test trên dataset kia — bằng chứng tổng quát hóa mạnh nhất.
-   - `models/healthsense_afib_pipeline.pkl` — **mô hình triển khai** (kèm scaler, nạp thẳng vào `HealthSense-AI-Service`) + `models/model_card.json`; số liệu pooled LOSO 60 bệnh nhân ở `results/pooled_loso_results.csv`.
-
-### Nguồn Dữ Liệu (Datasets)
-- **MIMIC PERform AF** (Kaggle): [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset) — tự tải bằng `kagglehub`.
-- **MIT-BIH AFDB** (PhysioNet): [physionet.org/content/afdb](https://physionet.org/content/afdb/) — chỉ tải annotation QRS + rhythm bằng `wfdb`.
-
-### Tài liệu tham khảo
-- [1] Task Force of ESC/NASPE, "Heart rate variability: Standards of measurement, physiological interpretation and clinical use," *European Heart Journal*, vol. 17, pp. 354-381, 1996.
-- [2] Schäfer, A. & Vagedes, J., "How accurate is pulse rate variability as an estimate of heart rate variability? A review on studies comparing photoplethysmographic technology with an electrocardiogram," *International Journal of Cardiology*, 2013.
-- [3] Perez, M.V. et al., "Large-Scale Assessment of a Smartwatch to Identify Atrial Fibrillation (Apple Heart Study)," *New England Journal of Medicine*, 2019.
-- [4] Peralta, E. et al., "Assessing the Quality of Heart Rate Variability Estimated from Wrist and Finger PPG," *Sensors*, 2019.
-- Xem danh sách đầy đủ tại file `REFERENCES.md`.
+- **Model:** `HealthSense AF V6C Stacking`
+- **Base models:** Extra Trees, Random Forest, XGBoost
+- **Meta-model:** Logistic Regression
+- **Input:** 14 đặc trưng trích xuất từ PPG
+- **Primary output:** `meta_probability`
+- **Calibration:** Platt scaling chỉ dùng cho phân tích, chưa được đưa vào runtime chính
+- **Temporal alert candidate:** `v6_locked_global_rule_v2`
+- **Current status:** dừng tuning trên các benchmark hiện tại; chờ untouched external validation
 
 ---
 
-## 📊 Dữ liệu & Kết quả chi tiết
+## 2. Bài toán nghiên cứu
 
-### 1. Tổng Quan Tập Dữ Liệu MIMIC PERform AF
+HealthSense tập trung vào phát hiện dấu hiệu nghi ngờ AF từ PPG đeo tay.
 
-- Dữ liệu công khai từ MIMIC-III: **19 bệnh nhân AFib + 16 bệnh nhân Normal**, mỗi người 20 phút PPG @ 125 Hz, lưu **file riêng từng bệnh nhân** tại `data/raw/mimic_perform/{af,non-af}/`.
-- Trích xuất v4: cửa sổ trượt 30s / bước 10s ➔ **4.130 cửa sổ** (2.242 AFib / 1.888 Normal), mỗi hàng mang 16 đặc trưng HRV + **`record_id`** (danh tính bệnh nhân).
-- **Mục tiêu AI:** Sàng lọc Rung Nhĩ (AFib Detection) cho vòng đeo HealthSense.
-- **Link Kaggle:** [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset) (tự tải bằng `kagglehub`, không cần token).
+```text
+PPG waveform
+    ↓
+Signal preprocessing
+    ↓
+Beat detection
+    ↓
+NN interval series
+    ↓
+Heart Rate Variability features
+    ↓
+AF probability
+    ↓
+Temporal persistence rule
+    ↓
+Suspected-AF screening alert
+```
 
----
+Các thuật ngữ chính:
 
-### 2. Kết Quả Benchmark v4 (LOSO — không data leakage)
+- **Heart Rate Variability (HRV):** biến thiên khoảng thời gian giữa các nhịp tim.
+- **NN interval:** khoảng thời gian giữa các nhịp hợp lệ liên tiếp.
+- **Signal Quality Index (SQI):** chỉ số chất lượng tín hiệu.
+- **Premature Atrial Contraction (PAC):** ngoại tâm thu nhĩ.
+- **Premature Ventricular Contraction (PVC):** ngoại tâm thu thất.
 
-Đánh giá bằng **Leave-One-Subject-Out** (35 folds, mỗi fold giữ trọn 1 bệnh nhân làm test), tiền xử lý fit train-only, tuning nested GroupKFold(3), 13 đặc trưng (loại nhóm LF).
-
-**Mức bệnh nhân** (con số báo cáo chính — trung bình xác suất các cửa sổ của mỗi người):
-
-| Model | Accuracy | Recall | Specificity | F1 | ROC-AUC | FN | FP |
-|---|---|---|---|---|---|---|---|
-| Logistic Regression | 94.29% | **100%** | 87.50% | 95.00% | 0.8750 | **0** | 2 |
-| Random Forest | 94.29% | **100%** | 87.50% | 95.00% | **0.9309** | **0** | 2 |
-| XGBoost | 94.29% | **100%** | 87.50% | 95.00% | 0.9013 | **0** | 2 |
-
-- **Không bỏ sót bệnh nhân AFib nào** (FN = 0 trên cả 3 mô hình).
-- 2 ca báo nhầm đều là cùng 2 bệnh nhân Normal (`non_af_012`, `non_af_014`) — nhịp của họ bất thường thật sự ở mức tín hiệu, đáng xem lại thủ công.
-
-**Mức cửa sổ 30s** (từng lần đo đơn lẻ):
-
-| Model | Accuracy | Recall | Specificity | ROC-AUC |
-|---|---|---|---|---|
-| Logistic Regression | 92.28% | 98.22% | 85.22% | 0.8707 |
-| Random Forest | 92.13% | 97.46% | 85.81% | 0.9398 |
-| XGBoost | 91.82% | 96.30% | 86.49% | 0.9129 |
-
-> ⚠️ **Về kết quả 98–99% của v1–v3:** các phiên bản cũ bị subject leakage (chia random theo cửa sổ, không theo bệnh nhân) và preprocessing leakage (scaler/IQR fit trên cả test) nên con số bị thổi phồng. Kết quả v4 thấp hơn nhưng **thật** — phản ánh khả năng nhận diện bệnh nhân chưa từng thấy. Chi tiết: README mục "Vì sao có v4?".
-
-Kết quả đầy đủ: `results/benchmark_v4/` (metrics CSV, dự đoán từng cửa sổ, confusion matrix, ROC, biểu đồ xác suất theo bệnh nhân).
+PAC và PVC là nhóm **hard negative** quan trọng vì có thể tạo kiểu nhịp bất thường gây nhầm với AF [5].
 
 ---
 
-### 3. Kết Quả Cross-Dataset (MIMIC ↔ MIT-BIH AFDB)
+## 3. Hành trình V4 → V5 → V6
 
-Bài kiểm tra tổng quát hóa khắc nghiệt nhất: train trên dataset này, test **toàn bộ** dataset kia — khác bệnh viện, khác loại cảm biến (PPG kẹp ngón vs ECG), khác quần thể. AFDB: 25 bệnh nhân, 28.903 cửa sổ (11.190 AFib / 17.713 Normal), nhiều ca AF kịch phát.
+### V4 — sửa data leakage và xây baseline theo bệnh nhân
 
-| Hướng | Model tốt nhất | Accuracy | Recall | Specificity | ROC-AUC |
-|---|---|---|---|---|---|
-| Train MIMIC (PPG) → Test AFDB (ECG) | XGBoost | 94.56% | 96.99% | 93.03% | **0.9870** |
-| Train AFDB (ECG) → Test MIMIC (PPG) | Random Forest | 91.86% | 97.37% | 85.33% | **0.9757** |
+V4 sửa hai lỗi chính của các phiên bản đầu:
 
-**Ý nghĩa:** mô hình giữ được AUC ~0.98 khi nhảy sang dataset hoàn toàn lạ theo cả 2 chiều — bằng chứng mạnh rằng nó học được **dấu hiệu sinh lý của Rung Nhĩ** (nhịp bất thường trong chuỗi NN) chứ không học thuộc đặc điểm bệnh nhân hay thiết bị. Kết quả đầy đủ: `results/cross_dataset/cross_dataset_results.csv`.
+1. **Subject leakage:** các cửa sổ của cùng một bệnh nhân từng xuất hiện ở cả train và test.
+2. **Preprocessing leakage:** scaler hoặc outlier filtering từng được fit trước khi chia dữ liệu.
 
----
+V4 chuyển sang đánh giá theo bệnh nhân bằng **Leave-One-Subject-Out (LOSO)** và chỉ fit preprocessing trên training fold.
 
-### 4. Mô Hình Triển Khai Cuối Cùng (Pooled — 60 bệnh nhân)
+Dataset chính là **Medical Information Mart for Intensive Care (MIMIC) PERform AF** [1]:
 
-Gộp MIMIC (35) + AFDB (25) với **cân bằng nguồn bằng sample weight** (mỗi dataset đóng góp tổng trọng số bằng nhau, tránh AFDB 29k cửa sổ đè MIMIC 4k). Đánh giá bằng pooled LOSO 60 folds:
+- 35 đối tượng
+- 19 AF
+- 16 non-AF
+- 4.130 cửa sổ PPG
+- cửa sổ 30 giây, bước trượt 10 giây
 
-| Model | Accuracy (pooled) | Recall | Specificity | ROC-AUC |
-|---|---|---|---|---|
-| **XGBoost** 🏆 | **95.89%** | 97.16% | 95.01% | **0.9883** |
-| Random Forest | 95.25% | 96.55% | 94.36% | 0.9876 |
-| Logistic Regression | 94.78% | 97.33% | 93.04% | 0.9700 |
-
-- Mức bệnh nhân trên nhánh MIMIC: **Recall vẫn 100%** (0 bệnh nhân AFib bị bỏ sót).
-- **File triển khai:** `models/healthsense_afib_pipeline.pkl` (XGBoost + StandardScaler đóng gói chung, nạp bằng `joblib.load`) + `models/model_card.json` (đặc tả input/output, 13 đặc trưng, giới hạn sử dụng).
-- Input: cửa sổ 30s ➔ chuỗi NN ➔ 13 đặc trưng HRV (thứ tự trong model card). Output: `predict_proba[:, 1]` = P(AFib).
-- ⚠️ Giới hạn: chưa kiểm định trên PPG cổ tay MAX30102 và dữ liệu ngoài bệnh viện; không phải thiết bị chẩn đoán y tế.
+V4 là baseline phương pháp luận, không còn là model nghiên cứu hiện tại.
 
 ---
 
-### 5. Kiểm Chứng Dò Nhịp PPG Bằng ECG Đồng Bộ
+### V5 — frozen single-domain model và external validation
 
-Dùng R-peak trên cột ECG (ghi song song trong MIMIC PERform) làm đáp án chuẩn chấm điểm bộ dò nhịp PPG (khớp từng nhịp ±150 ms sau khi bù PTT):
+V5 đóng băng một Random Forest sử dụng 14 đặc trưng, trong đó bổ sung đặc trưng tự tương quan PPG (`PPG_AC`).
 
-| Nhóm | F1 dò nhịp (median) | HR MAE (median) |
+Model:
+
+```text
+models/mimic/healthsense_af_v5_rf_ac_frozen.pkl
+```
+
+Feature contract:
+
+```text
+HR_mean
+Mean_NN
+SDNN
+RMSSD
+NN50
+pNN50
+CV
+HF
+Total_Power
+HF_norm
+SD1
+SD2
+SampEn
+PPG_AC
+```
+
+V5 được đánh giá trên nhiều nguồn dữ liệu:
+
+- DeepBeat [2]
+- PulseWatch [3]
+- Liu 2022 [4]
+- targeted PAC/PVC challenge [5]
+
+Kết quả cho thấy AF so với nhịp xoang tương đối dễ hơn, trong khi PAC/PVC là hard-negative quan trọng. Đây là một trong các động lực chính để chuyển sang huấn luyện multidomain ở V6.
+
+Notebook:
+
+[HealthSense V5 Visual Review](notebooks/HealthSense_V5_Visual_Review.ipynb)
+
+---
+
+### V6 — multidomain, hard-negative aware và stacking
+
+V6 mở rộng training sang nhiều domain và đưa hard negatives vào quá trình phát triển.
+
+Các model từng được benchmark:
+
+- Random Forest
+- Extra Trees
+- XGBoost
+- LightGBM
+- CatBoost
+- Histogram Gradient Boosting
+
+V6C giữ ba base learner:
+
+```text
+Extra Trees
+Random Forest
+XGBoost
+    ↓
+Logistic Regression meta-model
+    ↓
+meta_probability
+```
+
+### Reused subject-held-out benchmark
+
+Các test split dưới đây tách theo subject nhưng đã được inspect nhiều lần trong quá trình nghiên cứu. Vì vậy chúng được gọi là **reused subject-held-out benchmark**, không phải pristine external validation.
+
+| Dataset | Area Under Receiver Operating Characteristic Curve (AUROC) | Area Under Precision-Recall Curve (PR-AUC) | Brier score |
+|---|---:|---:|---:|
+| DeepBeat | 0.9904 | 0.9890 | 0.0583 |
+| PulseWatch | 0.9985 | 0.9890 | 0.0095 |
+| Liu | 0.9866 | 0.9780 | 0.0322 |
+
+Notebook:
+
+[HealthSense V6 Research Freeze Visual Review](notebooks/HealthSense_V6_Research_Freeze_Visual_Review.ipynb)
+
+---
+
+## 4. Locked scientific validation protocol
+
+Sau các thử nghiệm temporal V6D–V6H, phần đánh giá cuối được reset sang protocol khóa tại:
+
+```text
+experiments/08_v6_locked_protocol/
+```
+
+Protocol gồm 18 bước, bao phủ:
+
+- generation of locked predictions
+- subject split và temporal-order audit
+- verified stream construction
+- development-only temporal rule selection
+- test evaluation
+- calibration diagnostics
+- subject-level confidence intervals
+- **Leave-One-Domain-Out (LODO)** domain-generalization analysis
+- `PPG_AC` ablation
+- PAC/PVC hard-negative challenge
+- DeepBeat failure-mode analysis
+- final research freeze
+
+### Global Rule V2
+
+Global Rule V2 gồm hai nhánh:
+
+- **Base rule:** probability ≥ 0.80, model disagreement ≤ 0.05, ít nhất 5 cửa sổ liên tiếp
+- **Rescue rule:** probability ≥ 0.90, model disagreement ≤ 0.05, ít nhất 2 cửa sổ liên tiếp
+
+`ensemble_std` là độ lệch chuẩn giữa probability của các base model và chỉ được hiểu là **model disagreement**, không phải calibrated uncertainty.
+
+Global Rule V2 hiện là exploratory candidate cho untouched external validation.
+
+---
+
+## 5. Leave-One-Domain-Out domain-generalization analysis
+
+**Leave-One-Domain-Out (LODO)** giữ toàn bộ một dataset làm held-out domain và train trên các domain còn lại.
+
+| Held-out domain | AUROC | PR-AUC | Brier score |
+|---|---:|---:|---:|
+| DeepBeat | 0.8384 | 0.8289 | 0.1898 |
+| PulseWatch | 0.9877 | 0.9417 | 0.0560 |
+| Liu | 0.9797 | 0.9599 | 0.0500 |
+| MIMIC PERform | 0.9856 | 0.9867 | 0.0530 |
+
+DeepBeat cho thấy domain shift rõ rệt và là failure mode quan trọng cần theo dõi.
+
+LODO trong repo là **retrospective domain-generalization analysis**, không phải pristine external validation.
+
+---
+
+## 6. PPG_AC, calibration và hard negatives
+
+### PPG_AC ablation
+
+Matched development ablation:
+
+| Variant | Macro AUROC | Macro PR-AUC | Macro Brier |
+|---|---:|---:|---:|
+| 13 features, không `PPG_AC` | 0.9154 | 0.6175 | 0.0729 |
+| 14 features, có `PPG_AC` | 0.9263 | 0.6693 | 0.0607 |
+
+Kết quả tổng thể hỗ trợ giữ `PPG_AC`, nhưng không đồng nghĩa đặc trưng này giải quyết toàn bộ domain shift.
+
+### Calibration
+
+Platt calibration được đánh giá bằng development-only grouped cross-validation nhưng không cải thiện nhất quán trên mọi domain.
+
+Vì vậy:
+
+- `meta_probability` thô vẫn là probability chính
+- Platt scaling chỉ dùng cho analysis
+- runtime không tự động áp dụng calibration
+
+### PAC/PVC challenge
+
+PAC/PVC được theo dõi riêng vì đây là nguồn false positive quan trọng ở cấp cửa sổ. Các nghiên cứu smartwatch PPG trước đây cũng chỉ ra rằng PAC/PVC có thể làm giảm độ đặc hiệu của AF screening nếu không được xử lý riêng [5].
+
+---
+
+## 7. Datasets
+
+### Dataset đã dùng trong quá trình phát triển
+
+| Dataset | Vai trò trong HealthSense | Tín hiệu / nhãn chính | Link truy cập |
+|---|---|---|---|
+| **MIMIC PERform AF** [1] | V4 baseline, V5/V6 reference domain | PPG + ECG; AF / non-AF | [Dataset documentation](https://ppg-beats.readthedocs.io/en/latest/datasets/mimic_perform_af/) · [Zenodo](https://zenodo.org/records/6973963) |
+| **DeepBeat** [2] | V5 external evaluation, V6 multidomain | wearable PPG; AF + signal quality | [Dataset: Synapse `syn21985690`](https://www.synapse.org/Synapse:syn21985690) · [Code](https://github.com/AshleyLab/deepbeat) |
+| **PulseWatch** [3] | V5/V6 external and hard-negative evaluation | smartwatch PPG + reference ECG; AF, normal sinus rhythm, PAC/PVC | [Dataset: Synapse `syn23565056`](https://www.synapse.org/Synapse:syn23565056) |
+| **Liu 2022** [4] | V5/V6 multiclass external evaluation | PPG; sinus rhythm, PVC, PAC, ventricular tachycardia, supraventricular tachycardia, AF | [Dataset + code](https://github.com/zdzdliu/PPGArrhythmiaDetection) |
+| **Selected MIMIC-III / PAC-PVC challenge data** [5] | targeted PAC/PVC hard-negative challenge | fingertip PPG; AF, PAC/PVC, normal sinus rhythm | [UConn resource / Synapse access](https://biosignal.uconn.edu/resources/) |
+
+### Dataset dành cho untouched external validation
+
+| Dataset | Trạng thái trong HealthSense | Link |
 |---|---|---|
-| Normal (16 người) | **0.991** | 1.1 bpm |
-| AFib (19 người) | 0.855 | 4.7 bpm |
+| **MIMIC-III-Ext-PPG v1.1.0** [6] | Chưa dùng cho training, tuning hoặc current benchmark | [PhysioNet](https://physionet.org/content/mimic-iii-ext-ppg/1.1.0/) · [Official code/documentation](https://github.com/AI4HealthUOL/MIMIC-III-Ext-PPG_dataset) |
+| **TriggersAF** [7] | Chưa dùng; dự kiến làm external validation khi có quyền truy cập phù hợp | [Project page](https://biomedicine.ktu.edu/projects/wearable-technology-for-personalized-identification-and-management-of-paroxysmal-atrial-fibrillation-triggers-triggersaf/) |
 
-- Dò nhịp trên người nhịp thường gần như hoàn hảo; nhóm AFib khó hơn (biên độ mạch thay đổi từng nhịp). Lưu ý: với AFib, PTT dao động theo nhịp nên phép khớp ±150 ms **đánh giá thấp** chất lượng thật — HR MAE nhỏ cho thấy số nhịp đếm được vẫn đúng.
-- **Thẩm định 2 ca "Normal" nghi nhãn sai bằng chính ECG** (không qua PPG):
-  - `non_af_012`: RMSSD(ECG) = 233 ms, pNN50 = 41% — **nhịp loạn thật sự ngay trên ECG**, còn loạn hơn median nhóm AFib (170 ms). Nhãn "Normal" của record này đáng nghi ngờ; mô hình báo AFib là có cơ sở sinh lý.
-  - `non_af_014`: RMSSD(ECG) = 31 ms, pNN50 = 2% — **tim hoàn toàn bình thường trên ECG**, nhưng PPG của record này chất lượng rất kém (F1 dò nhịp 0.196, HR MAE 24 bpm). Mô hình báo AFib vì chuỗi NN rác do tín hiệu xấu → đây là false positive do **chất lượng tín hiệu**, không phải do mô hình sai logic.
-- **Bài học triển khai:** cần thêm **Signal Quality Index (SQI)** — cửa sổ nào dò nhịp không đạt chất lượng thì từ chối phân loại thay vì đoán bừa. Đây là nâng cấp quan trọng nhất trước khi chạy trên MAX30102.
+> **MIMIC-III-Ext-PPG** là credentialed-access dataset trên PhysioNet. Quyền truy cập yêu cầu credentialing, Data Use Agreement và khóa đào tạo nghiên cứu dữ liệu người theo yêu cầu của PhysioNet [6].
 
-**So kết quả đo PPG vs ECG cùng thời điểm** (1.400 cửa sổ 30s, toàn MIMIC; file `results/beat_validation/ppg_vs_ecg_windows.csv`):
+---
 
-| Chỉ số | PPG vs ECG | Nhận xét |
+## 8. Cấu trúc repository
+
+```text
+HealthSense-MachineLearning-Lab/
+├── src/
+│   ├── healthsense_ml/           # Signal processing và HRV feature extraction
+│   ├── v1/ ... v4/              # Historical pipeline museum
+│   └── report/                   # Historical notebooks
+│
+├── experiments/
+│   ├── 00_baseline_reproduction/
+│   ├── 01_label_audit/
+│   ├── 02_beat_detector/
+│   ├── 03_sqi/
+│   ├── 04_feature_model/
+│   ├── 05_calibration_alert/
+│   ├── 06_external_validation/   # V5 external validation
+│   ├── 07_v6_multidomain/       # V6 model development
+│   └── 08_v6_locked_protocol/    # Locked validation protocol
+│
+├── notebooks/
+│   ├── HealthSense_V5_Visual_Review.ipynb
+│   └── HealthSense_V6_Research_Freeze_Visual_Review.ipynb
+│
+├── models/
+│   ├── mimic/
+│   └── multidomain/
+│
+├── results/
+├── docs/
+└── data/
+```
+
+---
+
+## 9. Cài đặt và chạy
+
+### Môi trường nghiên cứu hiện tại
+
+```bash
+cd HealthSense-MachineLearning-Lab
+conda activate healthsense-af-v5
+jupyter lab
+```
+
+Hoặc tạo môi trường mới:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Windows:
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Mở notebook:
+
+```bash
+jupyter lab notebooks/
+```
+
+Một số bước như LODO, ablation và bootstrap có thể tốn thời gian. Không nên tuning tiếp trên các benchmark hiện tại nếu mục tiêu là giữ tính độc lập cho bước validation tiếp theo.
+
+---
+
+## 10. Giới hạn nghiên cứu
+
+- PPG screening không thay thế ECG confirmation [8].
+- Các reused subject-held-out benchmarks đã được inspect nhiều lần.
+- LODO là retrospective analysis.
+- DeepBeat cho thấy domain shift đáng kể.
+- PAC/PVC vẫn là hard-negative quan trọng.
+- Temporal rule cần validation trên dataset hoàn toàn chưa dùng.
+- Signal Quality Index chưa phải end-to-end gate cuối cùng của production pipeline.
+- V6C hiện phù hợp research/server-side runtime hơn edge deployment.
+- Chưa có clinical validation trên wearable HealthSense thực tế.
+
+---
+
+## 11. Hướng tiếp theo
+
+1. Giữ nguyên V6 freeze, không tuning tiếp trên benchmark hiện tại.
+2. Untouched external validation trên MIMIC-III-Ext-PPG khi được cấp quyền.
+3. Untouched external validation trên TriggersAF khi có quyền truy cập phù hợp.
+4. Đánh giá Signal Quality Index end-to-end.
+5. Chuẩn hóa temporal stride và session semantics.
+6. Báo cáo subject-level sensitivity, specificity và false alerts per hour.
+7. Nếu phát triển V7, sử dụng dữ liệu hoặc hypothesis mới và yêu cầu một untouched validation set mới.
+
+---
+
+# English
+
+## Current research status
+
+HealthSense Machine Learning develops **Photoplethysmography (PPG)-based screening for suspected Atrial Fibrillation (AF)**.
+
+Current frozen research candidate:
+
+**V6_RESEARCH_FREEZE_2026_09**
+
+Current model:
+
+**HealthSense AF V6C Stacking**
+
+```text
+Extra Trees
+Random Forest
+XGBoost
+    ↓
+Logistic Regression meta-model
+    ↓
+raw meta_probability
+```
+
+The model uses 14 PPG-derived features, including `PPG_AC`.
+
+The existing subject-held-out test datasets have been repeatedly inspected and are therefore reported as **reused subject-held-out benchmarks**, not pristine external validation.
+
+**Leave-One-Domain-Out (LODO)** evaluation is treated as retrospective domain-generalization analysis.
+
+Future untouched external validation is reserved for:
+
+- MIMIC-III-Ext-PPG
+- TriggersAF
+
+The system is intended for suspected-AF screening and early warning. It does not replace **Electrocardiography (ECG)-based confirmation** [8].
+
+## Main results
+
+### V6C reused subject-held-out benchmark
+
+| Dataset | Area Under Receiver Operating Characteristic Curve (AUROC) | Area Under Precision-Recall Curve (PR-AUC) | Brier score |
+|---|---:|---:|---:|
+| DeepBeat | 0.9904 | 0.9890 | 0.0583 |
+| PulseWatch | 0.9985 | 0.9890 | 0.0095 |
+| Liu | 0.9866 | 0.9780 | 0.0322 |
+
+### Retrospective Leave-One-Domain-Out analysis
+
+| Held-out domain | AUROC | PR-AUC | Brier score |
+|---|---:|---:|---:|
+| DeepBeat | 0.8384 | 0.8289 | 0.1898 |
+| PulseWatch | 0.9877 | 0.9417 | 0.0560 |
+| Liu | 0.9797 | 0.9599 | 0.0500 |
+| MIMIC PERform | 0.9856 | 0.9867 | 0.0530 |
+
+DeepBeat exposes a substantial domain shift and remains an important failure mode.
+
+## Dataset access
+
+| Dataset | Use in this repository | Access |
 |---|---|---|
-| Nhịp tim (HR) | MAE 3.5–4 bpm, r = 0.91–0.94; 82% cửa sổ nhóm Normal lệch ≤3 bpm | HR đo bằng PPG tin cậy được |
-| RMSSD | MAE ~50 ms, r = 0.69–0.74 | PPG "phóng đại" độ biến thiên so với ECG — hiện tượng PRV ≠ HRV kinh điển (Schäfer & Vagedes 2013, tài liệu [2]); mô hình không bị ảnh hưởng vì học trực tiếp trên đặc trưng PPG |
+| MIMIC PERform AF [1] | baseline and reference domain | [Documentation](https://ppg-beats.readthedocs.io/en/latest/datasets/mimic_perform_af/) |
+| DeepBeat [2] | external and multidomain evaluation | [Synapse `syn21985690`](https://www.synapse.org/Synapse:syn21985690) |
+| PulseWatch [3] | smartwatch PPG and hard-negative evaluation | [Synapse `syn23565056`](https://www.synapse.org/Synapse:syn23565056) |
+| Liu 2022 [4] | multiclass arrhythmia external evaluation | [GitHub dataset](https://github.com/zdzdliu/PPGArrhythmiaDetection) |
+| Selected MIMIC-III PAC/PVC data [5] | targeted hard-negative challenge | [UConn resources](https://biosignal.uconn.edu/resources/) |
+| MIMIC-III-Ext-PPG v1.1.0 [6] | future untouched external validation | [PhysioNet](https://physionet.org/content/mimic-iii-ext-ppg/1.1.0/) |
+| TriggersAF [7] | future untouched external validation | [Project page](https://biomedicine.ktu.edu/projects/wearable-technology-for-personalized-identification-and-management-of-paroxysmal-atrial-fibrillation-triggers-triggersaf/) |
 
-Kết quả từng bệnh nhân: `results/beat_validation/beat_validation.csv`.
+## Reproducibility
+
+Core research code:
+
+```text
+experiments/06_external_validation/
+experiments/07_v6_multidomain/
+experiments/08_v6_locked_protocol/
+```
+
+Large generated feature matrices, row-level predictions and V6 model binaries are intentionally not stored in normal Git history.
+
+Main notebooks:
+
+- [V5 Visual Review](notebooks/HealthSense_V5_Visual_Review.ipynb)
+- [V6 Research Freeze Visual Review](notebooks/HealthSense_V6_Research_Freeze_Visual_Review.ipynb)
 
 ---
 
-### 6. Cấu Trúc Code
+## References
 
-- **Package `src/healthsense_ml/`**: config, data_loading, signal_processing, hrv_features, feature_extraction, training, evaluation, afdb.
-- **Bảo tàng phiên bản**: `src/v1` … `src/v4` (mỗi phiên bản một `pipeline.py`) + `src/vlab` (tiện ích dùng chung) + `src/report` (5 notebook báo cáo).
-- **Tài liệu**: `docs/index.html` — toàn bộ trong 1 file (kết quả, sơ đồ kiến trúc hệ thống, sơ đồ pipeline, giải thích thuật ngữ).
-- **Bảo tàng phiên bản (v1–v4)**: `src/v1` … `src/v4` (mỗi phiên bản một `pipeline.py` chạy được) + `src/vlab` (tiện ích dùng chung) + `src/report` (5 notebook báo cáo). Notebook thí nghiệm gốc của v1–v3 đã được gỡ khỏi repo — xem lịch sử git nếu cần đối chiếu.
+1. **Charlton PH, et al.** Detecting beats in the photoplethysmogram: benchmarking open-source algorithms. *Physiological Measurement*. 2022. DOI: [10.1088/1361-6579/ac826d](https://doi.org/10.1088/1361-6579/ac826d). Dataset: [MIMIC PERform AF](https://ppg-beats.readthedocs.io/en/latest/datasets/mimic_perform_af/).
 
----
+2. **Torres-Soto J, Ashley EA.** Multi-task deep learning for cardiac rhythm detection in wearable devices. *npj Digital Medicine*. 2020;3:116. DOI: [10.1038/s41746-020-00320-4](https://doi.org/10.1038/s41746-020-00320-4). Dataset/code: [DeepBeat](https://github.com/AshleyLab/deepbeat), Synapse `syn21985690`.
 
-## English
+3. **Han D, Moon J, Mercado Díaz LR, et al.** Multiclass Arrhythmia Classification Using Multimodal Smartwatch Photoplethysmography Signals Collected in Real-Life Settings. *IEEE Transactions on Biomedical Engineering*. 2026;73(4):1679-1693. DOI: [10.1109/TBME.2025.3613471](https://doi.org/10.1109/TBME.2025.3613471). Dataset: [PulseWatch, Synapse `syn23565056`](https://www.synapse.org/Synapse:syn23565056).
 
-**HealthSense ML** is the dedicated repository for physiological signal processing (ECG/PPG), Heart Rate Variability (HRV) feature extraction, and Machine Learning model training for Atrial Fibrillation (AFib) detection in the HealthSense project, centered around the **MIMIC-III (PERform AFib Dataset)**.
+4. **Liu Z, Zhou B, Jiang Z, et al.** Multiclass Arrhythmia Detection and Classification From Photoplethysmography Signals Using a Deep Convolutional Neural Network. *Journal of the American Heart Association*. 2022;11(7):e023555. DOI: [10.1161/JAHA.121.023555](https://doi.org/10.1161/JAHA.121.023555). Dataset/code: [PPGArrhythmiaDetection](https://github.com/zdzdliu/PPGArrhythmiaDetection).
 
-### Key Features
-- Processes raw PPG **per patient** from 2 public clinical datasets: MIMIC PERform AF (35 PPG patients) and MIT-BIH AFDB (23 ECG patients, paroxysmal AF).
-- Signal preprocessing: Butterworth bandpass 0.5–8 Hz, beat detection, NN-interval extraction.
-- Extracts **16 Task Force 1996 HRV features** (time / frequency / nonlinear) via 30s sliding windows, every row tagged with `record_id`.
-- **Leakage-free** evaluation: patient-wise LOSO + MIMIC ↔ AFDB cross-dataset validation. v4 results (subject level): **Recall 100% (zero missed AFib patients), Accuracy 94.3%, ROC-AUC 0.93** on unseen patients.
+5. **Han D, Bashar SK, Mohagheghian F, et al.** Premature Atrial and Ventricular Contraction Detection Using Photoplethysmographic Data from a Smartwatch. *Sensors*. 2020;20(19):5683. DOI: [10.3390/s20195683](https://doi.org/10.3390/s20195683). Related UConn/Synapse resources: [Biosignal Processing and Wearable Device Lab](https://biosignal.uconn.edu/resources/).
 
-### Tech Stack
-- **Language:** Python 3.12+
-- **Signal Processing & Scaling:** SciPy, Scikit-learn
-- **Data Analysis:** Pandas, NumPy, Matplotlib, Seaborn
-- **Machine Learning:** Scikit-learn, XGBoost, LightGBM, Neural Networks (MLP)
-- **Experimentation Environment:** Jupyter Notebook
+6. **Moulaeifard M, Charlton PH, Strodthoff N.** MIMIC-III-Ext-PPG: A PPG Benchmark Dataset for Cardiorespiratory Analysis, version 1.1.0. *PhysioNet*. 2026. DOI: [10.13026/r6k1-xt76](https://doi.org/10.13026/r6k1-xt76). Dataset: [PhysioNet](https://physionet.org/content/mimic-iii-ext-ppg/1.1.0/). See also: Moulaeifard M, Kutscher M, Aston PJ, et al. *Scientific Data*. 2026;13:668. DOI: [10.1038/s41597-026-07335-8](https://doi.org/10.1038/s41597-026-07335-8).
 
-### Project Structure (v4)
-- `src/healthsense_ml/`: **Core Python package** — all pipeline logic lives here:
-  - `config.py`: Paths, signal constants, feature lists, training parameters.
-  - `data_loading.py`: Loads MIMIC PERform **per patient** (`record_id`), auto-downloads from Kaggle.
-  - `signal_processing.py`: Butterworth bandpass 0.5–8 Hz, beat detection, NN-interval extraction.
-  - `hrv_features.py`: 16 Task Force 1996 HRV features (time / frequency / nonlinear).
-  - `feature_extraction.py`: 30s/10s sliding window ➔ feature table **with `record_id`**.
-  - `training.py`: Leakage-free LOSO benchmark (see below).
-  - `evaluation.py`: Two-level metrics (window & subject) + plots.
-  - `afdb.py`: Second dataset (MIT-BIH AFDB) — NN series from QRS annotations, no raw waveform download needed.
-- `data/raw/mimic_perform/`: Per-patient raw data (19 AF + 16 non-AF, 125 Hz PPG).
-- `data/features/`: HRV feature tables with `record_id` (`mimic_features_v4.csv`, `afdb_features_v4.csv`).
-- `models/`: **models only** — the deployed `healthsense_afib_pipeline.pkl` plus `v1.pkl`…`v4.pkl`, each with a `.json` card.
-- `results/`: **numbers only** — `v1.json`…`v4.json`, `benchmark_v4/`, `cross_dataset/`, `beat_validation/`.
-- `docs/`: `index.html` and `HealthSense_ML_Slides.pptx` — read directly; `docs/component/` holds the 2 `.json` diagram specs they were built from.
-- `src/v1` … `src/v4`, `src/vlab`, `src/report`: **version museum** — all four pipeline generations rebuilt as runnable code, scored side by side on the same data with the same metric. Start at [`src/report/00_final_report.ipynb`](src/report/00_final_report.ipynb).
-- **Removed from the repo** (recoverable via `git checkout d3123cf -- scripts .github`): the original v1–v3 experiment notebooks, the production build scripts (`scripts/run_*.py`, which produced `models/healthsense_afib_pipeline.pkl`), and the CI release workflow. Their outputs remain in `results/` and `docs/` but can no longer be regenerated.
+7. **TriggersAF project.** Wearable technology for personalized identification and management of paroxysmal atrial fibrillation triggers. Kaunas University of Technology / Vilnius University. Project page: [TriggersAF](https://biomedicine.ktu.edu/projects/wearable-technology-for-personalized-identification-and-management-of-paroxysmal-atrial-fibrillation-triggers-triggersaf/). Related clinical publication: Bacevičius J, et al. *EP Europace*. 2025;27(Suppl 1). DOI: [10.1093/europace/euaf085.262](https://doi.org/10.1093/europace/euaf085.262).
 
-### ⚠️ Why v4? (Data Leakage in v1–v3)
-Earlier versions had two methodological flaws that inflated the reported 98–99% results:
-1. **Subject leakage:** features carried no `record_id` and windows were split randomly — windows from the same patient appeared in both train and test.
-2. **Preprocessing leakage:** scalers and IQR outlier thresholds were fit on the full dataset (including test) before splitting.
+8. **Van Gelder IC, Rienstra M, Bunting KV, et al.** 2024 European Society of Cardiology Guidelines for the management of atrial fibrillation developed in collaboration with the European Association for Cardio-Thoracic Surgery. *European Heart Journal*. 2024;45(36):3314-3414. DOI: [10.1093/eurheartj/ehae176](https://doi.org/10.1093/eurheartj/ehae176).
 
-v4 fixes both at the root: **Leave-One-Subject-Out** splitting by patient, train-only preprocessing inside each fold, nested hyperparameter tuning (GroupKFold), removal of LF features (unreliable on 30s windows), and **subject-level** reporting — numbers that reflect performance on unseen patients.
-
-### Installation and Usage
-1. Create a virtual environment and install dependencies:
-   ```bash
-   python -m venv venv
-   .\venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
-2. Re-run any museum version (MIMIC data auto-downloads from Kaggle if missing, ~100MB):
-   ```bash
-   python src/v1/pipeline.py
-   python src/v4/pipeline.py
-   ```
-3. Open the pre-executed reports:
-   ```bash
-   python -m jupyter lab src/report
-   ```
-3. Outputs land in `results/benchmark_v4/`.
-
-### Kaggle Datasets
-- **MIMIC PERform AF Dataset:** [raditya0/mimic-perform-iii-af-and-non-af-dataset](https://www.kaggle.com/datasets/raditya0/mimic-perform-iii-af-and-non-af-dataset)
+For additional background references, see [`REFERENCES.md`](REFERENCES.md).

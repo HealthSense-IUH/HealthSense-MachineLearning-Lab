@@ -1,0 +1,44 @@
+{
+  "model_name": "HealthSense AF V6C Stacking",
+  "freeze_version": "V6_RESEARCH_FREEZE_2026_09",
+  "artifact": "healthsense_af_v6c_stacking.pkl",
+  "artifact_in_git": false,
+  "sha256": "e27370c51c8bbaf624abcbdabae40af5528d28bb2bd9e9249d1d5bf9cbb9b77c",
+  "architecture": {
+    "base_models": [
+      "ExtraTrees",
+      "RandomForest",
+      "XGBoost"
+    ],
+    "meta_model": "StandardScaler + LogisticRegression"
+  },
+  "features": [
+    "HR_mean",
+    "Mean_NN",
+    "SDNN",
+    "RMSSD",
+    "NN50",
+    "pNN50",
+    "CV",
+    "HF",
+    "Total_Power",
+    "HF_norm",
+    "SD1",
+    "SD2",
+    "SampEn",
+    "PPG_AC"
+  ],
+  "primary_probability": "raw meta_probability",
+  "calibration": "Platt calibrator retained for analysis only; not promoted",
+  "temporal_rule": "v6_locked_global_rule_v2",
+  "temporal_rule_status": "exploratory candidate for sealed validation",
+  "evaluation_status": {
+    "current_test_sets": "reused subject-held-out benchmark",
+    "lodo": "retrospective leave-one-domain-out domain-generalization analysis",
+    "future_external_validation": [
+      "MIMIC-III-Ext-PPG",
+      "TriggersAF"
+    ]
+  },
+  "clinical_scope": "PPG-based suspected-AF screening; not diagnostic confirmation"
+}

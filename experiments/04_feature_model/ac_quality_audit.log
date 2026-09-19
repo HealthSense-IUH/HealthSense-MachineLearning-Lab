@@ -1,0 +1,67 @@
+==========================================================================================
+AC vs BEAT QUALITY
+==========================================================================================
+Non-AF: rho=0.5554 p=3.056e-153
+AF    : rho=0.2924 p=1.954e-45
+
+==========================================================================================
+AC BY QUALITY STRATUM
+==========================================================================================
+                      windows  median_ac  median_beat_f1
+quality_group status                                    
+poor          0           248    0.07472         0.26087
+              1           581    0.05276         0.50000
+medium        0            40    0.14226         0.86842
+              1           750    0.05297         0.80972
+good          0          1600    0.22371         0.97778
+              1           911    0.06013         0.97087
+
+==========================================================================================
+AF AUC USING PPG_AC ONLY
+==========================================================================================
+ALL    | windows=4130 | AUC=0.9405
+poor   | windows= 829 | AUC=0.6600
+medium | windows= 790 | AUC=0.9454
+good   | windows=2511 | AUC=0.9838
+
+==========================================================================================
+SUBJECT-LEVEL PPG_AC ONLY
+==========================================================================================
+Subject AUC: 0.9408
+
+               record_id  status  median_ac  median_f1
+    mimic_perform_af_004       1     0.0444     0.7592
+mimic_perform_non_af_012       0     0.0476     0.3448
+    mimic_perform_af_013       1     0.0492     0.4842
+    mimic_perform_af_009       1     0.0493     0.8384
+    mimic_perform_af_018       1     0.0495     0.7156
+    mimic_perform_af_019       1     0.0504     0.9479
+    mimic_perform_af_017       1     0.0506     0.9800
+    mimic_perform_af_011       1     0.0533     0.6019
+    mimic_perform_af_010       1     0.0548     0.9630
+    mimic_perform_af_003       1     0.0549     0.9855
+    mimic_perform_af_014       1     0.0550     0.4222
+    mimic_perform_af_006       1     0.0550     0.9048
+    mimic_perform_af_012       1     0.0560     0.7761
+    mimic_perform_af_016       1     0.0576     0.8807
+    mimic_perform_af_015       1     0.0618     0.8889
+    mimic_perform_af_008       1     0.0663     0.0876
+    mimic_perform_af_001       1     0.0717     0.8222
+    mimic_perform_af_002       1     0.0746     0.9722
+    mimic_perform_af_007       1     0.0781     0.9737
+    mimic_perform_af_005       1     0.1012     0.9677
+mimic_perform_non_af_014       0     0.1163     0.1885
+mimic_perform_non_af_008       0     0.1222     0.9767
+mimic_perform_non_af_011       0     0.1222     0.9767
+mimic_perform_non_af_007       0     0.1329     0.9589
+mimic_perform_non_af_010       0     0.2037     0.9737
+mimic_perform_non_af_002       0     0.2112     0.9796
+mimic_perform_non_af_004       0     0.2163     0.9919
+mimic_perform_non_af_015       0     0.2205     0.9706
+mimic_perform_non_af_001       0     0.2256     0.9831
+mimic_perform_non_af_009       0     0.2308     0.9831
+mimic_perform_non_af_013       0     0.2309     1.0000
+mimic_perform_non_af_006       0     0.2455     0.9773
+mimic_perform_non_af_003       0     0.2531     0.9792
+mimic_perform_non_af_005       0     0.2566     1.0000
+mimic_perform_non_af_016       0     0.2584     0.9767

@@ -1,0 +1,73 @@
+{
+  "project": "HealthSense AF PPG Screening",
+  "freeze_version": "V6_RESEARCH_FREEZE_2026_09",
+  "primary_model": "models/multidomain/healthsense_af_v6c_stacking.pkl",
+  "feature_schema": {
+    "n_features": 14,
+    "features": [
+      "HR_mean",
+      "Mean_NN",
+      "SDNN",
+      "RMSSD",
+      "NN50",
+      "pNN50",
+      "CV",
+      "HF",
+      "Total_Power",
+      "HF_norm",
+      "SD1",
+      "SD2",
+      "SampEn",
+      "PPG_AC"
+    ],
+    "PPG_AC": "RETAIN"
+  },
+  "probability_output": {
+    "primary": "raw meta_probability",
+    "platt_calibration": "ANALYSIS_ONLY_NOT_PROMOTED",
+    "reason": "Platt calibration did not improve development performance consistently across domains."
+  },
+  "subject_alert_rule": {
+    "candidate": {
+      "version": "v6_locked_global_rule_v2",
+      "decision": "(base persistent episode) OR (high-confidence short episode)",
+      "base": {
+        "probability_threshold": 0.8,
+        "uncertainty_threshold": 0.05,
+        "min_consecutive": 5
+      },
+      "rescue": {
+        "probability_threshold": 0.9,
+        "uncertainty_threshold": 0.05,
+        "min_consecutive": 2
+      },
+      "stream_policy": "consecutive windows must belong to the same verified stream; gaps reset persistence",
+      "selection_data": "DEV_ONLY",
+      "test_used_numerically_for_selection": false,
+      "important_protocol_note": "The reused test sets had already been inspected before V2 rule design. Therefore V2 remains exploratory and requires confirmation on a future untouched external dataset.",
+      "constraints": {
+        "macro_sensitivity_min": 0.85,
+        "per_dataset_sensitivity_min": 0.75
+      },
+      "development_metrics": {
+        "macro_sensitivity": 0.8611111111111112,
+        "macro_specificity": 0.8962962962962964,
+        "macro_balanced_accuracy": 0.8787037037037037,
+        "min_dataset_sensitivity": 0.75,
+        "min_dataset_specificity": 0.8
+      }
+    },
+    "status": "EXPLORATORY_CANDIDATE_FOR_SEALED_VALIDATION",
+    "reason": "The test datasets had already been inspected before V2 rule design."
+  },
+  "external_validation": {
+    "MIMIC_III_Ext_PPG": "PENDING_ACCESS_NOT_USED",
+    "TriggersAF": "PENDING_ACCESS_NOT_USED"
+  },
+  "evaluation_policy": {
+    "current_subject_tests": "REUSED_SUBJECT_HELD_OUT_BENCHMARK",
+    "LODO": "RETROSPECTIVE_DOMAIN_GENERALIZATION",
+    "future_external": "SEALED_CONFIRMATORY_VALIDATION"
+  },
+  "development_status": "STOP MODEL TUNING ON CURRENT BENCHMARKS"
+}

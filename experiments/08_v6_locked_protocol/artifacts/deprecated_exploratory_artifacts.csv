@@ -1,0 +1,5 @@
+artifact,status,reason
+v6h_selected_operating_points.csv,DEPRECATED_FOR_CONFIRMATORY_REPORTING,Per-dataset operating points were selected after test inspection.
+v6_final_thesis_table.csv,DEPRECATED_FOR_CONFIRMATORY_REPORTING,Contains test-tuned V6H subject-level operating points.
+v6_temporal_comparison_final.csv,HISTORICAL_EXPLORATORY,Includes V6F pooled configuration-union evaluation and pre-audit temporal logic.
+v6_generalization_summary.csv,HISTORICAL_PROVENANCE_WARNING,Earlier summary may contain obsolete MIMIC-III-Ext-PPG naming. The actual source used was MIMIC PERform AF.

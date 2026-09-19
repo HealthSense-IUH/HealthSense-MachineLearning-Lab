@@ -1,0 +1,75 @@
+
+==========================================================================================
+baseline13
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn']
+==========================================================================================
+Logistic Regression | 13 features
+Random Forest | 13 features
+XGBoost | 13 features
+
+==========================================================================================
+plus_cosen
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn', 'COSEn']
+==========================================================================================
+Logistic Regression | 14 features
+Random Forest | 14 features
+XGBoost | 14 features
+
+==========================================================================================
+plus_ac
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn', 'PPG_AC']
+==========================================================================================
+Logistic Regression | 14 features
+Random Forest | 14 features
+XGBoost | 14 features
+
+==========================================================================================
+plus_cosen_ac
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn', 'COSEn', 'PPG_AC']
+==========================================================================================
+Logistic Regression | 15 features
+Random Forest | 15 features
+XGBoost | 15 features
+
+==========================================================================================
+robust_plus_cosen_ac
+['HR_mean', 'Mean_NN', 'SDNN', 'RMSSD', 'NN50', 'pNN50', 'CV', 'HF', 'Total_Power', 'HF_norm', 'SD1', 'SD2', 'SampEn', 'MAD_NN', 'nRMSSD', 'SD1_SD2_ratio', 'COSEn', 'PPG_AC']
+==========================================================================================
+Logistic Regression | 18 features
+Random Forest | 18 features
+XGBoost | 18 features
+
+==============================================================================================================
+COSEN AC ABLATION
+==============================================================================================================
+         Feature_Set  N_Features               Model   Level  Accuracy  Recall (Sensitivity)  Specificity  F1-Score  ROC-AUC  FN  FP
+          baseline13          13 Logistic Regression  window    0.9138                0.9661       0.8517    0.9241   0.8756  76 280
+          baseline13          13 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+          baseline13          13       Random Forest  window    0.9174                0.9661       0.8596    0.9270   0.9509  76 265
+          baseline13          13       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9375   0   2
+          baseline13          13             XGBoost  window    0.9206                0.9679       0.8644    0.9297   0.9576  72 256
+          baseline13          13             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9342   0   2
+          plus_cosen          14 Logistic Regression  window    0.9157                0.9639       0.8586    0.9255   0.8755  81 267
+          plus_cosen          14 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.8750   0   2
+          plus_cosen          14       Random Forest  window    0.9242                0.9764       0.8623    0.9333   0.9540  53 260
+          plus_cosen          14       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9342   0   2
+          plus_cosen          14             XGBoost  window    0.9220                0.9719       0.8628    0.9312   0.9493  63 259
+          plus_cosen          14             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9013   0   2
+             plus_ac          14 Logistic Regression  window    0.9140                0.9612       0.8581    0.9239   0.9137  87 268
+             plus_ac          14 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.9211   0   2
+             plus_ac          14       Random Forest  window    0.9232                0.9759       0.8607    0.9325   0.9799  54 263
+             plus_ac          14       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9836   0   2
+             plus_ac          14             XGBoost  window    0.9208                0.9679       0.8649    0.9299   0.9753  72 255
+             plus_ac          14             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9638   0   2
+       plus_cosen_ac          15 Logistic Regression  window    0.9111                0.9585       0.8549    0.9213   0.9154  93 274
+       plus_cosen_ac          15 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.9243   0   2
+       plus_cosen_ac          15       Random Forest  window    0.9262                0.9777       0.8649    0.9350   0.9756  50 255
+       plus_cosen_ac          15       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9671   0   2
+       plus_cosen_ac          15             XGBoost  window    0.9223                0.9719       0.8633    0.9314   0.9824  63 258
+       plus_cosen_ac          15             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9539   0   2
+robust_plus_cosen_ac          18 Logistic Regression  window    0.9179                0.9674       0.8591    0.9275   0.9320  73 266
+robust_plus_cosen_ac          18 Logistic Regression subject    0.9429                1.0000       0.8750    0.9500   0.9441   0   2
+robust_plus_cosen_ac          18       Random Forest  window    0.9264                0.9786       0.8644    0.9352   0.9719  48 256
+robust_plus_cosen_ac          18       Random Forest subject    0.9429                1.0000       0.8750    0.9500   0.9605   0   2
+robust_plus_cosen_ac          18             XGBoost  window    0.9232                0.9719       0.8655    0.9322   0.9826  63 254
+robust_plus_cosen_ac          18             XGBoost subject    0.9429                1.0000       0.8750    0.9500   0.9539   0   2

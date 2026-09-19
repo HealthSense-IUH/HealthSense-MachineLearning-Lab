@@ -1,0 +1,44 @@
+============================================================
+🔬 HEALTHSENSE ML v4 — TRÍCH XUẤT ĐẶC TRƯNG (record-aware)
+   Cửa sổ: 30s | Bước: 10s | Tối thiểu 10 nhịp/cửa sổ
+============================================================
+  [ 1/35] mimic_perform_af_001 (AFib): 118 cửa sổ
+  [ 2/35] mimic_perform_af_002 (AFib): 118 cửa sổ
+  [ 3/35] mimic_perform_af_003 (AFib): 118 cửa sổ
+  [ 4/35] mimic_perform_af_004 (AFib): 118 cửa sổ
+  [ 5/35] mimic_perform_af_005 (AFib): 118 cửa sổ
+  [ 6/35] mimic_perform_af_006 (AFib): 118 cửa sổ
+  [ 7/35] mimic_perform_af_007 (AFib): 118 cửa sổ
+  [ 8/35] mimic_perform_af_008 (AFib): 118 cửa sổ
+  [ 9/35] mimic_perform_af_009 (AFib): 118 cửa sổ
+  [10/35] mimic_perform_af_010 (AFib): 118 cửa sổ
+  [11/35] mimic_perform_af_011 (AFib): 118 cửa sổ
+  [12/35] mimic_perform_af_012 (AFib): 118 cửa sổ
+  [13/35] mimic_perform_af_013 (AFib): 118 cửa sổ
+  [14/35] mimic_perform_af_014 (AFib): 118 cửa sổ
+  [15/35] mimic_perform_af_015 (AFib): 118 cửa sổ
+  [16/35] mimic_perform_af_016 (AFib): 118 cửa sổ
+  [17/35] mimic_perform_af_017 (AFib): 118 cửa sổ
+  [18/35] mimic_perform_af_018 (AFib): 118 cửa sổ
+  [19/35] mimic_perform_af_019 (AFib): 118 cửa sổ
+  [20/35] mimic_perform_non_af_001 (Normal): 118 cửa sổ
+  [21/35] mimic_perform_non_af_002 (Normal): 118 cửa sổ
+  [22/35] mimic_perform_non_af_003 (Normal): 118 cửa sổ
+  [23/35] mimic_perform_non_af_004 (Normal): 118 cửa sổ
+  [24/35] mimic_perform_non_af_005 (Normal): 118 cửa sổ
+  [25/35] mimic_perform_non_af_006 (Normal): 118 cửa sổ
+  [26/35] mimic_perform_non_af_007 (Normal): 118 cửa sổ
+  [27/35] mimic_perform_non_af_008 (Normal): 118 cửa sổ
+  [28/35] mimic_perform_non_af_009 (Normal): 118 cửa sổ
+  [29/35] mimic_perform_non_af_010 (Normal): 118 cửa sổ
+  [30/35] mimic_perform_non_af_011 (Normal): 118 cửa sổ
+  [31/35] mimic_perform_non_af_012 (Normal): 118 cửa sổ
+  [32/35] mimic_perform_non_af_013 (Normal): 118 cửa sổ
+  [33/35] mimic_perform_non_af_014 (Normal): 118 cửa sổ
+  [34/35] mimic_perform_non_af_015 (Normal): 118 cửa sổ
+  [35/35] mimic_perform_non_af_016 (Normal): 118 cửa sổ
+
+Tổng: 4130 cửa sổ (2242 AFib / 1888 Normal) từ 35 bệnh nhân
+Đã lưu: /media/phuc/New Volume/HeathSense_rungtamnhi/data/features/mimic_features_v4.csv
+
+✅ Hoàn tất! Bước tiếp theo: python scripts/run_v4_benchmark.py

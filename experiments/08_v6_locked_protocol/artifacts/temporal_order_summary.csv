@@ -1,0 +1,7 @@
+dataset,parser,parse_coverage,sessions,monotonic_sessions,duplicate_orders,median_gap
+deepbeat_dev,datetime,1.0,83,20,0,0.025000000139698386
+pulsewatch_dev,trailing_number,1.0,16,2,17482,1.0
+liu_dev,numeric,1.0,7,7,0,3.0
+deepbeat_test,datetime,1.0,43,31,0,0.025000000139698386
+pulsewatch_test,trailing_number,1.0,16,0,29942,1.0
+liu_test,numeric,1.0,7,7,0,3.0

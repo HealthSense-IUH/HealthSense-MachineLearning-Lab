@@ -1,0 +1,98 @@
+[01/35] mimic_perform_af_001
+[02/35] mimic_perform_af_002
+[03/35] mimic_perform_af_003
+[04/35] mimic_perform_af_004
+[05/35] mimic_perform_af_005
+[06/35] mimic_perform_af_006
+[07/35] mimic_perform_af_007
+[08/35] mimic_perform_af_008
+[09/35] mimic_perform_af_009
+[10/35] mimic_perform_af_010
+[11/35] mimic_perform_af_011
+[12/35] mimic_perform_af_012
+[13/35] mimic_perform_af_013
+[14/35] mimic_perform_af_014
+[15/35] mimic_perform_af_015
+[16/35] mimic_perform_af_016
+[17/35] mimic_perform_af_017
+[18/35] mimic_perform_af_018
+[19/35] mimic_perform_af_019
+[20/35] mimic_perform_non_af_001
+[21/35] mimic_perform_non_af_002
+[22/35] mimic_perform_non_af_003
+[23/35] mimic_perform_non_af_004
+[24/35] mimic_perform_non_af_005
+[25/35] mimic_perform_non_af_006
+[26/35] mimic_perform_non_af_007
+[27/35] mimic_perform_non_af_008
+[28/35] mimic_perform_non_af_009
+[29/35] mimic_perform_non_af_010
+[30/35] mimic_perform_non_af_011
+[31/35] mimic_perform_non_af_012
+[32/35] mimic_perform_non_af_013
+[33/35] mimic_perform_non_af_014
+[34/35] mimic_perform_non_af_015
+[35/35] mimic_perform_non_af_016
+
+==========================================================================================
+WINDOW QUALITY
+==========================================================================================
+
+AF
+windows       : 2242
+median F1     : 0.8605
+F1 >= 0.70: 74.086% coverage
+F1 >= 0.80: 59.322% coverage
+F1 >= 0.90: 40.633% coverage
+F1 >= 0.95: 30.999% coverage
+
+Non-AF
+windows       : 1888
+median F1     : 0.9767
+F1 >= 0.70: 86.864% coverage
+F1 >= 0.80: 86.388% coverage
+F1 >= 0.90: 84.746% coverage
+F1 >= 0.95: 78.549% coverage
+
+==========================================================================================
+ALL
+==========================================================================================
+threshold=0.70 | coverage=79.927% | kept=3301/4130
+threshold=0.80 | coverage=71.695% | kept=2961/4130
+threshold=0.90 | coverage=60.799% | kept=2511/4130
+threshold=0.95 | coverage=52.736% | kept=2178/4130
+
+==========================================================================================
+WORST WINDOWS
+==========================================================================================
+               record_id  label  t_start  beat_f1  sensitivity      ppv  n_ecg  n_ppg  invalid_ppi_fraction
+    mimic_perform_af_008     AF    750.0 0.022989     0.023256 0.022727     43     44                   0.0
+    mimic_perform_af_008     AF      0.0 0.023256     0.023810 0.022727     42     44                   0.0
+    mimic_perform_af_008     AF    220.0 0.023529     0.023810 0.023256     42     43                   0.0
+    mimic_perform_af_008     AF    930.0 0.023810     0.023810 0.023810     42     42                   0.0
+    mimic_perform_af_008     AF   1030.0 0.023810     0.023810 0.023810     42     42                   0.0
+    mimic_perform_af_008     AF   1050.0 0.023810     0.023810 0.023810     42     42                   0.0
+mimic_perform_non_af_014 Non-AF    160.0 0.023810     0.025641 0.022222     39     45                   0.0
+    mimic_perform_af_008     AF     10.0 0.024096     0.024390 0.023810     41     42                   0.0
+    mimic_perform_af_008     AF    140.0 0.024390     0.024390 0.024390     41     41                   0.0
+    mimic_perform_af_008     AF    290.0 0.024390     0.024390 0.024390     41     41                   0.0
+    mimic_perform_af_008     AF    330.0 0.024390     0.024390 0.024390     41     41                   0.0
+    mimic_perform_af_008     AF    320.0 0.024390     0.024390 0.024390     41     41                   0.0
+    mimic_perform_af_008     AF   1040.0 0.024390     0.024390 0.024390     41     41                   0.0
+    mimic_perform_af_008     AF    730.0 0.024691     0.023810 0.025641     42     39                   0.0
+    mimic_perform_af_008     AF   1010.0 0.025000     0.023810 0.026316     42     38                   0.0
+    mimic_perform_af_008     AF    530.0 0.025316     0.025000 0.025641     40     39                   0.0
+    mimic_perform_af_008     AF    260.0 0.025974     0.025000 0.027027     40     37                   0.0
+    mimic_perform_af_008     AF    760.0 0.045455     0.046512 0.044444     43     45                   0.0
+mimic_perform_non_af_014 Non-AF    150.0 0.047059     0.051282 0.043478     39     46                   0.0
+    mimic_perform_af_008     AF    200.0 0.047059     0.047619 0.046512     42     43                   0.0
+    mimic_perform_af_008     AF    860.0 0.047619     0.047619 0.047619     42     42                   0.0
+    mimic_perform_af_008     AF    210.0 0.047619     0.047619 0.047619     42     42                   0.0
+mimic_perform_non_af_014 Non-AF    180.0 0.048193     0.051282 0.045455     39     44                   0.0
+    mimic_perform_af_008     AF    630.0 0.048193     0.048780 0.047619     41     42                   0.0
+    mimic_perform_af_008     AF    920.0 0.048193     0.048780 0.047619     41     42                   0.0
+mimic_perform_non_af_014 Non-AF    170.0 0.048193     0.051282 0.045455     39     44                   0.0
+    mimic_perform_af_008     AF    910.0 0.048780     0.048780 0.048780     41     41                   0.0
+    mimic_perform_af_008     AF    280.0 0.049383     0.048780 0.050000     41     40                   0.0
+    mimic_perform_af_008     AF   1150.0 0.050000     0.047619 0.052632     42     38                   0.0
+    mimic_perform_af_008     AF   1140.0 0.051948     0.048780 0.055556     41     36                   0.0

@@ -1,0 +1,64 @@
+[01/35] mimic_perform_af_001
+[02/35] mimic_perform_af_002
+[03/35] mimic_perform_af_003
+[04/35] mimic_perform_af_004
+[05/35] mimic_perform_af_005
+[06/35] mimic_perform_af_006
+[07/35] mimic_perform_af_007
+[08/35] mimic_perform_af_008
+[09/35] mimic_perform_af_009
+[10/35] mimic_perform_af_010
+[11/35] mimic_perform_af_011
+[12/35] mimic_perform_af_012
+[13/35] mimic_perform_af_013
+[14/35] mimic_perform_af_014
+[15/35] mimic_perform_af_015
+[16/35] mimic_perform_af_016
+[17/35] mimic_perform_af_017
+[18/35] mimic_perform_af_018
+[19/35] mimic_perform_af_019
+[20/35] mimic_perform_non_af_001
+[21/35] mimic_perform_non_af_002
+[22/35] mimic_perform_non_af_003
+[23/35] mimic_perform_non_af_004
+[24/35] mimic_perform_non_af_005
+[25/35] mimic_perform_non_af_006
+[26/35] mimic_perform_non_af_007
+[27/35] mimic_perform_non_af_008
+[28/35] mimic_perform_non_af_009
+[29/35] mimic_perform_non_af_010
+[30/35] mimic_perform_non_af_011
+[31/35] mimic_perform_non_af_012
+[32/35] mimic_perform_non_af_013
+[33/35] mimic_perform_non_af_014
+[34/35] mimic_perform_non_af_015
+[35/35] mimic_perform_non_af_016
+
+          method  label  n  global_f1  local_f1  local_sensitivity  local_ppv  lag_iqr_ms  f1_delta
+   current_scipy     AF 19   0.854839  0.805775           0.790732   0.808197        13.0 -0.049064
+   current_scipy Non-AF 16   0.990786  0.989400           0.986834   0.987940         8.0 -0.001386
+neurokit_elgendi     AF 19   0.837176  0.801052           0.777308   0.811154        14.0 -0.036124
+neurokit_elgendi Non-AF 16   0.992053  0.988270           0.982157   0.994384         7.0 -0.003782
+
+Largest improvements:
+               record_id  label           method  global_f1  local_f1    delta  global_lag_ms  local_lag_ms   lag_iqr_ms
+mimic_perform_non_af_014 Non-AF    current_scipy   0.195731  0.410868 0.215137          432.0         512.0 1.940000e+02
+    mimic_perform_af_014     AF neurokit_elgendi   0.500142  0.640843 0.140701          160.0         164.0 1.460000e+02
+    mimic_perform_af_014     AF    current_scipy   0.439785  0.535562 0.095778          176.0         264.0 2.780000e+02
+    mimic_perform_af_008     AF neurokit_elgendi   0.100468  0.152262 0.051794          280.0         292.0 1.380000e+02
+mimic_perform_non_af_012 Non-AF    current_scipy   0.354997  0.374563 0.019567          288.0         284.0 4.900000e+01
+    mimic_perform_af_008     AF    current_scipy   0.106667  0.123636 0.016970          336.0         340.0 7.000000e+01
+mimic_perform_non_af_012 Non-AF neurokit_elgendi   0.373541  0.387690 0.014149          272.0         276.0 5.400000e+01
+    mimic_perform_af_016     AF neurokit_elgendi   0.837176  0.845647 0.008471          112.0         116.0 1.600000e+01
+mimic_perform_non_af_006 Non-AF neurokit_elgendi   0.966757  0.973842 0.007084           40.0          36.0 1.660000e+02
+    mimic_perform_af_016     AF    current_scipy   0.854839  0.861751 0.006912          112.0         116.0 1.400000e+01
+mimic_perform_non_af_006 Non-AF    current_scipy   0.964616  0.970060 0.005444           40.0          36.0 1.660000e+02
+    mimic_perform_af_009     AF neurokit_elgendi   0.791145  0.796064 0.004919          200.0         196.0 1.000000e+01
+    mimic_perform_af_009     AF    current_scipy   0.832367  0.836660 0.004293          200.0         196.0 1.000000e+01
+    mimic_perform_af_012     AF    current_scipy   0.778984  0.782930 0.003947          160.0         164.0 1.100000e+01
+    mimic_perform_af_018     AF    current_scipy   0.717489  0.720321 0.002832          176.0         172.0 1.000000e+01
+    mimic_perform_af_004     AF    current_scipy   0.764003  0.764827 0.000824          272.0         272.0 2.000000e+00
+mimic_perform_non_af_004 Non-AF    current_scipy   0.989322  0.989733 0.000411          128.0         132.0 8.000000e+00
+mimic_perform_non_af_005 Non-AF    current_scipy   1.000000  1.000000 0.000000           56.0          60.0 1.000000e+01
+    mimic_perform_af_006     AF    current_scipy   0.890584  0.890584 0.000000          216.0         216.0 6.000000e+00
+mimic_perform_non_af_013 Non-AF neurokit_elgendi   0.995074  0.995074 0.000000           24.0          24.0 2.842171e-11

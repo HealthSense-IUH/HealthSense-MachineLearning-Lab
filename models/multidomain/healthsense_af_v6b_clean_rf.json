@@ -1,0 +1,22 @@
+{
+  "model": "V6-B-clean",
+  "features": [
+    "HR_mean",
+    "Mean_NN",
+    "SDNN",
+    "RMSSD",
+    "NN50",
+    "pNN50",
+    "CV",
+    "HF",
+    "Total_Power",
+    "HF_norm",
+    "SD1",
+    "SD2",
+    "SampEn",
+    "PPG_AC"
+  ],
+  "training_rows": 137476,
+  "subjects": 245,
+  "sha256": "b90aae80d999fc1a4fb5594bc24ff66c5f5e639314ecbf0314df1ed4ebcb1560"
+}

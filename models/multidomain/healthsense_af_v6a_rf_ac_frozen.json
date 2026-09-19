@@ -1,0 +1,38 @@
+{
+  "model_name": "HealthSense AF V6-A",
+  "purpose": "Controlled multidomain retraining using the frozen V5 feature schema and RF architecture.",
+  "features": [
+    "HR_mean",
+    "Mean_NN",
+    "SDNN",
+    "RMSSD",
+    "NN50",
+    "pNN50",
+    "CV",
+    "HF",
+    "Total_Power",
+    "HF_norm",
+    "SD1",
+    "SD2",
+    "SampEn",
+    "PPG_AC"
+  ],
+  "training_domains": {
+    "MIMIC_PERFORM": {
+      "windows": 4130,
+      "subjects": 35
+    },
+    "DEEPBEAT": {
+      "windows": 19841,
+      "subjects": 108
+    }
+  },
+  "weight_policy": "Equal domain -> equal class within domain -> equal subject within domain/class -> equal window within subject.",
+  "estimator": {
+    "type": "RandomForestClassifier",
+    "max_depth": 10,
+    "random_state": 42,
+    "n_estimators": 100
+  },
+  "model_sha256": "05c48f151209f61d82aafa532ee747b83cfcf7e16fed46987deb1ffc968b433f"
+}

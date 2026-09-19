@@ -1,0 +1,65 @@
+[01/35] mimic_perform_af_001
+[02/35] mimic_perform_af_002
+[03/35] mimic_perform_af_003
+[04/35] mimic_perform_af_004
+[05/35] mimic_perform_af_005
+[06/35] mimic_perform_af_006
+[07/35] mimic_perform_af_007
+[08/35] mimic_perform_af_008
+[09/35] mimic_perform_af_009
+[10/35] mimic_perform_af_010
+[11/35] mimic_perform_af_011
+[12/35] mimic_perform_af_012
+[13/35] mimic_perform_af_013
+[14/35] mimic_perform_af_014
+[15/35] mimic_perform_af_015
+[16/35] mimic_perform_af_016
+[17/35] mimic_perform_af_017
+[18/35] mimic_perform_af_018
+[19/35] mimic_perform_af_019
+[20/35] mimic_perform_non_af_001
+[21/35] mimic_perform_non_af_002
+[22/35] mimic_perform_non_af_003
+[23/35] mimic_perform_non_af_004
+[24/35] mimic_perform_non_af_005
+[25/35] mimic_perform_non_af_006
+[26/35] mimic_perform_non_af_007
+[27/35] mimic_perform_non_af_008
+[28/35] mimic_perform_non_af_009
+[29/35] mimic_perform_non_af_010
+[30/35] mimic_perform_non_af_011
+[31/35] mimic_perform_non_af_012
+[32/35] mimic_perform_non_af_013
+[33/35] mimic_perform_non_af_014
+[34/35] mimic_perform_non_af_015
+[35/35] mimic_perform_non_af_016
+
+==========================================================================================
+SQI LOSO
+==========================================================================================
+ROC-AUC: 0.8112
+
+SQI threshold = 0.30
+Overall coverage: 0.9048
+AF     coverage=0.905 accepted median F1=0.868 bad leakage=0.245
+Non-AF coverage=0.904 accepted median F1=0.977 bad leakage=0.043
+
+SQI threshold = 0.40
+Overall coverage: 0.847
+AF     coverage=0.822 accepted median F1=0.867 bad leakage=0.251
+Non-AF coverage=0.877 accepted median F1=0.977 bad leakage=0.016
+
+SQI threshold = 0.50
+Overall coverage: 0.7823
+AF     coverage=0.717 accepted median F1=0.871 bad leakage=0.239
+Non-AF coverage=0.860 accepted median F1=0.978 bad leakage=0.006
+
+SQI threshold = 0.60
+Overall coverage: 0.7133
+AF     coverage=0.609 accepted median F1=0.879 bad leakage=0.232
+Non-AF coverage=0.837 accepted median F1=0.978 bad leakage=0.004
+
+SQI threshold = 0.70
+Overall coverage: 0.645
+AF     coverage=0.520 accepted median F1=0.889 bad leakage=0.235
+Non-AF coverage=0.793 accepted median F1=0.979 bad leakage=0.002

@@ -1,0 +1,177 @@
+
+==========================================================================================
+[01/35] OUTER TEST: mimic_perform_af_001
+Selected: threshold=0.75 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[02/35] OUTER TEST: mimic_perform_af_002
+Selected: threshold=0.70 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[03/35] OUTER TEST: mimic_perform_af_003
+Selected: threshold=0.80 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[04/35] OUTER TEST: mimic_perform_af_004
+Selected: threshold=0.80 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[05/35] OUTER TEST: mimic_perform_af_005
+Selected: threshold=0.80 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[06/35] OUTER TEST: mimic_perform_af_006
+Selected: threshold=0.85 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[07/35] OUTER TEST: mimic_perform_af_007
+Selected: threshold=0.90 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.875
+
+==========================================================================================
+[08/35] OUTER TEST: mimic_perform_af_008
+Selected: threshold=0.65 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[09/35] OUTER TEST: mimic_perform_af_009
+Selected: threshold=0.85 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[10/35] OUTER TEST: mimic_perform_af_010
+Selected: threshold=0.85 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[11/35] OUTER TEST: mimic_perform_af_011
+Selected: threshold=0.90 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.875
+
+==========================================================================================
+[12/35] OUTER TEST: mimic_perform_af_012
+Selected: threshold=0.85 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[13/35] OUTER TEST: mimic_perform_af_013
+Selected: threshold=0.85 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[14/35] OUTER TEST: mimic_perform_af_014
+Selected: threshold=0.85 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[15/35] OUTER TEST: mimic_perform_af_015
+Selected: threshold=0.90 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.875
+
+==========================================================================================
+[16/35] OUTER TEST: mimic_perform_af_016
+Selected: threshold=0.75 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[17/35] OUTER TEST: mimic_perform_af_017
+Selected: threshold=0.90 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[18/35] OUTER TEST: mimic_perform_af_018
+Selected: threshold=0.90 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[19/35] OUTER TEST: mimic_perform_af_019
+Selected: threshold=0.90 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.812
+
+==========================================================================================
+[20/35] OUTER TEST: mimic_perform_non_af_001
+Selected: threshold=0.90 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.867
+
+==========================================================================================
+[21/35] OUTER TEST: mimic_perform_non_af_002
+Selected: threshold=0.90 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.867
+
+==========================================================================================
+[22/35] OUTER TEST: mimic_perform_non_af_003
+Selected: threshold=0.90 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.867
+
+==========================================================================================
+[23/35] OUTER TEST: mimic_perform_non_af_004
+Selected: threshold=0.90 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.867
+
+==========================================================================================
+[24/35] OUTER TEST: mimic_perform_non_af_005
+Selected: threshold=0.90 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.800
+
+==========================================================================================
+[25/35] OUTER TEST: mimic_perform_non_af_006
+Selected: threshold=0.75 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.800
+
+==========================================================================================
+[26/35] OUTER TEST: mimic_perform_non_af_007
+Selected: threshold=0.85 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.867
+
+==========================================================================================
+[27/35] OUTER TEST: mimic_perform_non_af_008
+Selected: threshold=0.90 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.800
+
+==========================================================================================
+[28/35] OUTER TEST: mimic_perform_non_af_009
+Selected: threshold=0.65 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.800
+
+==========================================================================================
+[29/35] OUTER TEST: mimic_perform_non_af_010
+Selected: threshold=0.65 policy=3-of-5 inner sensitivity=1.000 inner specificity=0.800
+
+==========================================================================================
+[30/35] OUTER TEST: mimic_perform_non_af_011
+Selected: threshold=0.90 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.800
+
+==========================================================================================
+[31/35] OUTER TEST: mimic_perform_non_af_012
+Selected: threshold=0.90 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.867
+
+==========================================================================================
+[32/35] OUTER TEST: mimic_perform_non_af_013
+Selected: threshold=0.85 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.733
+
+==========================================================================================
+[33/35] OUTER TEST: mimic_perform_non_af_014
+Selected: threshold=0.60 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.800
+
+==========================================================================================
+[34/35] OUTER TEST: mimic_perform_non_af_015
+Selected: threshold=0.90 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.867
+
+==========================================================================================
+[35/35] OUTER TEST: mimic_perform_non_af_016
+Selected: threshold=0.90 policy=3-of-3 inner sensitivity=1.000 inner specificity=0.867
+
+====================================================================================================
+STRICT NESTED POLICY RESULTS
+====================================================================================================
+Subject sensitivity: 1.0000 (19/19)
+Subject specificity: 0.7500 (12/16)
+Window sensitivity: 0.8983
+Window specificity: 0.9285
+Non-AF false subjects: 4
+Median false alerts/hour: 0.0000
+Mean false alerts/hour: 1.1250
+Median first-alert time: 70.0s
+
+====================================================================================================
+SELECTED POLICY FREQUENCY
+====================================================================================================
+threshold  policy
+0.90       3-of-3    9
+0.85       3-of-5    7
+0.90       3-of-5    7
+0.80       3-of-5    3
+0.75       3-of-5    2
+0.65       3-of-5    2
+0.60       3-of-3    1
+0.65       3-of-3    1
+0.75       3-of-3    1
+0.70       3-of-5    1
+0.85       3-of-3    1
+
+====================================================================================================
+OUTER FALSE POSITIVES
+====================================================================================================
+               record_id  threshold policy  alert_episodes  episodes_per_hour  first_alert_s
+mimic_perform_non_af_007     0.8500 3-of-5               1             3.0000       530.0000
+mimic_perform_non_af_010     0.6500 3-of-5               1             3.0000       210.0000
+mimic_perform_non_af_012     0.9000 3-of-3               3             9.0000       240.0000
+mimic_perform_non_af_014     0.6000 3-of-3               1             3.0000        50.0000

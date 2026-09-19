@@ -1,0 +1,38 @@
+======================================================================
+🔬 CROSS-DATASET VALIDATION — MIMIC PERform (PPG) <-> MIT-BIH AFDB (ECG)
+======================================================================
+
+📂 Nạp MIMIC PERform...
+   4130 cửa sổ, 35 bệnh nhân
+
+📂 Nạp MIT-BIH AFDB (tải annotation từ PhysioNet nếu chưa có)...
+   28903 cửa sổ, 25 bệnh nhân
+
+======================================================================
+HƯỚNG 1: Train MIMIC (PPG) -> Test AFDB (ECG)
+======================================================================
+  🏋️ Logistic Regression: train MIMIC (3830 cửa sổ) -> test AFDB (28903 cửa sổ)...
+  🏋️ Random Forest: train MIMIC (3830 cửa sổ) -> test AFDB (28903 cửa sổ)...
+  🏋️ XGBoost: train MIMIC (3830 cửa sổ) -> test AFDB (28903 cửa sổ)...
+
+======================================================================
+HƯỚNG 2: Train AFDB (ECG) -> Test MIMIC (PPG)
+======================================================================
+  🏋️ Logistic Regression: train AFDB (27468 cửa sổ) -> test MIMIC (4130 cửa sổ)...
+  🏋️ Random Forest: train AFDB (27468 cửa sổ) -> test MIMIC (4130 cửa sổ)...
+  🏋️ XGBoost: train AFDB (27468 cửa sổ) -> test MIMIC (4130 cửa sổ)...
+
+======================================================================
+📋 KẾT QUẢ CROSS-DATASET (test trên dataset mô hình CHƯA TỪNG THẤY)
+======================================================================
+    Direction               Model  Accuracy  Recall (Sensitivity)  Specificity  F1-Score  ROC-AUC  FN   FP
+MIMIC -> AFDB Logistic Regression    0.9384                0.9651       0.9215    0.9238   0.9721 390 1391
+MIMIC -> AFDB       Random Forest    0.9383                0.9563       0.9269    0.9231   0.9846 489 1295
+MIMIC -> AFDB             XGBoost    0.9456                0.9699       0.9303    0.9325   0.9870 337 1234
+AFDB -> MIMIC Logistic Regression    0.9123                0.9701       0.8438    0.9232   0.8761  67  295
+AFDB -> MIMIC       Random Forest    0.9186                0.9737       0.8533    0.9285   0.9757  59  277
+AFDB -> MIMIC             XGBoost    0.9145                0.9755       0.8422    0.9253   0.9685  55  298
+
+💾 Đã lưu: /media/phuc/New Volume/HeathSense_rungtamnhi/models/cross_dataset/cross_dataset_results.csv
+
+✅ HOÀN TẤT CROSS-DATASET!
