@@ -1,0 +1,21 @@
+notebook,figure_or_section,source_in_repo,evidence_type,claim_boundary
+01,inventory,experiments/08_v6_locked_protocol/artifacts/prediction_generation_audit.csv,original summary replot,DEV/reused TEST windows not entire training cohort
+01,subject overlap,experiments/08_v6_locked_protocol/artifacts/subject_split_overlap_audit.csv,original audit replot,within-source split check not forensic of original OOF grouping
+01,baseline,experiments/00_baseline_reproduction/artifacts/benchmark_results_v4.csv,historical result replot,not frozen stacking
+01,label audit,experiments/01_label_audit/cross_dataset_comparison.csv,historical comparison replot,not stacking improvement
+01,beat detector,experiments/02_beat_detector/beat_detector_summary.csv,original summary replot,beat-matching F1 not AF classifier F1
+01,SQI ROC,experiments/03_sqi/sqi_loso_predictions.csv,derived from real saved predictions,quality-good classification not AF prediction
+02,reused window metrics,experiments/08_v6_locked_protocol/artifacts/window_metrics_subject_cluster_bootstrap.csv,original summary replot,reused subject-held-out only
+02,LODO metrics,experiments/08_v6_locked_protocol/artifacts/lodo_domain_generalization_summary.csv,recomputed from saved confusion counts,retrospective domain-generalization
+02,reused ROC if local,experiments/08_v6_locked_protocol/artifacts/*_test_locked_predictions.csv,optional derived from sha-matched local predictions,not possible from aggregate metrics alone
+02,13F-14F,experiments/08_v6_locked_protocol/artifacts/ppg_ac_ablation_dev_macro.csv,original matched development result replot,not a primary frozen model retrain
+02,hard negatives,experiments/08_v6_locked_protocol/artifacts/pac_pvc_challenge_summary.csv,original challenge result replot,window-level not subject-alert rate
+02,DeepBeat model comparison,experiments/08_v6_locked_protocol/artifacts/deepbeat_lodo_base_vs_stack.csv,original result replot,stacking not superior on every metric
+02,DeepBeat FN vs TP,experiments/08_v6_locked_protocol/artifacts/deepbeat_lodo_fn_vs_tp_features.csv,original forensic summary replot,association not causal inference
+03,rule selection,experiments/08_v6_locked_protocol/artifacts/FROZEN_GLOBAL_RULE_V2.json,selected development configuration replot,full grid CSV missing from git
+03,verified stream coverage,experiments/08_v6_locked_protocol/artifacts/verified_stream_summary.csv,original audit replot,coverage not detection performance
+03,exploratory subject alert,experiments/08_v6_locked_protocol/artifacts/global_rule_v2_reused_test_summary.csv,recomputed from saved subject counts,reused TEST and tiny subject counts
+03,subject CI,experiments/08_v6_locked_protocol/artifacts/global_rule_v2_exact_subject_ci.csv,original uncertainty replot,not a population certainty claim
+03,calibration,experiments/08_v6_locked_protocol/artifacts/calibration_summary.csv,original DEV comparison replot,raw is primary Platt analysis only
+03,artifact sha gate,experiments/08_v6_locked_protocol/artifacts/locked_inputs_SHA256.txt,sha validation conditional on file availability,not deployment parity proof
+03,freeze limitations,experiments/08_v6_locked_protocol/artifacts/V6_RESEARCH_FREEZE_STATUS.json,official frozen research metadata,not untouched external or clinical validation
