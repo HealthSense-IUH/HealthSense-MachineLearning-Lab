@@ -9,8 +9,6 @@
 
 ---
 
-## Tiếng Việt
-
 ## 1. Trạng thái nghiên cứu hiện tại
 
 Quá trình phát triển đã đi từ V4 → V5 → V6. Phiên bản hiện tại được đóng băng ở **V6 Research Freeze** để tránh tiếp tục tối ưu trên các benchmark đã được sử dụng nhiều lần và chuẩn bị cho external validation trên dữ liệu chưa từng tham gia training hoặc tuning.
@@ -447,89 +445,6 @@ Linux/macOS thay dòng kích hoạt bằng `source venv/bin/activate`. Script tr
 5. Chuẩn hóa temporal stride và session semantics.
 6. Báo cáo subject-level sensitivity, specificity và false alerts per hour.
 7. Nếu phát triển V7, sử dụng dữ liệu hoặc hypothesis mới và yêu cầu một untouched validation set mới.
-
----
-
-# English
-
-## Current research status
-
-HealthSense Machine Learning develops **Photoplethysmography (PPG)-based screening for suspected Atrial Fibrillation (AF)**.
-
-Current frozen research candidate:
-
-**V6_RESEARCH_FREEZE_2026_09**
-
-Current model:
-
-**HealthSense AF V6C Stacking**
-
-```text
-Extra Trees
-Random Forest
-XGBoost
-    ↓
-Logistic Regression meta-model
-    ↓
-raw meta_probability
-```
-
-The model uses 14 PPG-derived features, including `PPG_AC`.
-
-The existing subject-held-out test datasets have been repeatedly inspected and are therefore reported as **reused subject-held-out benchmarks**, not pristine external validation.
-
-**Leave-One-Domain-Out (LODO)** evaluation is treated as retrospective domain-generalization analysis.
-
-Future untouched external validation is reserved for:
-
-- MIMIC-III-Ext-PPG
-- TriggersAF
-
-The system is intended for suspected-AF screening and early warning. It does not replace **Electrocardiography (ECG)-based confirmation** [8].
-
-## Main results
-
-### V6C reused subject-held-out benchmark
-
-| Dataset | Area Under Receiver Operating Characteristic Curve (AUROC) | Area Under Precision-Recall Curve (PR-AUC) | Brier score |
-|---|---:|---:|---:|
-| DeepBeat | 0.9904 | 0.9890 | 0.0583 |
-| PulseWatch | 0.9985 | 0.9890 | 0.0095 |
-| Liu | 0.9866 | 0.9780 | 0.0322 |
-
-### Retrospective Leave-One-Domain-Out analysis
-
-| Held-out domain | AUROC | PR-AUC | Brier score |
-|---|---:|---:|---:|
-| DeepBeat | 0.8384 | 0.8289 | 0.1898 |
-| PulseWatch | 0.9877 | 0.9417 | 0.0560 |
-| Liu | 0.9797 | 0.9599 | 0.0500 |
-| MIMIC PERform | 0.9856 | 0.9867 | 0.0530 |
-
-DeepBeat exposes a substantial domain shift and remains an important failure mode.
-
-## Dataset access
-
-| Dataset | Use in this repository | Access |
-|---|---|---|
-| MIMIC PERform AF [1] | baseline and reference domain | [Documentation](https://ppg-beats.readthedocs.io/en/latest/datasets/mimic_perform_af/) |
-| DeepBeat [2] | external and multidomain evaluation | [Synapse `syn21985690`](https://www.synapse.org/Synapse:syn21985690) |
-| PulseWatch [3] | smartwatch PPG and hard-negative evaluation | [Synapse `syn23565056`](https://www.synapse.org/Synapse:syn23565056) |
-| Liu 2022 [4] | multiclass arrhythmia external evaluation | [GitHub dataset](https://github.com/zdzdliu/PPGArrhythmiaDetection) |
-| Selected MIMIC-III PAC/PVC data [5] | targeted hard-negative challenge | [UConn resources](https://biosignal.uconn.edu/resources/) |
-| MIMIC-III-Ext-PPG v1.1.0 [6] | future untouched external validation | [PhysioNet](https://physionet.org/content/mimic-iii-ext-ppg/1.1.0/) |
-| TriggersAF [7] | future untouched external validation | [Project page](https://biomedicine.ktu.edu/projects/wearable-technology-for-personalized-identification-and-management-of-paroxysmal-atrial-fibrillation-triggers-triggersaf/) |
-
-## Reproducibility
-
-Each model version has its own numbered notebook chain under `notebooks/v4/`, `notebooks/v5/`, `notebooks/v6/`; long steps live in the adjacent `scripts/` folders and the 18-step locked protocol in `notebooks/v6/protocol/` (see section 4). Shared signal-processing and feature code is `src/healthsense_core/`.
-
-Large generated feature matrices, row-level predictions and V6 model binaries are intentionally not stored in normal Git history; `data/MANIFEST.csv` carries their SHA-256.
-
-Main notebooks:
-
-- [V5 Visual Review](notebooks/v5/review_visual.ipynb)
-- [V6 Research Freeze Visual Review](notebooks/v6/review_visual.ipynb)
 
 ---
 
