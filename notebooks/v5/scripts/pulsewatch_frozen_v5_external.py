@@ -19,12 +19,12 @@ from sklearn.metrics import (
     f1_score,
 )
 
-from healthsense_ml.signal_processing import (
+from healthsense_core.signal_processing import (
     extract_nn_series,
     bandpass_filter,
 )
 
-from healthsense_ml.hrv_features import (
+from healthsense_core.hrv_features import (
     compute_hrv_features,
 )
 

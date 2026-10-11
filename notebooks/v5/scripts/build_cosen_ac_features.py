@@ -4,9 +4,9 @@ sys.path.insert(0, "src")
 import numpy as np
 import pandas as pd
 
-from healthsense_ml import config
-from healthsense_ml.data_loading import list_records, load_ppg
-from healthsense_ml.signal_processing import (
+from healthsense_core import config
+from healthsense_core.data_loading import list_records, load_ppg
+from healthsense_core.signal_processing import (
     extract_nn_series,
     bandpass_filter,
 )

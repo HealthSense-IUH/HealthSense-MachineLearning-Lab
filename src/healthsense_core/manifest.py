@@ -1,7 +1,7 @@
 """Sinh data/MANIFEST.csv: đường dẫn, kích thước, SHA-256 của mọi tệp dữ liệu và model.
 
 Dùng để đối chiếu khi chép dữ liệu giữa các máy (phần lớn tệp không commit vì DUA).
-Chạy từ gốc repo:  python -m healthsense_ml.manifest   (với src/ trong PYTHONPATH, ví dụ: set PYTHONPATH=src)
+Chạy từ gốc repo:  python -m healthsense_core.manifest   (với src/ trong PYTHONPATH, ví dụ: set PYTHONPATH=src)
 """
 from __future__ import annotations
 

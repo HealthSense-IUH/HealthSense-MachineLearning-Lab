@@ -11,7 +11,7 @@ from sklearn.model_selection import (
     GridSearchCV,
 )
 
-from healthsense_ml.training import (
+from healthsense_core.training import (
     build_model_registry,
 )
 

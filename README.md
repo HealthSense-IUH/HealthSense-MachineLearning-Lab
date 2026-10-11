@@ -281,7 +281,7 @@ PAC/PVC được theo dõi riêng vì đây là nguồn false positive quan tr�
 
 ## 8. Dữ liệu trong repo (`data/`)
 
-Thư mục `data/` đi theo dòng chảy **tín hiệu thô → đặc trưng → tập chia theo bệnh nhân**. `data/MANIFEST.csv` (sinh bằng `python -m healthsense_ml.manifest`, chạy từ gốc repo với `PYTHONPATH=src`) liệt kê kích thước và SHA-256 của mọi tệp trong `data/`, `results/v6/`, `models/` để đối chiếu khi chép giữa các máy.
+Thư mục `data/` đi theo dòng chảy **tín hiệu thô → đặc trưng → tập chia theo bệnh nhân**. `data/MANIFEST.csv` (sinh bằng `python -m healthsense_core.manifest`, chạy từ gốc repo với `PYTHONPATH=src`) liệt kê kích thước và SHA-256 của mọi tệp trong `data/`, `results/v6/`, `models/` để đối chiếu khi chép giữa các máy.
 
 ```mermaid
 flowchart LR
@@ -317,8 +317,8 @@ flowchart LR
 | `raw/mimic_perform/` | PPG + ECG gốc, 35 bệnh nhân, `af/` và `non-af/` | [Zenodo 6973963](https://zenodo.org/records/6973963) | **Có** |
 | `raw/deepbeat/`, `raw/pulsewatch/`, `raw/liu2022/` | PPG gốc của ba domain còn lại | Synapse (cần tài khoản và DUA), GitHub zdzdliu | Chưa có trên máy này; tải về thì commit |
 | `cache/` | memmap tín hiệu DeepBeat để trích đặc trưng nhanh | `notebooks/v6/00` | Có khi sinh ra |
-| `features/v4/` | `mimic_features_v4.csv`, `afdb_features_v4.csv`: 16 đặc trưng HRV cửa sổ 30 s | `notebooks/v4/00` (`src/healthsense_ml`) | **Có** |
-| `features/v5/` | `af_features_cosen_ac.csv`: bảng train V5 trên MIMIC, thêm PPG_AC (commit); `af_specific_features.csv` trung gian và `afdb_features_v5_afib_only.csv` (không) | `notebooks/v5/scripts/build_*`, `src/healthsense_ml/afdb.py` | **Có** |
+| `features/v4/` | `mimic_features_v4.csv`, `afdb_features_v4.csv`: 16 đặc trưng HRV cửa sổ 30 s | `notebooks/v4/00` (`src/healthsense_core`) | **Có** |
+| `features/v5/` | `af_features_cosen_ac.csv`: bảng train V5 trên MIMIC, thêm PPG_AC (commit); `af_specific_features.csv` trung gian và `afdb_features_v5_afib_only.csv` (không) | `notebooks/v5/scripts/build_*`, `src/healthsense_core/afdb.py` | **Có** |
 | `features/v6/` | DeepBeat train/validate/test và MIMIC, 14 đặc trưng (13 HRV + PPG_AC) | `notebooks/v6/00` | **Có** |
 | `features/v7/` | `healthsense_af_v6c_pacaware_train.csv` (137 476 cửa sổ, 248 bệnh nhân, 4 domain), `hard_negative_v7_v2.csv`, bảng V6B | `notebooks/v6/00`, `notebooks/v6/01` | **Có** |
 | `splits/` | DEV/TEST theo bệnh nhân của PulseWatch và Liu (kèm seed), manifest cửa sổ DeepBeat, SHA-256 nguồn | `notebooks/v6/00` | **Có** |
@@ -333,7 +333,7 @@ flowchart LR
 3. `notebooks/v5/01_train_frozen_rf` → model V5; `notebooks/v5/02_external_validation` → `results/v5/` (đầu vào cho bước sau).
 4. `notebooks/v6/00_extract_features_and_splits` → `data/features/v6/`, `data/splits/`; `notebooks/v6/01` → `data/features/v7/`; `notebooks/v6/02` → model V6C.
 5. `notebooks/v6/03_locked_protocol` → `results/v6/`.
-6. `python -m healthsense_ml.manifest` và so với `MANIFEST.csv` đã commit.
+6. `python -m healthsense_core.manifest` và so với `MANIFEST.csv` đã commit.
 
 Máy hiện tại **chưa có** `raw/` của ba domain ngoài MIMIC, nên bước 3 (kiểm định ngoài) và 4 (trích đặc trưng) chỉ chạy được trên máy đã tải dữ liệu; `results/v5` ở đây là bản chép từ máy đó.
 
@@ -345,7 +345,7 @@ Máy hiện tại **chưa có** `raw/` của ba domain ngoài MIMIC, nên bướ
 HealthSense-MachineLearning-Lab/
 ├── data/                 # raw/ MIMIC, features/v4..v7, splits/ (DEV/TEST theo bệnh nhân), MANIFEST.csv — tất cả commit, mục 8
 ├── notebooks/            # mỗi phiên bản một thư mục, chạy theo số: v4/ v5/ v6/ (+ scripts/, v6/protocol/)
-├── src/healthsense_ml/   # thư viện dùng chung: lọc, dò nhịp, 16 đặc trưng HRV, manifest
+├── src/healthsense_core/   # thư viện dùng chung: lọc, dò nhịp, 16 đặc trưng HRV, manifest
 ├── models/               # v4/ (pkl triển khai + model card, commit), v5/, v6/ (chỉ commit thẻ JSON, pkl lấy theo MANIFEST)
 └── results/              # v4/, v5/, v6/ (số liệu công bố)
 ```
@@ -366,7 +366,7 @@ Chạy không cần giao diện:
 venv\Scripts\jupyter nbconvert --to notebook --execute --inplace notebooks/v6/02_train_stacking.ipynb
 ```
 
-### 9.2 `src/healthsense_ml/` — thư viện dùng chung
+### 9.2 `src/healthsense_core/` — thư viện dùng chung
 
 Đây là **định nghĩa gốc** của phép đo: lọc tín hiệu, dò nhịp, chuỗi NN và 16 đặc trưng HRV (13 đặc trưng dùng huấn luyện sau khi bỏ nhóm LF). `HealthSense-AI-Service/app/services/hrv_v4.py` là bản sao được kiểm tra tương đương bằng `tests/parity_check.py` bên service; sửa một bên thì phải chạy lại parity. Ba module 1, 3, 5 là phần AI-Service import trực tiếp; không đổi chữ ký hàm của chúng.
 
@@ -381,7 +381,7 @@ venv\Scripts\jupyter nbconvert --to notebook --execute --inplace notebooks/v6/02
 | 7 | `afdb.py` | Cùng pipeline cho MIT-BIH AFDB (ECG) → `data/features/v5/afdb_features_v5_afib_only.csv` |
 | 8 | `training.py` | Registry model và lưới tham số, mặt nạ IQR chỉ fit trên train |
 | 9 | `evaluation.py` | LOSO, metric hai mức cửa sổ và bệnh nhân |
-| 10 | `manifest.py` | Sinh `data/MANIFEST.csv` (SHA-256 của dữ liệu và model), chạy `python -m healthsense_ml.manifest` |
+| 10 | `manifest.py` | Sinh `data/MANIFEST.csv` (SHA-256 của dữ liệu và model), chạy `python -m healthsense_core.manifest` |
 
 Phần V5 và V6 (PPG_AC, đa domain, stacking) không nằm ở đây mà trong `notebooks/v5/` và `notebooks/v6/` (kèm `scripts/`), vì chúng có tham số đóng băng riêng; chúng vẫn import thư viện này để tính đặc trưng. Bảo tàng phiên bản v1–v4 cũ (`src/v1..v4`, `src/vlab`, `src/report`) đã gỡ khỏi repo; lịch sử còn trong git.
 
@@ -522,7 +522,7 @@ DeepBeat exposes a substantial domain shift and remains an important failure mod
 
 ## Reproducibility
 
-Each model version has its own numbered notebook chain under `notebooks/v4/`, `notebooks/v5/`, `notebooks/v6/`; long steps live in the adjacent `scripts/` folders and the 18-step locked protocol in `notebooks/v6/protocol/` (see section 4). Shared signal-processing and feature code is `src/healthsense_ml/`.
+Each model version has its own numbered notebook chain under `notebooks/v4/`, `notebooks/v5/`, `notebooks/v6/`; long steps live in the adjacent `scripts/` folders and the 18-step locked protocol in `notebooks/v6/protocol/` (see section 4). Shared signal-processing and feature code is `src/healthsense_core/`.
 
 Large generated feature matrices, row-level predictions and V6 model binaries are intentionally not stored in normal Git history; `data/MANIFEST.csv` carries their SHA-256.
 
@@ -555,7 +555,7 @@ Main notebooks:
 
 Các tài liệu dưới đây không được trích dẫn trực tiếp trong phần trên nhưng là cơ sở cho lựa chọn đặc trưng HRV, việc dùng PPG thay ECG và hướng phát hiện AF bằng thiết bị đeo. Đánh số tiếp theo [1]–[8].
 
-**Cơ sở lý thuyết HRV.** Định nghĩa 16 đặc trưng HRV (SDNN, RMSSD, pNN50, LF, HF, LF/HF, Poincaré) và chuẩn đo lường mà `src/healthsense_ml/hrv_features.py` theo.
+**Cơ sở lý thuyết HRV.** Định nghĩa 16 đặc trưng HRV (SDNN, RMSSD, pNN50, LF, HF, LF/HF, Poincaré) và chuẩn đo lường mà `src/healthsense_core/hrv_features.py` theo.
 
 9. **Task Force of the European Society of Cardiology and the North American Society of Pacing and Electrophysiology.** Heart rate variability: standards of measurement, physiological interpretation and clinical use. *European Heart Journal*. 1996;17(3):354-381. DOI: [10.1093/oxfordjournals.eurheartj.a014868](https://doi.org/10.1093/oxfordjournals.eurheartj.a014868).
 10. **Shaffer F, Ginsberg JP.** An overview of heart rate variability metrics and norms. *Frontiers in Public Health*. 2017;5:258. DOI: [10.3389/fpubh.2017.00258](https://doi.org/10.3389/fpubh.2017.00258).
