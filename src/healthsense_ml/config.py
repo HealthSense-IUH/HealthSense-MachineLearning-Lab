@@ -16,7 +16,7 @@ FEATURES_DIR = os.path.join(DATA_DIR, 'features')
 #   results/ = thứ ĐEM ĐI BÁO CÁO (số liệu, biểu đồ)
 MODELS_DIR = os.path.join(PROJECT_ROOT, 'models')
 RESULTS_DIR = os.path.join(PROJECT_ROOT, 'results')
-BENCHMARK_V4_DIR = os.path.join(RESULTS_DIR, 'benchmark_v4')
+BENCHMARK_V4_DIR = os.path.join(RESULTS_DIR, 'v4', 'benchmark_v4')
 
 # File đặc trưng v4 (CÓ cột record_id — bắt buộc cho chia theo bệnh nhân)
 FEATURES_V4_FILE = os.path.join(FEATURES_DIR, 'v4', 'mimic_features_v4.csv')

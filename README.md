@@ -123,7 +123,7 @@ Kết quả cho thấy AF so với nhịp xoang tương đối dễ hơn, trong 
 
 Notebook:
 
-[HealthSense V5 Visual Review](notebooks/review/HealthSense_V5_Visual_Review.ipynb)
+[HealthSense V5 Visual Review](notebooks/v5/review_visual.ipynb)
 
 ---
 
@@ -164,7 +164,7 @@ Các test split dưới đây tách theo subject nhưng đã được inspect nh
 
 Notebook:
 
-[HealthSense V6 Research Freeze Visual Review](notebooks/review/HealthSense_V6_Research_Freeze_Visual_Review.ipynb)
+[HealthSense V6 Research Freeze Visual Review](notebooks/v6/review_visual.ipynb)
 
 ---
 
@@ -173,7 +173,7 @@ Notebook:
 Sau các thử nghiệm temporal V6D–V6H, phần đánh giá cuối được reset sang protocol khóa tại:
 
 ```text
-experiments/08_v6_locked_protocol/
+notebooks/v6/protocol/
 ```
 
 Protocol gồm 18 bước, bao phủ:
@@ -277,29 +277,12 @@ PAC/PVC được theo dõi riêng vì đây là nguồn false positive quan tr�
 
 ```text
 HealthSense-MachineLearning-Lab/
-├── src/healthsense_ml/           # Thư viện dùng chung: lọc, dò nhịp, 16 đặc trưng HRV (README có thứ tự đọc)
-│
-├── experiments/                  # Mỗi thư mục có README: mục đích, script theo thứ tự, đầu ra
-│   ├── 00_baseline_reproduction/
-│   ├── 01_label_audit/
-│   ├── 02_beat_detector/
-│   ├── 03_sqi/
-│   ├── 04_feature_model/         # 14 đặc trưng, chọn model (nền V5)
-│   ├── 05_calibration_alert/     # Chính sách cảnh báo V5
-│   ├── 06_external_validation/   # Đóng băng V5, kiểm định ngoài
-│   ├── 07_v6_multidomain/        # Phát triển V6, train_v6c_stacking.py
-│   └── 08_v6_locked_protocol/    # Protocol khoá, nguồn số liệu công bố
-│
-├── notebooks/
-│   ├── training/                 # 01 V4, 02 V5, 03 V6C: huấn luyện ra model, có giải thích
-│   ├── review/                   # Xem lại kết quả V5, V6 từ hiện vật đã khoá
-│   └── defense/                  # Bằng chứng tái lập để bảo vệ
-│
-├── models/                       # final/ (V4 chạy lại), mimic/ (V5), multidomain/ (V6C); pkl lớn không commit
-├── results/                      # Kết quả V4; V6 nằm trong experiments/08/artifacts
-├── data/                         # raw/, features/v4..v7, README có sơ đồ dòng dữ liệu, MANIFEST.csv
-├── scripts/                      # Pipeline V4 bốn bước, build_docs.py, make_data_manifest.py
-└── docs/                         # index.html gộp toàn bộ tài liệu
+├── data/                 # raw/ (tải về), features/v4..v7, splits/ (DEV/TEST theo bệnh nhân), README có sơ đồ dòng dữ liệu, MANIFEST.csv
+├── notebooks/            # mỗi phiên bản một thư mục, chạy theo số: v4/ v5/ v6/ (+ scripts/, v6/protocol/), defense/
+├── src/healthsense_ml/   # thư viện dùng chung: lọc, dò nhịp, 16 đặc trưng HRV, manifest
+├── models/               # healthsense_afib_pipeline.pkl (V4 triển khai), mimic/ (V5), multidomain/ (V6C, pkl không commit)
+├── results/              # v4/, v5/, v6/ (số liệu công bố)
+└── tests/                # smoke test pipeline
 ```
 
 ---
@@ -441,17 +424,17 @@ DeepBeat exposes a substantial domain shift and remains an important failure mod
 Core research code:
 
 ```text
-experiments/06_external_validation/
-experiments/07_v6_multidomain/
-experiments/08_v6_locked_protocol/
+results/v5/
+notebooks/v6/scripts/
+notebooks/v6/protocol/
 ```
 
 Large generated feature matrices, row-level predictions and V6 model binaries are intentionally not stored in normal Git history.
 
 Main notebooks:
 
-- [V5 Visual Review](notebooks/review/HealthSense_V5_Visual_Review.ipynb)
-- [V6 Research Freeze Visual Review](notebooks/review/HealthSense_V6_Research_Freeze_Visual_Review.ipynb)
+- [V5 Visual Review](notebooks/v5/review_visual.ipynb)
+- [V6 Research Freeze Visual Review](notebooks/v6/review_visual.ipynb)
 
 ---
 

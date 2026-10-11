@@ -1,11 +1,18 @@
-# notebooks/ — ba nhóm, ba mục đích
+# notebooks/ — mỗi phiên bản model một thư mục, chạy theo số thứ tự
 
-| Thư mục | Mục đích | Có huấn luyện model? |
+| Thư mục | Chuỗi notebook | Sinh ra |
 |---|---|---|
-| `training/` | Sinh ra các model V4, V5, V6C từ dữ liệu đặc trưng, có giải thích từng bước. Bản đọc được của script huấn luyện | **Có** |
-| `review/` | Xem lại kết quả V5 và V6 từ hiện vật đã khoá: ROC, PR, calibration, LODO, PAC/PVC | Không |
-| `defense/` | Bằng chứng tái lập được để bảo vệ trước hội đồng, đọc đúng file CSV đã commit và ghi lại Git HEAD lúc chạy | Không |
+| `v4/` | `00_prepare_features` → `01_evaluate_loso_cross_dataset` → `02_train_pooled_model` | `data/features/v4/`, kết quả LOSO và cross-dataset ở `results/v4/`, model ở `models/final/` (bản AI-Service đang dùng là `models/healthsense_afib_pipeline.pkl`) |
+| `v5/` | `01_train_frozen_rf` → `02_external_validation` → `review_visual` | model V5 ở `models/mimic/`, kết quả kiểm định ngoài ở `results/v5/` |
+| `v6/` | `00_extract_features_and_splits` → `01_prepare_training_table` → `02_train_stacking` → `03_locked_protocol` → `review_visual` | `data/features/v6,v7/`, `data/splits/`, model V6C ở `models/multidomain/`, số liệu công bố ở `results/v6/` |
+| `defense/` | 3 notebook bằng chứng, đọc từ `results/` | hình và bảng để bảo vệ |
 
-Mọi notebook tự tìm gốc repo bằng cách đi ngược lên các thư mục cha cho tới khi thấy `src/healthsense_ml`, nên mở từ thư mục nào cũng chạy. Môi trường: `venv/` của repo (`venv\Scripts\jupyter lab`).
+Mỗi thư mục phiên bản có `scripts/` (các bước dài, notebook gọi bằng `run(...)`); riêng `v6/protocol/` là 18 script của protocol khoá. Mọi notebook tự tìm gốc repo nên mở từ đâu cũng chạy; môi trường là `venv/` của repo.
 
-Thứ tự đọc cho người mới: `training/01` → `training/03` → `review/HealthSense_V6_Research_Freeze_Visual_Review` → `defense/02`.
+Chạy không cần giao diện:
+
+```bash
+venv\Scripts\jupyter nbconvert --to notebook --execute --inplace notebooks/v6/02_train_stacking.ipynb
+```
+
+Notebook huấn luyện mặc định ghi `*_retrained` hoặc `*_rebuilt`, chỉ ghi đè hiện vật đóng băng khi bật `OVERWRITE_FROZEN` / `OVERWRITE`. Những bước cần dữ liệu Synapse (V5 kiểm định ngoài, V6 trích đặc trưng) chỉ chạy được trên máy đã tải dữ liệu đó.

@@ -24,7 +24,7 @@ conda activate healthsense-af-v5
 python -m pip install pandas numpy matplotlib scikit-learn jupyterlab ipykernel nbformat
 python -m ipykernel install --user --name healthsense-af-v5 --display-name 'Python (HealthSense evidence)'
 
-cd /home/phuc/Documents/HealthSense_rungtamnhi
+cd <thư mục repo HealthSense-MachineLearning-Lab>
 mkdir -p notebooks
 unzip ~/Downloads/HealthSense_Defense_Evidence_Notebooks.zip -d notebooks/
 export HEALTHSENSE_REPO="$PWD"
@@ -67,7 +67,7 @@ Optional 1.88 GB model hashing is disabled by default for responsiveness. To ver
 
 | Evidence | Original script / source |
 |---|---|
-| Locked window predictions | `experiments/08_v6_locked_protocol/01_generate_locked_predictions.py` |
+| Locked window predictions | `notebooks/v6/protocol/01_generate_locked_predictions.py` |
 | Audit split/time and verified streams | `02_audit_temporal_and_splits.py` / `03_build_verified_streams.py` |
 | DEV temporal rule | `06_tune_global_rule_v2_dev.py` |
 | Reused TEST subject alert | `07_evaluate_global_rule_v2_test.py` |

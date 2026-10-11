@@ -1,112 +1,48 @@
-# Data
+# ---------- data: chỉ commit đặc trưng V4, bảng train V5, sample, README, MANIFEST ----------
 data/*
 !data/sample/
 !data/features/
 !data/.gitkeep
 !data/README.md
 !data/MANIFEST.csv
+data/features/v5/*
+!data/features/v5/af_features_cosen_ac.csv
+data/features/v6/
+data/features/v7/
 
-# Cache đặc trưng của bảo tàng phiên bản (src/v1..v4) — dữ liệu dẫn xuất,
-# tự sinh lại trong ~1 phút khi chạy python src/vN/pipeline.py
-data/features/museum_*.csv
-data/features/legacy/
-
-# Models & Checkpoints
+# ---------- models ----------
 *.pkl
-# ...trừ thư mục models/: đây là các hiện vật muốn giữ lại trong repo.
-#   healthsense_afib_pipeline.pkl — model triển khai, KHÔNG tái tạo được nữa
-#     (script sinh ra nó đã bị gỡ; xem models/README.md)
-#   v1..v4.pkl — 4 đời pipeline, mỗi file ~200 KB, kèm thẻ vN.json
 !models/*.pkl
+models/multidomain/*.pkl
+models/multidomain/*.joblib
+models/final/
+models/**/*_retrained.*
 *.pth
 *.h5
 *.keras
 *.msgpack
-*.ipynb_checkpoints
 
+# ---------- results: dẫn xuất từ dữ liệu Synapse hoặc quá lớn ----------
+results/v5/*.csv
+results/v5/*.npy
+results/v6/*predictions.csv
+results/v6/*verified_streams.csv
+results/v6/dev_global_rule*_grid.csv
+**/*.log
 
-# Python & Caches
+# ---------- python, môi trường, IDE ----------
 __pycache__/
 *.py[cod]
-*$py.class
 .pytest_cache/
-
-# Environments
+.ipynb_checkpoints/
 .env
 .venv
 venv/
-ENV/
-env.bak/
-
-# IDEs
 .vscode/
 .idea/
 *.swp
 .DS_Store
-
-# File tam cua PowerPoint
 ~$*
-
-# ============================================================
-# HealthSense research-generated artifacts
-# ============================================================
-
-# Large/generated feature matrices
-data/features/v6/
-data/features/v7/
-data/features/v5/
-
-# Training library scratch output
-catboost_info/
-
-# Generated logs
-experiments/**/*.log
-
-# Jupyter generated figure directory
-notebooks/figures_v5/
-
-# Large/generated model artifacts
-models/multidomain/*.pkl
-models/multidomain/*.joblib
-
-# Large intermediate feature/prediction matrices from external validation
-experiments/06_external_validation/*_features.csv
-experiments/06_external_validation/*_predictions.csv
-experiments/06_external_validation/*_segment_features.csv
-experiments/06_external_validation/*.csv
-
-# NumPy generated binary artifacts
-experiments/06_external_validation/*.npy
-
-# Temporary Octave detector IO
-experiments/02_beat_detector/octave_input/
-experiments/02_beat_detector/octave_output/
-
-# V6 generated multidomain artifacts
-experiments/07_v6_multidomain/artifacts/
-
-# V6 locked row-level/generated outputs
-experiments/08_v6_locked_protocol/artifacts/*predictions.csv
-experiments/08_v6_locked_protocol/artifacts/*verified_streams.csv
-experiments/08_v6_locked_protocol/artifacts/dev_global_rule*_grid.csv
-
-# ------------------------------------------------------------
-# Local research workspace / non-canonical outputs
-# ------------------------------------------------------------
-
-# Backup / broken experiment files
 *.bak
-*.broken.py
-
-# Local experiment logs
-experiments/07_v6_multidomain/logs/
-
-# Work-in-progress V7 generated assets
-data/features/v7/
-
-# Thư viện bên thứ ba chép tay; lấy lại bằng: git clone https://github.com/peterhcharlton/ppg-beats third_party/ppg-beats
+catboost_info/
 third_party/
-
-# Đầu ra khi chạy lại notebook huấn luyện (notebooks/training)
-models/final/
-models/**/*_retrained.*

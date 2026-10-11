@@ -10,16 +10,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from IPython.display import display, Markdown
 
-EVIDENCE_PREFIX = 'experiments/08_v6_locked_protocol/artifacts/'
+EVIDENCE_PREFIX = 'results/v6/'
 
 def find_repo():
     roots=[]
     if os.getenv('HEALTHSENSE_REPO'):
         roots.append(Path(os.environ['HEALTHSENSE_REPO']).expanduser())
     cwd=Path.cwd().resolve()
-    roots += [cwd, *cwd.parents, Path('/home/phuc/Documents/HealthSense_rungtamnhi')]
+    roots += [cwd, *cwd.parents]
     for r in roots:
-        if (r/'experiments/08_v6_locked_protocol/artifacts/V6_RESEARCH_FREEZE_STATUS.json').is_file() and (r/'src/healthsense_ml').is_dir():
+        if (r/'results/v6/V6_RESEARCH_FREEZE_STATUS.json').is_file() and (r/'src/healthsense_ml').is_dir():
             return r.resolve()
     raise FileNotFoundError('Không tìm thấy repo đầy đủ. Clone repo và đặt HEALTHSENSE_REPO=/duong/dan/HealthSense-MachineLearning-Lab hoặc copy notebook vào repo/notebooks/. Không tạo dữ liệu demo thay thế.')
 

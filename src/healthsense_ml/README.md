@@ -15,9 +15,10 @@
 | 7 | `afdb.py` | Cùng pipeline cho MIT-BIH AFDB (ECG) → `data/features/v5/afdb_features_v5_afib_only.csv` |
 | 8 | `training.py` | Registry model và lưới tham số, mặt nạ IQR chỉ fit trên train |
 | 9 | `evaluation.py` | LOSO, metric hai mức cửa sổ và bệnh nhân |
+| 10 | `manifest.py` | Sinh `data/MANIFEST.csv` (SHA-256 của dữ liệu và model), chạy `python -m healthsense_ml.manifest` |
 
 Ba module đầu tiên (1, 3, 5) là phần AI-Service import trực tiếp; không đổi chữ ký hàm của chúng.
 
-Cách chạy pipeline V4 đầu cuối: `notebooks/training/01_train_v4_pooled_model.ipynb` hoặc `scripts/run_v4_extraction.py` → `run_v4_benchmark.py` → `run_cross_dataset.py` → `run_final_model.py`.
+Cách chạy pipeline V4 đầu cuối: `notebooks/v4/00_prepare_features.ipynb` → `notebooks/v4/01_evaluate_loso_cross_dataset.ipynb` → `notebooks/v4/02_train_pooled_model.ipynb`.
 
-Phần V5 và V6 (PPG_AC, đa domain, stacking) không nằm ở đây mà trong `experiments/06`, `07`, `08`, vì chúng là thí nghiệm có tham số đóng băng riêng; chúng vẫn import thư viện này để tính đặc trưng.
+Phần V5 và V6 (PPG_AC, đa domain, stacking) không nằm ở đây mà trong `notebooks/v5/` và `notebooks/v6/` (kèm `scripts/`), vì chúng có tham số đóng băng riêng; chúng vẫn import thư viện này để tính đặc trưng.
