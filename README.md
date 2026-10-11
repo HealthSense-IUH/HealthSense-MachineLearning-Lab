@@ -448,7 +448,7 @@ Linux/macOS thay dòng kích hoạt bằng `source venv/bin/activate`. Script tr
 
 ---
 
-## References
+## 13. Tài liệu tham khảo
 
 1. **Charlton PH, et al.** Detecting beats in the photoplethysmogram: benchmarking open-source algorithms. *Physiological Measurement*. 2022. DOI: [10.1088/1361-6579/ac826d](https://doi.org/10.1088/1361-6579/ac826d). Dataset: [MIMIC PERform AF](https://ppg-beats.readthedocs.io/en/latest/datasets/mimic_perform_af/).
 
