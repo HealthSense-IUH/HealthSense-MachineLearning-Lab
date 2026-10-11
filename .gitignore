@@ -1,11 +1,4 @@
-# ---------- data: chỉ commit đặc trưng V4, bảng train V5, sample, README, MANIFEST ----------
-data/*
-!data/sample/
-!data/features/
-!data/.gitkeep
-!data/MANIFEST.csv
-data/features/v5/*
-!data/features/v5/af_features_cosen_ac.csv
+# ---------- data: commit toàn bộ (raw MIMIC, đặc trưng, splits); chỉ *_rebuilt.* là ignore ----------
 
 # ---------- models: chỉ commit V4 triển khai và thẻ JSON; pkl V5/V6 lấy theo data/MANIFEST.csv ----------
 *.pkl

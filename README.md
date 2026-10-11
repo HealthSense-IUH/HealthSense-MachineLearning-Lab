@@ -285,7 +285,7 @@ Thư mục `data/` đi theo dòng chảy **tín hiệu thô → đặc trưng �
 
 ```mermaid
 flowchart LR
-    subgraph RAW["data/raw — tín hiệu gốc (không commit)"]
+    subgraph RAW["data/raw — tín hiệu gốc (commit)"]
         MIMIC["MIMIC PERform AF<br/>Zenodo, PPG 125 Hz"]
         DB["DeepBeat<br/>Synapse syn21985690"]
         PW["PulseWatch<br/>Synapse syn23565056"]
@@ -300,7 +300,7 @@ flowchart LR
     end
 
     subgraph SPLIT["data/splits — chia theo bệnh nhân"]
-        SP["pulsewatch_dev/test.csv, liu_dev/test.csv<br/>deepbeat_*_v6_classifier.csv<br/>(không commit, DUA)"]
+        SP["pulsewatch_dev/test.csv, liu_dev/test.csv<br/>deepbeat_*_v6_classifier.csv<br/>(commit)"]
     end
 
     MIMIC -->|notebooks/v4/00| V4
@@ -314,28 +314,28 @@ flowchart LR
 
 | Thư mục | Nội dung | Sinh bởi | Commit? |
 |---|---|---|---|
-| `raw/mimic_perform/` | PPG + ECG gốc, 35 bệnh nhân, `af/` và `non-af/` | [Zenodo 6973963](https://zenodo.org/records/6973963) | Không, tải về |
-| `raw/deepbeat/`, `raw/pulsewatch/`, `raw/liu2022/` | PPG gốc của ba domain còn lại | Synapse (cần tài khoản và DUA), GitHub zdzdliu | Không, tải về |
-| `cache/` | memmap tín hiệu DeepBeat để trích đặc trưng nhanh | `notebooks/v6/00` | Không |
+| `raw/mimic_perform/` | PPG + ECG gốc, 35 bệnh nhân, `af/` và `non-af/` | [Zenodo 6973963](https://zenodo.org/records/6973963) | **Có** |
+| `raw/deepbeat/`, `raw/pulsewatch/`, `raw/liu2022/` | PPG gốc của ba domain còn lại | Synapse (cần tài khoản và DUA), GitHub zdzdliu | Chưa có trên máy này; tải về thì commit |
+| `cache/` | memmap tín hiệu DeepBeat để trích đặc trưng nhanh | `notebooks/v6/00` | Có khi sinh ra |
 | `features/v4/` | `mimic_features_v4.csv`, `afdb_features_v4.csv`: 16 đặc trưng HRV cửa sổ 30 s | `notebooks/v4/00` (`src/healthsense_ml`) | **Có** |
-| `features/v5/` | `af_features_cosen_ac.csv`: bảng train V5 trên MIMIC, thêm PPG_AC (commit); `af_specific_features.csv` trung gian và `afdb_features_v5_afib_only.csv` (không) | `notebooks/v5/scripts/build_*`, `src/healthsense_ml/afdb.py` | Một phần |
+| `features/v5/` | `af_features_cosen_ac.csv`: bảng train V5 trên MIMIC, thêm PPG_AC (commit); `af_specific_features.csv` trung gian và `afdb_features_v5_afib_only.csv` (không) | `notebooks/v5/scripts/build_*`, `src/healthsense_ml/afdb.py` | **Có** |
 | `features/v6/` | DeepBeat train/validate/test và MIMIC, 14 đặc trưng (13 HRV + PPG_AC) | `notebooks/v6/00` | **Có** |
 | `features/v7/` | `healthsense_af_v6c_pacaware_train.csv` (137 476 cửa sổ, 248 bệnh nhân, 4 domain), `hard_negative_v7_v2.csv`, bảng V6B | `notebooks/v6/00`, `notebooks/v6/01` | **Có** |
-| `splits/` | DEV/TEST theo bệnh nhân của PulseWatch và Liu (kèm seed), manifest cửa sổ DeepBeat, SHA-256 nguồn | `notebooks/v6/00` | Không (DUA) |
+| `splits/` | DEV/TEST theo bệnh nhân của PulseWatch và Liu (kèm seed), manifest cửa sổ DeepBeat, SHA-256 nguồn | `notebooks/v6/00` | **Có** |
 | `sample/` | Vài tệp nhỏ để chạy thử | Cắt từ MIMIC | **Có** |
 
-**Đặc trưng V6, V7 được commit** (khoảng 108 MB) vì là dữ liệu đã xử lý, không chứa tín hiệu thô; riêng `splits/` (manifest kèm mã bệnh nhân Synapse) và `raw/` vẫn không commit vì thoả thuận sử dụng dữ liệu của DeepBeat và PulseWatch. Tệp không commit chia sẻ nội bộ qua ổ đĩa chung rồi đối chiếu SHA-256 trong `MANIFEST.csv`.
+**Toàn bộ `data/` được commit** (khoảng 475 MB, không tệp nào quá 50 MB): tín hiệu thô MIMIC, đặc trưng mọi đời, tập chia theo bệnh nhân. Chỉ `*_rebuilt.csv` (đầu ra khi chạy lại notebook) bị ignore. Lưu ý đặc trưng V6/V7 và `splits/` dẫn xuất từ DeepBeat, PulseWatch trên Synapse; khi công khai repo cần xem lại thoả thuận sử dụng dữ liệu của hai bộ đó.
 
 **Tái tạo từ đầu:**
 
-1. Tải MIMIC PERform AF vào `data/raw/mimic_perform/`; xin quyền Synapse cho DeepBeat và PulseWatch; clone Liu 2022.
+1. `data/raw/mimic_perform/` đã có trong repo; xin quyền Synapse cho DeepBeat và PulseWatch; clone Liu 2022.
 2. `notebooks/v4/00_prepare_features` → `data/features/v4/`.
 3. `notebooks/v5/01_train_frozen_rf` → model V5; `notebooks/v5/02_external_validation` → `results/v5/` (đầu vào cho bước sau).
 4. `notebooks/v6/00_extract_features_and_splits` → `data/features/v6/`, `data/splits/`; `notebooks/v6/01` → `data/features/v7/`; `notebooks/v6/02` → model V6C.
 5. `notebooks/v6/03_locked_protocol` → `results/v6/`.
 6. `python -m healthsense_ml.manifest` và so với `MANIFEST.csv` đã commit.
 
-Máy hiện tại **chưa có** `raw/` của ba domain ngoài MIMIC, nên bước 3 (kiểm định ngoài) và 4 (trích đặc trưng) chỉ chạy được trên máy đã tải dữ liệu; `splits/` và `results/v5` ở đây là bản chép từ máy đó.
+Máy hiện tại **chưa có** `raw/` của ba domain ngoài MIMIC, nên bước 3 (kiểm định ngoài) và 4 (trích đặc trưng) chỉ chạy được trên máy đã tải dữ liệu; `results/v5` ở đây là bản chép từ máy đó.
 
 ---
 
@@ -343,7 +343,7 @@ Máy hiện tại **chưa có** `raw/` của ba domain ngoài MIMIC, nên bướ
 
 ```text
 HealthSense-MachineLearning-Lab/
-├── data/                 # raw/ (tải về), features/v4..v7, splits/ (DEV/TEST theo bệnh nhân), MANIFEST.csv — mục 8
+├── data/                 # raw/ MIMIC, features/v4..v7, splits/ (DEV/TEST theo bệnh nhân), MANIFEST.csv — tất cả commit, mục 8
 ├── notebooks/            # mỗi phiên bản một thư mục, chạy theo số: v4/ v5/ v6/ (+ scripts/, v6/protocol/)
 ├── src/healthsense_ml/   # thư viện dùng chung: lọc, dò nhịp, 16 đặc trưng HRV, manifest
 ├── models/               # v4/ (pkl triển khai + model card, commit), v5/, v6/ (chỉ commit thẻ JSON, pkl lấy theo MANIFEST)
