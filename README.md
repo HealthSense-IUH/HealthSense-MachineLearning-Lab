@@ -5,6 +5,8 @@
 
 > **Phạm vi lâm sàng:** hệ thống hỗ trợ **sàng lọc và cảnh báo dấu hiệu nghi ngờ rung nhĩ từ PPG**. Kết quả PPG không thay thế xác nhận bằng **điện tâm đồ (Electrocardiography, ECG)** và không phải chẩn đoán y khoa [8].
 
+Đây là README duy nhất của repo: mọi mô tả thư mục con (`data/`, `notebooks/`, `src/`, `models/`, `results/`) đều nằm ở mục 8 và 9 bên dưới.
+
 ---
 
 ## Tiếng Việt
@@ -79,7 +81,7 @@ Dataset chính là **Medical Information Mart for Intensive Care (MIMIC) PERform
 - 4.130 cửa sổ PPG
 - cửa sổ 30 giây, bước trượt 10 giây
 
-V4 là baseline phương pháp luận, không còn là model nghiên cứu hiện tại.
+V4 là baseline phương pháp luận, không còn là model nghiên cứu hiện tại, nhưng là **bản đang chạy trên AI-Service**: `models/v4/healthsense_afib_pipeline.pkl` (XGBoost, 13 đặc trưng HRV, pooled LOSO 60 bệnh nhân MIMIC + AFDB, AUROC 0,988).
 
 ---
 
@@ -112,18 +114,20 @@ SampEn
 PPG_AC
 ```
 
-V5 được đánh giá trên nhiều nguồn dữ liệu:
+V5 được đánh giá trên nhiều nguồn dữ liệu bằng các script trong `notebooks/v5/scripts/` (notebook `notebooks/v5/02_external_validation.ipynb` gọi lần lượt):
 
-- DeepBeat [2]
-- PulseWatch [3]
-- Liu 2022 [4]
-- targeted PAC/PVC challenge [5]
+| Script | Việc |
+|---|---|
+| `train_frozen_model.py` | Huấn luyện và đóng băng Random Forest 14 đặc trưng trên MIMIC → `models/v5/` (bản notebook: `notebooks/v5/01_train_frozen_rf.ipynb`) |
+| `deepbeat_frozen_v5_external.py` | Chạy V5 trên DeepBeat [2] |
+| `pulsewatch_frozen_v5_external.py` | Chạy V5 trên PulseWatch [3], kể cả cửa sổ PAC/PVC |
+| `liu_pseudo30_frozen_v5.py` | Chạy V5 trên Liu 2022 [4] với cửa sổ giả 30 giây |
+| `peakdet_pac_pvc_frozen_v5.py` | Bộ thử PAC/PVC hard negative [5] |
+| `build_af_features.py`, `build_cosen_ac_features.py` | Dựng bảng train V5 `data/features/v5/af_features_cosen_ac.csv` từ đặc trưng V4 (thêm CoSEn, PPG_AC) |
 
-Kết quả cho thấy AF so với nhịp xoang tương đối dễ hơn, trong khi PAC/PVC là hard-negative quan trọng. Đây là một trong các động lực chính để chuyển sang huấn luyện multidomain ở V6.
+Kết quả cho thấy AF so với nhịp xoang tương đối dễ hơn, trong khi PAC/PVC là hard-negative quan trọng. Đây là một trong các động lực chính để chuyển sang huấn luyện multidomain ở V6. Đặc trưng và dự đoán sinh ra ghi vào `results/v5/` (gitignore vì dẫn xuất từ dữ liệu Synapse).
 
-Notebook:
-
-[HealthSense V5 Visual Review](notebooks/v5/review_visual.ipynb)
+Notebook: [HealthSense V5 Visual Review](notebooks/v5/review_visual.ipynb)
 
 ---
 
@@ -162,34 +166,36 @@ Các test split dưới đây tách theo subject nhưng đã được inspect nh
 | PulseWatch | 0.9985 | 0.9890 | 0.0095 |
 | Liu | 0.9866 | 0.9780 | 0.0322 |
 
-Notebook:
-
-[HealthSense V6 Research Freeze Visual Review](notebooks/v6/review_visual.ipynb)
+Notebook: [HealthSense V6 Research Freeze Visual Review](notebooks/v6/review_visual.ipynb)
 
 ---
 
-## 4. Locked scientific validation protocol
+## 4. Protocol đánh giá khoá của V6 (nguồn số liệu công bố)
 
-Sau các thử nghiệm temporal V6D–V6H, phần đánh giá cuối được reset sang protocol khóa tại:
+Sau các thử nghiệm temporal V6D–V6H, phần đánh giá cuối được reset sang protocol khoá gồm 18 script trong `notebooks/v6/protocol/`, chạy **đúng thứ tự số** từ gốc repo (notebook `notebooks/v6/03_locked_protocol.ipynb` gọi lần lượt). Cần có trước `models/v6/healthsense_af_v6c_stacking.pkl`, `data/features/v6/` và `data/splits/`. Tham số dò trên DEV được đóng băng kèm SHA-256 trước khi chạm TEST. Đầu ra ghi vào `results/v6/`.
 
-```text
-notebooks/v6/protocol/
-```
+| # | Script | Việc | Đầu ra chính |
+|---|---|---|---|
+| 01 | `generate_locked_predictions.py` | Dự đoán của V6C trên DEV, TEST của ba domain | `*_locked_predictions.csv` (gitignore) |
+| 02 | `audit_temporal_and_splits.py` | Kiểm tra thứ tự thời gian và không trùng bệnh nhân | `*_temporal_order_audit.csv` |
+| 03 | `build_verified_streams.py` | Chuỗi cửa sổ liên tục đã xác minh cho từng bệnh nhân | `*_verified_streams.csv` |
+| 04 | `tune_global_rule_dev.py` | Dò luật cảnh báo V1 trên DEV | `FROZEN_GLOBAL_RULE.json` |
+| 05 | `evaluate_frozen_rule_test.py` | Chấm luật V1 trên TEST | |
+| 06 | `tune_global_rule_v2_dev.py` | Dò Global rule V2 (p ≥ 0,8, bất định ≤ 0,05, 5 cửa sổ; rescue 0,9 và 2) | `FROZEN_GLOBAL_RULE_V2.json` |
+| 07 | `evaluate_global_rule_v2_test.py` | Chấm V2 trên TEST ở mức bệnh nhân | `global_rule_v2_reused_test_summary.csv` |
+| 08 | `calibration_diagnostics.py` | Platt scaling fit trên DEV, Brier và LogLoss trước, sau | `FROZEN_PLATT_CALIBRATOR.json`, `calibration_summary.csv` |
+| 09 | `subject_cluster_bootstrap.py` | Khoảng tin cậy mức cửa sổ bằng bootstrap theo cụm bệnh nhân | `window_metrics_subject_cluster_bootstrap.csv` |
+| 10 | `exact_subject_ci.py` | Khoảng tin cậy Wilson và exact ở mức bệnh nhân | `global_rule_v2_exact_subject_ci.csv` |
+| 11 | `lodo_domain_generalization.py` | Leave-One-Domain-Out, huấn luyện lại 4 lần | `lodo_*_summary.json` |
+| 12 | `collect_lodo_results.py` | Gom LODO thành một bảng | `lodo_domain_generalization_summary.csv` |
+| 13 | `ppg_ac_ablation_dev.py` | 13 so với 14 đặc trưng trên DEV | `ppg_ac_ablation_dev_*.csv` |
+| 14 | `pac_pvc_challenge.py` | Tỉ lệ báo nhầm trên bộ PAC/PVC | `pac_pvc_challenge_summary.csv` |
+| 15 | `deepbeat_lodo_forensics.py` | Vì sao LODO DeepBeat kém: FN so với TP | `deepbeat_lodo_*.csv` |
+| 16 | `deepbeat_domain_exposure.py` | Thêm bệnh nhân DeepBeat vào train thì được gì | `deepbeat_domain_exposure_summary.csv` |
+| 17 | `deepbeat_lodo_ppg_ac_ablation.py` | PPG_AC trên LODO DeepBeat | `deepbeat_lodo_ppg_ac_ablation_*.csv` |
+| 18 | `finalize_v6_research_freeze.py` | Chốt freeze, ghi SHA-256 mọi hiện vật | `V6_RESEARCH_FREEZE.md`, `V6_RESEARCH_FREEZE_SHA256.csv` |
 
-Protocol gồm 18 bước, bao phủ:
-
-- generation of locked predictions
-- subject split và temporal-order audit
-- verified stream construction
-- development-only temporal rule selection
-- test evaluation
-- calibration diagnostics
-- subject-level confidence intervals
-- **Leave-One-Domain-Out (LODO)** domain-generalization analysis
-- `PPG_AC` ablation
-- PAC/PVC hard-negative challenge
-- DeepBeat failure-mode analysis
-- final research freeze
+Các bảng tổng hợp trong `results/v6/` được commit và là nguồn số liệu của bài báo; dự đoán từng cửa sổ và verified streams thì không. Notebook `review_visual` và `defense/` đọc từ đây.
 
 ### Global Rule V2
 
@@ -273,57 +279,165 @@ PAC/PVC được theo dõi riêng vì đây là nguồn false positive quan tr�
 
 ---
 
-## 8. Cấu trúc repository
+## 8. Dữ liệu trong repo (`data/`)
+
+Thư mục `data/` đi theo dòng chảy **tín hiệu thô → đặc trưng → tập chia theo bệnh nhân**. `data/MANIFEST.csv` (sinh bằng `python -m healthsense_ml.manifest`, chạy từ gốc repo với `PYTHONPATH=src`) liệt kê kích thước và SHA-256 của mọi tệp trong `data/`, `results/v6/`, `models/` để đối chiếu khi chép giữa các máy.
+
+```mermaid
+flowchart LR
+    subgraph RAW["data/raw — tín hiệu gốc (không commit)"]
+        MIMIC["MIMIC PERform AF<br/>Zenodo, PPG 125 Hz"]
+        DB["DeepBeat<br/>Synapse syn21985690"]
+        PW["PulseWatch<br/>Synapse syn23565056"]
+        LIU["Liu 2022<br/>GitHub zdzdliu"]
+    end
+
+    subgraph FEAT["data/features — đặc trưng theo đời model"]
+        V4["v4/<br/>16 đặc trưng HRV, MIMIC + AFDB<br/>(commit)"]
+        V5["v5/<br/>+ PPG_AC trên MIMIC<br/>(commit bảng train V5)"]
+        V6["v6/<br/>14 đặc trưng, DeepBeat + MIMIC<br/>(không commit, DUA)"]
+        V7["v7/<br/>bảng train V6C đa domain<br/>+ hard negative PAC/PVC<br/>(không commit, DUA)"]
+    end
+
+    subgraph SPLIT["data/splits — chia theo bệnh nhân"]
+        SP["pulsewatch_dev/test.csv, liu_dev/test.csv<br/>deepbeat_*_v6_classifier.csv<br/>(không commit, DUA)"]
+    end
+
+    MIMIC -->|notebooks/v4/00| V4
+    MIMIC -->|notebooks/v5/scripts| V5
+    MIMIC & DB -->|notebooks/v6/00| V6
+    PW & LIU -->|notebooks/v6/00| SP
+    V6 & SP -->|notebooks/v6/01| V7
+    V7 -->|notebooks/v6/02| MODEL["models/v6/<br/>healthsense_af_v6c_stacking.pkl<br/>1,9 GB, không commit"]
+    MODEL & V6 & SP -->|notebooks/v6/03 protocol| RES["results/v6/<br/>bảng công bố (commit)<br/>dự đoán từng cửa sổ (không)"]
+```
+
+| Thư mục | Nội dung | Sinh bởi | Commit? |
+|---|---|---|---|
+| `raw/mimic_perform/` | PPG + ECG gốc, 35 bệnh nhân, `af/` và `non-af/` | [Zenodo 6973963](https://zenodo.org/records/6973963) | Không, tải về |
+| `raw/deepbeat/`, `raw/pulsewatch/`, `raw/liu2022/` | PPG gốc của ba domain còn lại | Synapse (cần tài khoản và DUA), GitHub zdzdliu | Không, tải về |
+| `cache/` | memmap tín hiệu DeepBeat để trích đặc trưng nhanh | `notebooks/v6/00` | Không |
+| `features/v4/` | `mimic_features_v4.csv`, `afdb_features_v4.csv`: 16 đặc trưng HRV cửa sổ 30 s | `notebooks/v4/00` (`src/healthsense_ml`) | **Có** |
+| `features/v5/` | `af_features_cosen_ac.csv`: bảng train V5 trên MIMIC, thêm PPG_AC (commit); `af_specific_features.csv` trung gian và `afdb_features_v5_afib_only.csv` (không) | `notebooks/v5/scripts/build_*`, `src/healthsense_ml/afdb.py` | Một phần |
+| `features/v6/` | DeepBeat train/validate/test và MIMIC, 14 đặc trưng (13 HRV + PPG_AC) | `notebooks/v6/00` | Không (DUA DeepBeat) |
+| `features/v7/` | `healthsense_af_v6c_pacaware_train.csv` (137 476 cửa sổ, 248 bệnh nhân, 4 domain), `hard_negative_v7_v2.csv`, bảng V6B | `notebooks/v6/00`, `notebooks/v6/01` | Không (DUA PulseWatch) |
+| `splits/` | DEV/TEST theo bệnh nhân của PulseWatch và Liu (kèm seed), manifest cửa sổ DeepBeat, SHA-256 nguồn | `notebooks/v6/00` | Không (DUA) |
+| `sample/` | Vài tệp nhỏ để chạy thử | Cắt từ MIMIC | **Có** |
+
+**Vì sao không commit đặc trưng V6, V7 và splits:** không phải vì kích thước (tổng khoảng 150 MB) mà vì **thoả thuận sử dụng dữ liệu**: DeepBeat và PulseWatch phát hành trên Synapse với điều khoản không phân phối lại, và đặc trưng kèm mã bệnh nhân vẫn là dữ liệu dẫn xuất. Chia sẻ nội bộ qua ổ đĩa chung rồi đối chiếu SHA-256 trong `MANIFEST.csv`.
+
+**Tái tạo từ đầu:**
+
+1. Tải MIMIC PERform AF vào `data/raw/mimic_perform/`; xin quyền Synapse cho DeepBeat và PulseWatch; clone Liu 2022.
+2. `notebooks/v4/00_prepare_features` → `data/features/v4/`.
+3. `notebooks/v5/01_train_frozen_rf` → model V5; `notebooks/v5/02_external_validation` → `results/v5/` (đầu vào cho bước sau).
+4. `notebooks/v6/00_extract_features_and_splits` → `data/features/v6/`, `data/splits/`; `notebooks/v6/01` → `data/features/v7/`; `notebooks/v6/02` → model V6C.
+5. `notebooks/v6/03_locked_protocol` → `results/v6/`.
+6. `python -m healthsense_ml.manifest` và so với `MANIFEST.csv` đã commit.
+
+Máy hiện tại **chưa có** `raw/` của ba domain ngoài MIMIC, nên bước 3 (kiểm định ngoài) và 4 (trích đặc trưng) chỉ chạy được trên máy đã tải dữ liệu; `features/v6`, `v7`, `splits/` và `results/v5` ở đây là bản chép từ máy đó.
+
+---
+
+## 9. Cấu trúc repository
 
 ```text
 HealthSense-MachineLearning-Lab/
-├── data/                 # raw/ (tải về), features/v4..v7, splits/ (DEV/TEST theo bệnh nhân), README có sơ đồ dòng dữ liệu, MANIFEST.csv
+├── data/                 # raw/ (tải về), features/v4..v7, splits/ (DEV/TEST theo bệnh nhân), MANIFEST.csv — mục 8
 ├── notebooks/            # mỗi phiên bản một thư mục, chạy theo số: v4/ v5/ v6/ (+ scripts/, v6/protocol/), defense/
 ├── src/healthsense_ml/   # thư viện dùng chung: lọc, dò nhịp, 16 đặc trưng HRV, manifest
 ├── models/               # v4/ (pkl triển khai + model card, commit), v5/, v6/ (chỉ commit thẻ JSON, pkl lấy theo MANIFEST)
-├── results/              # v4/, v5/, v6/ (số liệu công bố)
-└── tests/                # smoke test pipeline
+└── results/              # v4/, v5/, v6/ (số liệu công bố)
 ```
+
+### 9.1 `notebooks/` — mỗi phiên bản model một thư mục, chạy theo số thứ tự
+
+| Thư mục | Chuỗi notebook | Sinh ra |
+|---|---|---|
+| `v4/` | `00_prepare_features` → `01_evaluate_loso_cross_dataset` → `02_train_pooled_model` | `data/features/v4/`, kết quả LOSO và cross-dataset ở `results/v4/`, model `models/v4/` (bản AI-Service đang dùng; notebook ghi `_retrained` trừ khi bật `OVERWRITE_FROZEN`) |
+| `v5/` | `01_train_frozen_rf` → `02_external_validation` → `review_visual` | model V5 ở `models/v5/`, kết quả kiểm định ngoài ở `results/v5/` |
+| `v6/` | `00_extract_features_and_splits` → `01_prepare_training_table` → `02_train_stacking` → `03_locked_protocol` → `review_visual` | `data/features/v6,v7/`, `data/splits/`, model V6C ở `models/v6/`, số liệu công bố ở `results/v6/` |
+| `defense/` | `01_Data_Label_and_Signal_Audit` → `02_Frozen_Metrics_LODO_and_Ablations` → `03_Temporal_Calibration_and_Freeze` | hình và bảng bằng chứng để bảo vệ, xem 9.5 |
+
+Mỗi thư mục phiên bản có `scripts/` (các bước dài, notebook gọi bằng `run(...)`); riêng `v6/protocol/` là 18 script của protocol khoá (mục 4). Mọi notebook tự tìm gốc repo nên mở từ đâu cũng chạy; môi trường là `venv/` của repo. Notebook huấn luyện mặc định ghi `*_retrained` hoặc `*_rebuilt`, chỉ ghi đè hiện vật đóng băng khi bật `OVERWRITE_FROZEN` / `OVERWRITE`. Những bước cần dữ liệu Synapse (V5 kiểm định ngoài, V6 trích đặc trưng, protocol) chỉ chạy được trên máy đã tải dữ liệu đó.
+
+Chạy không cần giao diện:
+
+```bash
+venv\Scripts\jupyter nbconvert --to notebook --execute --inplace notebooks/v6/02_train_stacking.ipynb
+```
+
+### 9.2 `src/healthsense_ml/` — thư viện dùng chung
+
+Đây là **định nghĩa gốc** của phép đo: lọc tín hiệu, dò nhịp, chuỗi NN và 16 đặc trưng HRV (13 đặc trưng dùng huấn luyện sau khi bỏ nhóm LF). `HealthSense-AI-Service/app/services/hrv_v4.py` là bản sao được kiểm tra tương đương bằng `tests/parity_check.py` bên service; sửa một bên thì phải chạy lại parity. Ba module 1, 3, 5 là phần AI-Service import trực tiếp; không đổi chữ ký hàm của chúng.
+
+| # | Module | Việc |
+|---|---|---|
+| 1 | `config.py` | Hằng số: 125 Hz, dải lọc 0,5–8 Hz, cửa sổ 30 s bước 10 s, danh sách đặc trưng, đường dẫn `data/`, `models/`, `results/` |
+| 2 | `data_loading.py` | Nạp PPG thô MIMIC PERform AF từ `data/raw/mimic_perform/` |
+| 3 | `signal_processing.py` | Lọc bandpass → dò nhịp theo z-score → chuỗi NN trong giới hạn sinh lý |
+| 4 | `beat_validation.py` | Chấm bộ dò nhịp PPG bằng R-peak của ECG ghi song song |
+| 5 | `hrv_features.py` | Chuỗi NN → 16 đặc trưng HRV theo Task Force 1996 (thời gian, tần số, Poincaré, SampEn) |
+| 6 | `feature_extraction.py` | Cắt cửa sổ trượt và gom bảng đặc trưng `data/features/v4/mimic_features_v4.csv` |
+| 7 | `afdb.py` | Cùng pipeline cho MIT-BIH AFDB (ECG) → `data/features/v5/afdb_features_v5_afib_only.csv` |
+| 8 | `training.py` | Registry model và lưới tham số, mặt nạ IQR chỉ fit trên train |
+| 9 | `evaluation.py` | LOSO, metric hai mức cửa sổ và bệnh nhân |
+| 10 | `manifest.py` | Sinh `data/MANIFEST.csv` (SHA-256 của dữ liệu và model), chạy `python -m healthsense_ml.manifest` |
+
+Phần V5 và V6 (PPG_AC, đa domain, stacking) không nằm ở đây mà trong `notebooks/v5/` và `notebooks/v6/` (kèm `scripts/`), vì chúng có tham số đóng băng riêng; chúng vẫn import thư viện này để tính đặc trưng. Bảo tàng phiên bản v1–v4 cũ (`src/v1..v4`, `src/vlab`, `src/report`) đã gỡ khỏi repo; lịch sử còn trong git.
+
+### 9.3 `models/` — model nạp được vào chương trình, mỗi phiên bản một thư mục
+
+| Thư mục | Model | Commit? | Sinh bởi |
+|---|---|---|---|
+| `v4/` | `healthsense_afib_pipeline.pkl` (248 KB): sklearn Pipeline `StandardScaler → XGBClassifier`, 13 đặc trưng HRV theo thứ tự trong `model_card.json`, train trên 60 bệnh nhân MIMIC + AFDB có cân bằng nguồn. **Đây là bản AI-Service đang chạy** (`HealthSense-AI-Service/app/models/`, sao chép từng byte) | pkl + JSON | `notebooks/v4/02_train_pooled_model` |
+| `v5/` | `healthsense_af_v5_rf_ac_frozen.pkl` (1 MB): Random Forest 14 đặc trưng (thêm PPG_AC), đóng băng trên MIMIC; kèm `.json` và `.sha256` | chỉ JSON, SHA | `notebooks/v5/01_train_frozen_rf` |
+| `v6/` | `healthsense_af_v6c_stacking.pkl` (1,9 GB): Extra Trees + Random Forest + XGBoost → Logistic Regression meta, 137 476 cửa sổ / 248 bệnh nhân / 4 domain; kèm `.json`. Thẻ JSON của V6A, V6B giữ lại để đối chiếu lịch sử | chỉ JSON | `notebooks/v6/02_train_stacking`; bản chuẩn xin từ máy đã train, đối chiếu SHA-256 trong `data/MANIFEST.csv` |
+
+Ba quy tắc:
+
+1. **Scaler nằm trong Pipeline.** AI-Service từng nhận một `MLPClassifier` trần (`best_model_8165.pkl`) không kèm scaler và cho kết quả rác mà không báo lỗi; `load_model()` bên đó nay từ chối model không đóng gói tiền xử lý.
+2. **Thẻ JSON cạnh mỗi pkl** ghi phiên bản, danh sách đặc trưng đúng thứ tự và số liệu thật (các đời v1–v3 từng bị thổi phồng 6–7 điểm vì data leakage).
+3. **Notebook train không đè bản đóng băng.** Mặc định ghi `*_retrained.pkl` / `*_retrained.json` cạnh bản chuẩn để so sánh; chỉ ghi đè khi bật `OVERWRITE_FROZEN`. Muốn thay bản triển khai V4 thì bật cờ, chạy lại, rồi chép sang AI-Service và chạy `tests/parity_check.py` bên đó.
+
+### 9.4 `results/` — số liệu đã sinh, chia theo phiên bản
+
+| Thư mục | Nội dung | Sinh bởi |
+|---|---|---|
+| `v4/` | `benchmark_v4/` LOSO 35 bệnh nhân MIMIC, `cross_dataset/` MIMIC ↔ AFDB, `beat_validation/` dò nhịp so với R-peak ECG, `pooled_loso_*` 60 bệnh nhân; `baseline/`, `label_audit/`, `beat_detector/`, `sqi/` là bảng nhỏ của các kiểm tra sớm mà notebook defense đọc | `notebooks/v4/` |
+| `v5/` | Bảng tóm tắt, đặc trưng và dự đoán khi kiểm định ngoài V5 (toàn bộ ignore, dẫn xuất từ Synapse) | `notebooks/v5/02_external_validation` |
+| `v6/` | Số liệu công bố: cửa sổ, LODO, Global rule V2, Platt, PAC/PVC, SHA-256 của freeze (commit); dự đoán từng cửa sổ và verified streams (ignore) | `notebooks/v6/03_locked_protocol` |
+
+### 9.5 `notebooks/defense/` — notebook bằng chứng để bảo vệ
+
+Ba notebook biến hiện vật nghiên cứu đã lưu thành bằng chứng trực quan kiểm toán được. Chúng **không train model, không chọn điểm vận hành mới, không ghi đè hiện vật đóng băng**; `healthsense_evidence_utils.py` phải nằm cạnh. Chạy `01` → `02` → `03` bằng Restart Kernel and Run All; đầu ra ghi vào `outputs/healthsense_defense_evidence/<timestamp>/` (hình `.png` + `.pdf`, bảng `.csv`, `*_input_manifest.json` ghi Git HEAD, đường dẫn, SHA-256 của đầu vào). `EVIDENCE_MAP.csv` nối từng hình với tệp nguồn trong `results/`.
+
+| Notebook | Hình / bằng chứng |
+|---|---|
+| `01_Data_Label_and_Signal_Audit` | Kiểm kê dự đoán đã khoá theo dataset/split, kiểm tra trùng bệnh nhân, baseline lịch sử, chênh lệch nhãn AFIB/AFL, bộ dò nhịp PPG, ROC của SQI từ `results/v4/sqi/` |
+| `02_Frozen_Metrics_LODO_and_Ablations` | AUROC / PR-AUC / Brier trên reused TEST kèm CI theo cụm bệnh nhân; 4 domain LODO với TP/TN/FP/FN và sensitivity/specificity/accuracy/F1; ma trận nhầm lẫn; ablation 13F/14F; FPR PAC/PVC; DeepBeat base-vs-stack và FN-vs-TP |
+| `03_Temporal_Calibration_and_Freeze` | Luật cảnh báo chọn trên DEV và ràng buộc chọn; độ phủ verified stream; ma trận nhầm lẫn mức bệnh nhân (exploratory); CI exact của sensitivity; Brier thô so với Platt trên DEV; cổng kiểm tra SHA-256; giới hạn và trạng thái freeze |
+
+Mức bằng chứng cần phân biệt khi trích dẫn: *vẽ lại từ CSV có sẵn* (bảng kết quả gốc), *tính lại từ số đếm nhầm lẫn đã lưu*, *tính lại từ dự đoán đã lưu* (chỉ khi `*_test_locked_predictions.csv` có trên máy và khớp SHA đã khoá), *reused subject-held-out TEST* (tách theo bệnh nhân nhưng đã được xem trong lúc phát triển), *LODO hồi cứu*, *cảnh báo mức bệnh nhân exploratory* (luật chọn trên DEV, không có khẳng định confirmatory). Notebook 02 không bao giờ dựng lại ROC từ một con số AUROC; thiếu tệp thì ghi rõ là thiếu. Kiểm tra hash của model 1,9 GB tắt mặc định, bật bằng `HEALTHSENSE_HASH_LARGE=1`. Các hiện vật thăm dò trong `results/v6/deprecated_exploratory_artifacts.csv` không được nâng lên thành kết quả confirmatory.
 
 ---
 
-## 9. Cài đặt và chạy
+## 10. Cài đặt và chạy
 
-### Môi trường nghiên cứu hiện tại
-
-```bash
-cd HealthSense-MachineLearning-Lab
-conda activate healthsense-af-v5
-jupyter lab
-```
-
-Hoặc tạo môi trường mới:
+Môi trường của repo là `venv/` (Python 3.10 trở lên):
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+python -m venv venv
+venv\Scripts\activate
 pip install -r requirements.txt
-```
-
-Windows:
-
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-Mở notebook:
-
-```bash
 jupyter lab notebooks/
 ```
 
-Một số bước như LODO, ablation và bootstrap có thể tốn thời gian. Không nên tuning tiếp trên các benchmark hiện tại nếu mục tiêu là giữ tính độc lập cho bước validation tiếp theo.
+Linux/macOS thay dòng kích hoạt bằng `source venv/bin/activate`. Script trong `notebooks/*/scripts/` và `notebooks/v6/protocol/` chạy từ gốc repo với `PYTHONPATH=src` (notebook runner tự đặt). Một số bước như LODO, ablation và bootstrap có thể tốn thời gian. Không nên tuning tiếp trên các benchmark hiện tại nếu mục tiêu là giữ tính độc lập cho bước validation tiếp theo.
 
 ---
 
-## 10. Giới hạn nghiên cứu
+## 11. Giới hạn nghiên cứu
 
 - PPG screening không thay thế ECG confirmation [8].
 - Các reused subject-held-out benchmarks đã được inspect nhiều lần.
@@ -337,7 +451,7 @@ Một số bước như LODO, ablation và bootstrap có thể tốn thời gian
 
 ---
 
-## 11. Hướng tiếp theo
+## 12. Hướng tiếp theo
 
 1. Giữ nguyên V6 freeze, không tuning tiếp trên benchmark hiện tại.
 2. Untouched external validation trên MIMIC-III-Ext-PPG khi được cấp quyền.
@@ -421,15 +535,9 @@ DeepBeat exposes a substantial domain shift and remains an important failure mod
 
 ## Reproducibility
 
-Core research code:
+Each model version has its own numbered notebook chain under `notebooks/v4/`, `notebooks/v5/`, `notebooks/v6/`; long steps live in the adjacent `scripts/` folders and the 18-step locked protocol in `notebooks/v6/protocol/` (see section 4). Shared signal-processing and feature code is `src/healthsense_ml/`.
 
-```text
-results/v5/
-notebooks/v6/scripts/
-notebooks/v6/protocol/
-```
-
-Large generated feature matrices, row-level predictions and V6 model binaries are intentionally not stored in normal Git history.
+Large generated feature matrices, row-level predictions and V6 model binaries are intentionally not stored in normal Git history; `data/MANIFEST.csv` carries their SHA-256.
 
 Main notebooks:
 
@@ -456,4 +564,48 @@ Main notebooks:
 
 8. **Van Gelder IC, Rienstra M, Bunting KV, et al.** 2024 European Society of Cardiology Guidelines for the management of atrial fibrillation developed in collaboration with the European Association for Cardio-Thoracic Surgery. *European Heart Journal*. 2024;45(36):3314-3414. DOI: [10.1093/eurheartj/ehae176](https://doi.org/10.1093/eurheartj/ehae176).
 
-For additional background references, see [`REFERENCES.md`](REFERENCES.md).
+### Tài liệu nền (background references)
+
+Các tài liệu dưới đây không được trích dẫn trực tiếp trong phần trên nhưng là cơ sở cho lựa chọn đặc trưng HRV, việc dùng PPG thay ECG và hướng phát hiện AF bằng thiết bị đeo. Đánh số tiếp theo [1]–[8].
+
+**Cơ sở lý thuyết HRV.** Định nghĩa 16 đặc trưng HRV (SDNN, RMSSD, pNN50, LF, HF, LF/HF, Poincaré) và chuẩn đo lường mà `src/healthsense_ml/hrv_features.py` theo.
+
+9. **Task Force of the European Society of Cardiology and the North American Society of Pacing and Electrophysiology.** Heart rate variability: standards of measurement, physiological interpretation and clinical use. *European Heart Journal*. 1996;17(3):354-381. DOI: [10.1093/oxfordjournals.eurheartj.a014868](https://doi.org/10.1093/oxfordjournals.eurheartj.a014868).
+10. **Shaffer F, Ginsberg JP.** An overview of heart rate variability metrics and norms. *Frontiers in Public Health*. 2017;5:258. DOI: [10.3389/fpubh.2017.00258](https://doi.org/10.3389/fpubh.2017.00258).
+11. **Malik M, et al.** Heart rate variability in relation to prognosis after myocardial infarction: selection of optimal processing techniques. *European Heart Journal*. 1989;10(12):1060-1074. DOI: [10.1093/oxfordjournals.eurheartj.a059575](https://doi.org/10.1093/oxfordjournals.eurheartj.a059575).
+
+**PPG đo HRV chính xác tới đâu so với ECG.** Lý do chuỗi NN từ PPG dùng được cho đặc trưng vốn định nghĩa trên ECG.
+
+12. **Schäfer A, Vagedes J.** How accurate is pulse rate variability as an estimate of heart rate variability? A review on studies comparing photoplethysmographic technology with an electrocardiogram. *International Journal of Cardiology*. 2013;166(1):15-29. DOI: [10.1016/j.ijcard.2012.09.119](https://doi.org/10.1016/j.ijcard.2012.09.119). Khi nghỉ, PPG và ECG tương quan r > 0,99.
+13. **Georgiou K, et al.** Can wearable devices accurately measure heart rate variability? A systematic review. *Folia Medica*. 2018;60(1):7-20. DOI: [10.2478/folmed-2018-0012](https://doi.org/10.2478/folmed-2018-0012). RMSSD và SDNN sai lệch dưới 5% so với ECG khi ít vận động.
+14. **Bent B, et al.** Investigating sources of inaccuracy in wearable optical heart rate sensors. *npj Digital Medicine*. 2020;3:18. DOI: [10.1038/s41746-020-0226-6](https://doi.org/10.1038/s41746-020-0226-6). Độ chính xác phụ thuộc màu da, vận động, vị trí đeo.
+15. **Charlot K, et al.** Interchangeability of heart rate variability measured by PPG and ECG. *Sensors*. 2022;22(13):4984. DOI: [10.3390/s22134984](https://doi.org/10.3390/s22134984). ICC > 0,90 khi nghỉ.
+16. **Peralta E, et al.** Assessing the quality of heart rate variability estimated from wrist and finger PPG: a novel approach based on cross-mapping method. *Sensors*. 2019;19(16):3552. DOI: [10.3390/s19163552](https://doi.org/10.3390/s19163552). PPG ngón tay gần HRV từ ECG hơn PPG cổ tay.
+17. **Fine J, et al.** Sources of inaccuracy in photoplethysmography for continuous cardiovascular monitoring. *Biosensors*. 2021;11(4):126. DOI: [10.3390/bios11040126](https://doi.org/10.3390/bios11040126). Pulse transit time gây dịch pha nhưng không ảnh hưởng khoảng RR.
+
+| Điều kiện | Tương quan PPG so với ECG | Nguồn |
+|---|---|---|
+| Ngồi, nằm nghỉ | ICC > 0,90; r > 0,99 | [12] [13] [15] |
+| Đi bộ nhẹ | ICC khoảng 0,85; sai lệch 5–10% | [13] [14] |
+| Vận động mạnh | ICC giảm; sai lệch 15–20% | [14] |
+
+**Phát hiện AF bằng PPG trên thiết bị đeo.** Bằng chứng rằng bài toán khả thi ở quy mô lớn và mốc hiệu năng để so sánh.
+
+18. **Perez MV, et al.** Large-scale assessment of a smartwatch to identify atrial fibrillation (Apple Heart Study). *New England Journal of Medicine*. 2019;381:1909-1917. DOI: [10.1056/NEJMoa1901183](https://doi.org/10.1056/NEJMoa1901183). PPV 84% trên 419 297 người.
+19. **Bumgarner JM, et al.** Smartwatch algorithm for automated detection of atrial fibrillation. *Journal of the American College of Cardiology*. 2018;71(21):2381-2388. DOI: [10.1016/j.jacc.2018.03.003](https://doi.org/10.1016/j.jacc.2018.03.003). Sensitivity 93%, specificity 84%.
+20. **Mannhart D, et al.** Clinical validation of 5 direct-to-consumer wearable smart devices to detect atrial fibrillation (BASEL Wearable Study). *JACC: Clinical Electrophysiology*. 2023;9(2):232-242. DOI: [10.1016/j.jacep.2022.09.011](https://doi.org/10.1016/j.jacep.2022.09.011).
+21. **Düking P, et al.** Use of a smart watch for early detection of paroxysmal atrial fibrillation: validation study. *JMIR Cardio*. 2020;4(1):e14857. DOI: [10.2196/14857](https://doi.org/10.2196/14857).
+22. Accuracy of smartwatches in the detection of atrial fibrillation: systematic review and meta-analysis. 2025. [PMC11737279](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11737279/). Sensitivity và specificity gộp trên 90%.
+
+**Dữ liệu ECG công khai.** Dùng để kiểm định chéo: ECG → khoảng RR → cùng không gian đặc trưng HRV với PPG.
+
+23. **MIT-BIH Atrial Fibrillation Database** (AFDB). PhysioNet. [physionet.org/content/afdb/1.0.0](https://physionet.org/content/afdb/1.0.0/). Đã dùng ở V4 cho `data/features/v4/afdb_features_v4.csv` và kiểm định chéo MIMIC ↔ AFDB.
+24. **PhysioNet/CinC Challenge 2017** (AF classification from a short single-lead ECG). [physionet.org/content/challenge-2017/1.0.0](https://physionet.org/content/challenge-2017/1.0.0/). Chưa dùng.
+25. **PPG-DaLiA** (PPG dataset for motion compensation and heart rate estimation in daily life activities). UCI Machine Learning Repository. [archive.ics.uci.edu/dataset/495](https://archive.ics.uci.edu/dataset/495/ppg+dalia). Chưa dùng.
+
+**Xử lý tín hiệu PPG.** Lọc bandpass, dò đỉnh, bù nhiễu chuyển động và chuẩn hoá giữa thiết bị.
+
+26. **Reiss A, et al.** Deep PPG: large-scale heart rate estimation with convolutional neural networks. *Sensors*. 2019;19(14):3079. DOI: [10.3390/s19143079](https://doi.org/10.3390/s19143079).
+27. **Biswas D, et al.** CorNET: deep learning framework for PPG-based heart rate estimation and biometric identification in ambulant environment. *IEEE Transactions on Instrumentation and Measurement*. 2019;68(10):3637-3648. DOI: [10.1109/TIM.2018.2882523](https://doi.org/10.1109/TIM.2018.2882523).
+
+**Chuỗi lập luận mà các tài liệu trên đỡ cho repo:** HRV là chỉ số y khoa chuẩn hoá [9] [10] → PPG đo HRV gần bằng ECG khi ít vận động [12] [13] [15] → PPG trên thiết bị đeo phát hiện AF với sensitivity trên 90% [18] [19] [22] → vì ECG và PPG cùng cho khoảng RR nên có thể huấn luyện và kiểm định chéo trên dữ liệu ECG (AFDB [23]) rồi áp dụng cho PPG [12] → chuẩn hoá z-score nằm trong Pipeline và SQI gate xử lý khác biệt thiết bị [14] [26] [27].
