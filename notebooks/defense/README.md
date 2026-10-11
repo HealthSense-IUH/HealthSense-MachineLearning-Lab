@@ -56,7 +56,7 @@ If these generated outputs are intended to be committed to GitHub, manually revi
 
 ### Crucial missing objects
 
-1. `models/multidomain/healthsense_af_v6c_stacking.pkl` is not in normal Git. Its declared hash is in `locked_inputs_SHA256.txt`.
+1. `models/v6/healthsense_af_v6c_stacking.pkl` is not in normal Git. Its declared hash is in `locked_inputs_SHA256.txt`.
 2. `*_test_locked_predictions.csv` are not committed. Notebook 02 **never reconstructs an ROC curve from an aggregate AUROC**. If present locally, it validates each prediction CSV against the frozen SHA before recomputing ROC, PR and 0.5 confusion metrics. Otherwise it explicitly marks the missing file.
 3. The complete `dev_global_rule_v2_grid.csv` is not in the checked tree. Notebook 03 shows the selected DEV rule and its recorded metrics, **not invented grid-search results**.
 4. Current repo alone does not show clinical validation with reference ECG on real wearable users or that the deployed AI Service is running the same frozen model and 14-feature schema.

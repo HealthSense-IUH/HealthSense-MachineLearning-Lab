@@ -90,7 +90,7 @@ V5 đóng băng một Random Forest sử dụng 14 đặc trưng, trong đó b�
 Model:
 
 ```text
-models/mimic/healthsense_af_v5_rf_ac_frozen.pkl
+models/v5/healthsense_af_v5_rf_ac_frozen.pkl
 ```
 
 Feature contract:
@@ -280,7 +280,7 @@ HealthSense-MachineLearning-Lab/
 ├── data/                 # raw/ (tải về), features/v4..v7, splits/ (DEV/TEST theo bệnh nhân), README có sơ đồ dòng dữ liệu, MANIFEST.csv
 ├── notebooks/            # mỗi phiên bản một thư mục, chạy theo số: v4/ v5/ v6/ (+ scripts/, v6/protocol/), defense/
 ├── src/healthsense_ml/   # thư viện dùng chung: lọc, dò nhịp, 16 đặc trưng HRV, manifest
-├── models/               # healthsense_afib_pipeline.pkl (V4 triển khai), mimic/ (V5), multidomain/ (V6C, pkl không commit)
+├── models/               # v4/ (pkl triển khai + model card, commit), v5/, v6/ (chỉ commit thẻ JSON, pkl lấy theo MANIFEST)
 ├── results/              # v4/, v5/, v6/ (số liệu công bố)
 └── tests/                # smoke test pipeline
 ```

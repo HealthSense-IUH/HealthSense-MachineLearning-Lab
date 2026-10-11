@@ -1,7 +1,7 @@
 {
   "project": "HealthSense AF PPG Screening",
   "freeze_version": "V6_RESEARCH_FREEZE_2026_09",
-  "primary_model": "models/multidomain/healthsense_af_v6c_stacking.pkl",
+  "primary_model": "models/v6/healthsense_af_v6c_stacking.pkl",
   "feature_schema": {
     "n_features": 14,
     "features": [

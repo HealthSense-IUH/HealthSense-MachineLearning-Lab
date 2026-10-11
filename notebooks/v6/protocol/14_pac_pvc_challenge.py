@@ -14,7 +14,7 @@ ART = (
 
 MODEL = (
     ROOT /
-    "models/multidomain/"
+    "models/v6/"
     "healthsense_af_v6c_stacking.pkl"
 )
 

@@ -40,7 +40,7 @@ def build(verbose: bool = True) -> list[dict]:
         for path in sorted(base.rglob("*")):
             if not path.is_file() or path.name in SKIP_NAMES or path.suffix in SKIP_SUFFIXES:
                 continue
-            if any(m in path.name for m in SKIP_MARKERS) or "models/final" in path.relative_to(ROOT).as_posix():
+            if any(m in path.name for m in SKIP_MARKERS):
                 continue
             rel = path.relative_to(ROOT).as_posix()
             rows.append({"path": rel, "bytes": path.stat().st_size, "sha256": sha256(path)})

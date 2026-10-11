@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[3]
 
 OUT = ROOT / "results/v6"
 
-MODEL = ROOT / "models/multidomain/healthsense_af_v6c_stacking.pkl"
+MODEL = ROOT / "models/v6/healthsense_af_v6c_stacking.pkl"
 
 
 FEATURES = [

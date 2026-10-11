@@ -29,7 +29,7 @@ flowchart LR
     MIMIC & DB -->|notebooks/v6/00| V6
     PW & LIU -->|notebooks/v6/00| SP
     V6 & SP -->|notebooks/v6/01| V7
-    V7 -->|notebooks/v6/02| MODEL["models/multidomain/<br/>healthsense_af_v6c_stacking.pkl<br/>1,46 GB, không commit"]
+    V7 -->|notebooks/v6/02| MODEL["models/v6/<br/>healthsense_af_v6c_stacking.pkl<br/>1,46 GB, không commit"]
     MODEL & V6 & SP -->|notebooks/v6/03 protocol| RES["results/v6/<br/>bảng công bố (commit)<br/>dự đoán từng cửa sổ (không)"]
 ```
 

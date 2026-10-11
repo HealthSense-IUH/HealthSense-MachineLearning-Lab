@@ -22,12 +22,12 @@ DATA = (
 )
 
 OUT_MODEL = (
-    "models/mimic/"
+    "models/v5/"
     "healthsense_af_v5_rf_ac_frozen.pkl"
 )
 
 OUT_META = (
-    "models/mimic/"
+    "models/v5/"
     "healthsense_af_v5_rf_ac_frozen.json"
 )
 
@@ -98,7 +98,7 @@ print(
 import os
 
 os.makedirs(
-    "models/mimic",
+    "models/v5",
     exist_ok=True,
 )
 

@@ -2,7 +2,7 @@
 
 | Script | Việc |
 |---|---|
-| `train_frozen_model.py` | Huấn luyện và đóng băng Random Forest 14 đặc trưng trên MIMIC → `models/mimic/`. Bản notebook: `notebooks/v5/01_train_frozen_rf.ipynb` |
+| `train_frozen_model.py` | Huấn luyện và đóng băng Random Forest 14 đặc trưng trên MIMIC → `models/v5/`. Bản notebook: `notebooks/v5/01_train_frozen_rf.ipynb` |
 | `deepbeat_frozen_v5_external.py` | Chạy V5 trên DeepBeat |
 | `pulsewatch_frozen_v5_external.py` | Chạy V5 trên PulseWatch, kể cả cửa sổ PAC/PVC |
 | `liu_pseudo30_frozen_v5.py` | Chạy V5 trên Liu 2022 với cửa sổ giả 30 giây |

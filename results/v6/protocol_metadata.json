@@ -1,5 +1,5 @@
 {
-  "model": "/home/phuc/Documents/HealthSense_rungtamnhi/models/multidomain/healthsense_af_v6c_stacking.pkl",
+  "model": "/home/phuc/Documents/HealthSense_rungtamnhi/models/v6/healthsense_af_v6c_stacking.pkl",
   "model_features": [
     "HR_mean",
     "Mean_NN",

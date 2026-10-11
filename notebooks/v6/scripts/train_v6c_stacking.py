@@ -23,7 +23,7 @@ DATA = (
 
 
 OUT = Path(
-    "models/multidomain/"
+    "models/v6/"
 )
 
 OUT.mkdir(

@@ -39,7 +39,7 @@ MANIFEST = ROOT / "pulsewatch_manifest_3class_strict.csv"
 AUDIT = ROOT / "pulsewatch_waveform_audit_v2.csv"
 
 MODEL_PATH = Path(
-    "models/mimic/"
+    "models/v5/"
     "healthsense_af_v5_rf_ac_frozen.pkl"
 )
 

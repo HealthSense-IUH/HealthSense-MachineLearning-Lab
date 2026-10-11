@@ -10,17 +10,16 @@ data/features/v5/*
 data/features/v6/
 data/features/v7/
 
-# ---------- models ----------
+# ---------- models: chỉ commit V4 triển khai và thẻ JSON; pkl V5/V6 lấy theo data/MANIFEST.csv ----------
 *.pkl
-!models/*.pkl
-models/multidomain/*.pkl
-models/multidomain/*.joblib
-models/final/
-models/**/*_retrained.*
+!models/v4/healthsense_afib_pipeline.pkl
+*.joblib
 *.pth
 *.h5
 *.keras
 *.msgpack
+**/*_retrained.*
+**/*_rebuilt.*
 
 # ---------- results: dẫn xuất từ dữ liệu Synapse hoặc quá lớn ----------
 results/v5/*.csv

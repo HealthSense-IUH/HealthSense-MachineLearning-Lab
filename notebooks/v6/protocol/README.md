@@ -1,6 +1,6 @@
 # 08 — Protocol đánh giá khoá của V6 (nguồn số liệu công bố)
 
-Chạy **đúng thứ tự số**, từ gốc repo, sau khi có `models/multidomain/healthsense_af_v6c_stacking.pkl`, `data/features/v6/` và `07/artifacts/hard_domain_splits/`. Tham số dò trên DEV được đóng băng kèm SHA-256 trước khi chạm TEST.
+Chạy **đúng thứ tự số**, từ gốc repo, sau khi có `models/v6/healthsense_af_v6c_stacking.pkl`, `data/features/v6/` và `07/artifacts/hard_domain_splits/`. Tham số dò trên DEV được đóng băng kèm SHA-256 trước khi chạm TEST.
 
 | # | Script | Việc | Đầu ra chính |
 |---|---|---|---|
