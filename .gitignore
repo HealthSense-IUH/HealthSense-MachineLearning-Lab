@@ -42,3 +42,6 @@ venv/
 *.bak
 catboost_info/
 third_party/
+
+# Xoá tay rồi bỏ dòng này: thư mục đã gỡ khỏi git nhưng ACL không cho session xoá trên đĩa
+notebooks/defense/
