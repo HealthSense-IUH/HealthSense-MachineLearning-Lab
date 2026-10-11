@@ -1,0 +1,10 @@
+# Chuẩn hoá xuống dòng về LF khi commit để mã băm SHA-256 của hiện vật giống nhau trên Windows và Linux
+* text=auto eol=lf
+*.pkl binary
+*.joblib binary
+*.npz binary
+*.mat binary
+*.png binary
+*.pdf binary
+*.pptx binary
+*.zip binary
