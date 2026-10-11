@@ -6,8 +6,6 @@ data/*
 !data/MANIFEST.csv
 data/features/v5/*
 !data/features/v5/af_features_cosen_ac.csv
-data/features/v6/
-data/features/v7/
 
 # ---------- models: chỉ commit V4 triển khai và thẻ JSON; pkl V5/V6 lấy theo data/MANIFEST.csv ----------
 *.pkl
