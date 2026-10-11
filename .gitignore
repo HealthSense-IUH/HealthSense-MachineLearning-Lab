@@ -3,10 +3,13 @@ data/*
 !data/sample/
 !data/features/
 !data/.gitkeep
+!data/README.md
+!data/MANIFEST.csv
 
 # Cache đặc trưng của bảo tàng phiên bản (src/v1..v4) — dữ liệu dẫn xuất,
 # tự sinh lại trong ~1 phút khi chạy python src/vN/pipeline.py
 data/features/museum_*.csv
+data/features/legacy/
 
 # Models & Checkpoints
 *.pkl
@@ -51,7 +54,7 @@ env.bak/
 # Large/generated feature matrices
 data/features/v6/
 data/features/v7/
-data/features/afdb_features_v5_afib_only.csv
+data/features/v5/
 
 # Training library scratch output
 catboost_info/

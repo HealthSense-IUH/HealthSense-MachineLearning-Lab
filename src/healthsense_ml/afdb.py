@@ -33,7 +33,7 @@ AFDB_STEP_S = 30
 # đoạn chuyển tiếp hỗn hợp bị bỏ.
 LABEL_PURITY = 0.8
 
-FEATURES_AFDB_FILE = os.path.join(config.FEATURES_DIR, 'afdb_features_v5_afib_only.csv')
+FEATURES_AFDB_FILE = os.path.join(config.FEATURES_DIR, 'v5', 'afdb_features_v5_afib_only.csv')
 
 
 def _rhythm_label(aux_note):

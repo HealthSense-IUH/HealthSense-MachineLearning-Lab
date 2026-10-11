@@ -19,7 +19,7 @@ RESULTS_DIR = os.path.join(PROJECT_ROOT, 'results')
 BENCHMARK_V4_DIR = os.path.join(RESULTS_DIR, 'benchmark_v4')
 
 # File đặc trưng v4 (CÓ cột record_id — bắt buộc cho chia theo bệnh nhân)
-FEATURES_V4_FILE = os.path.join(FEATURES_DIR, 'mimic_features_v4.csv')
+FEATURES_V4_FILE = os.path.join(FEATURES_DIR, 'v4', 'mimic_features_v4.csv')
 
 # ============================================================
 # Tín hiệu PPG (MIMIC PERform: 125 Hz, chuẩn hóa 0-1)
