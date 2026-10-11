@@ -3,7 +3,6 @@ data/*
 !data/sample/
 !data/features/
 !data/.gitkeep
-!data/README.md
 !data/MANIFEST.csv
 data/features/v5/*
 !data/features/v5/af_features_cosen_ac.csv
