@@ -15,7 +15,7 @@ from healthsense_ml import evaluation
 
 
 df = pd.read_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_specific_features.csv"
 )
 
@@ -151,7 +151,7 @@ for name, features in SETS.items():
     )
 
     pred.to_csv(
-        "experiments/04_feature_model/"
+        "experiments/04_feature_model/outputs/"
         f"pred_{name}_af_features.csv",
         index=False,
     )
@@ -176,7 +176,7 @@ result = pd.concat(
 )
 
 result.to_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_feature_ablation.csv",
     index=False,
 )

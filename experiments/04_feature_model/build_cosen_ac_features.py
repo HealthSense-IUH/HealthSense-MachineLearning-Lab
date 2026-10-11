@@ -16,7 +16,7 @@ WINDOW = config.WINDOW_S
 STEP = config.STEP_S
 
 BASE_FILE = (
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_specific_features.csv"
 )
 
@@ -310,7 +310,7 @@ out = base.merge(
 )
 
 out.to_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_features_cosen_ac.csv",
     index=False,
 )

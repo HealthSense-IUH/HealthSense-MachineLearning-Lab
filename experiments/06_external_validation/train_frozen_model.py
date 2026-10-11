@@ -17,7 +17,7 @@ from healthsense_ml.training import (
 
 
 DATA = (
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_features_cosen_ac.csv"
 )
 

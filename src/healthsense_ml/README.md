@@ -1,64 +1,23 @@
-# healthsense_ml — định nghĩa gốc của phép đo HRV
+# healthsense_ml — thư viện dùng chung của mọi thí nghiệm
 
-> Chỉ còn 3 module, 214 dòng. Nhưng là 214 dòng **không được phép sai**.
+Đây là **định nghĩa gốc** của phép đo: lọc tín hiệu, dò nhịp, chuỗi NN và 16 đặc trưng HRV (13 đặc trưng dùng huấn luyện sau khi bỏ nhóm LF). `HealthSense-AI-Service/app/services/hrv_v4.py` là bản sao được kiểm tra tương đương bằng `tests/parity_check.py` bên service; sửa một bên thì phải chạy lại parity.
 
-## Nó còn lại gì
+## Thứ tự đọc
 
-| File | Việc |
-|---|---|
-| `config.py` | Hằng số tín hiệu: 125 Hz, dải lọc 0.5–8 Hz, cửa sổ 30 giây; danh sách 16 đặc trưng và 13 cột dùng huấn luyện |
-| `signal_processing.py` | Lọc bandpass → dò nhịp tim → đo chuỗi NN |
-| `hrv_features.py` | Chuỗi NN → **16 đặc trưng** chuẩn Task Force 1996 |
+| # | Module | Việc |
+|---|---|---|
+| 1 | `config.py` | Hằng số: 125 Hz, dải lọc 0,5–8 Hz, cửa sổ 30 s bước 10 s, danh sách đặc trưng, đường dẫn `data/`, `models/`, `results/` |
+| 2 | `data_loading.py` | Nạp PPG thô MIMIC PERform AF từ `data/raw/mimic_perform/` |
+| 3 | `signal_processing.py` | Lọc bandpass → dò nhịp theo z-score → chuỗi NN trong giới hạn sinh lý |
+| 4 | `beat_validation.py` | Chấm bộ dò nhịp PPG bằng R-peak của ECG ghi song song |
+| 5 | `hrv_features.py` | Chuỗi NN → 16 đặc trưng HRV theo Task Force 1996 (thời gian, tần số, Poincaré, SampEn) |
+| 6 | `feature_extraction.py` | Cắt cửa sổ trượt và gom bảng đặc trưng `data/features/v4/mimic_features_v4.csv` |
+| 7 | `afdb.py` | Cùng pipeline cho MIT-BIH AFDB (ECG) → `data/features/v5/afdb_features_v5_afib_only.csv` |
+| 8 | `training.py` | Registry model và lưới tham số, mặt nạ IQR chỉ fit trên train |
+| 9 | `evaluation.py` | LOSO, metric hai mức cửa sổ và bệnh nhân |
 
-Trước đây thư mục này có 10 module (nạp dữ liệu, cửa sổ trượt, huấn luyện,
-đánh giá, AFDB, kiểm chứng nhịp bằng ECG). Sáu module đó đã được gỡ cùng lúc
-với `scripts/` — chúng chỉ tồn tại để phục vụ các script huấn luyện, không ai
-gọi tới nữa. Lấy lại từ lịch sử git nếu cần:
+Ba module đầu tiên (1, 3, 5) là phần AI-Service import trực tiếp; không đổi chữ ký hàm của chúng.
 
-```bash
-git checkout ddd2876 -- src/healthsense_ml
-```
+Cách chạy pipeline V4 đầu cuối: `notebooks/training/01_train_v4_pooled_model.ipynb` hoặc `scripts/run_v4_extraction.py` → `run_v4_benchmark.py` → `run_cross_dataset.py` → `run_final_model.py`.
 
-## ⚠️ Vì sao 3 file này không xóa được
-
-`HealthSense-AI-Service/tests/parity_check.py` **import trực tiếp cả ba** lúc
-chạy test:
-
-```python
-ML_LAB = os.path.join(..., "HealthSense-MachineLearning-Lab")
-sys.path.insert(0, os.path.join(ML_LAB, "src"))
-
-from healthsense_ml import config as lab_config
-from healthsense_ml.hrv_features import compute_hrv_features as lab_features
-from healthsense_ml.signal_processing import extract_nn_series as lab_nn
-```
-
-Test đó so từng con số giữa lab và bản sao trong service
-(`app/services/hrv_v4.py`), bắt buộc khớp **16/16 đặc trưng**.
-
-**Vì sao khắt khe vậy:** model `.pkl` đang chạy được huấn luyện trên đặc trưng
-do code này tính. Nếu service tính lệch dù chỉ một chút, model nhận đầu vào
-khác với lúc học — và nó vẫn trả về một con số trông hợp lý. Hỏng **âm thầm**,
-không có lỗi nào báo ra.
-
-Xóa thư mục này là mất luôn cái neo đó.
-
-## Ai còn dùng trong lab
-
-Chỉ hai chỗ:
-
-- `vlab/extract.py` → `compute_hrv_features` (công thức 16 đặc trưng dùng chung
-  cho cả 4 phiên bản, để chênh lệch giữa chúng phản ánh đúng *phương pháp*
-  chứ không lẫn với khác biệt công thức)
-- `report/00_final_report.ipynb` → `config` (3 hằng số đường dẫn)
-
-## Vì sao tính 16 mà chỉ huấn luyện trên 13
-
-`config.UNRELIABLE_30S_FEATURES` loại `LF`, `LF_norm`, `LF_HF_Ratio`.
-
-Chuẩn Task Force 1996 yêu cầu bản ghi **tối thiểu 2 phút** mới ước lượng được
-dải tần thấp. Cửa sổ ở đây chỉ 30 giây — con số tính ra vẫn là số thực trông
-hợp lý, nhưng về mặt sinh lý là vô nghĩa. Vẫn **tính** đủ 16 cột để tương
-thích, chỉ không **huấn luyện** trên 3 cột đó.
-
-Bản đồ toàn bộ `src/`: [`../README.md`](../README.md)
+Phần V5 và V6 (PPG_AC, đa domain, stacking) không nằm ở đây mà trong `experiments/06`, `07`, `08`, vì chúng là thí nghiệm có tham số đóng băng riêng; chúng vẫn import thư viện này để tính đặc trưng.

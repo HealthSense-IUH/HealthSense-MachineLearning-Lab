@@ -3,12 +3,12 @@ import pandas as pd
 
 
 SOURCE = (
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_features_cosen_ac.csv"
 )
 
 PRED = (
-    "experiments/05_calibration_alert/"
+    "experiments/05_calibration_alert/outputs/"
     "calibration_loso_predictions.csv"
 )
 
@@ -186,7 +186,7 @@ for rid, x in df.groupby(
 result = pd.DataFrame(rows)
 
 result.to_csv(
-    "experiments/05_calibration_alert/"
+    "experiments/05_calibration_alert/outputs/"
     "selected_policy_subject_audit.csv",
     index=False,
 )

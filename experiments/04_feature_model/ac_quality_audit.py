@@ -6,7 +6,7 @@ from sklearn.metrics import roc_auc_score
 
 
 features = pd.read_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_features_cosen_ac.csv"
 )
 

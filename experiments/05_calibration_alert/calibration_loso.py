@@ -21,7 +21,7 @@ from healthsense_ml.training import build_model_registry
 
 
 df = pd.read_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_features_cosen_ac.csv"
 )
 
@@ -249,7 +249,7 @@ for fold, (
 pred = pd.DataFrame(rows)
 
 pred.to_csv(
-    "experiments/05_calibration_alert/"
+    "experiments/05_calibration_alert/outputs/"
     "calibration_loso_predictions.csv",
     index=False,
 )

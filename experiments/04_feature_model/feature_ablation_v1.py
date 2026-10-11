@@ -141,7 +141,7 @@ for name, features in ABLATIONS.items():
     pred = run_loso(features)
 
     pred.to_csv(
-        f"experiments/04_feature_model/"
+        f"experiments/04_feature_model/outputs/"
         f"pred_{name}.csv",
         index=False,
     )
@@ -162,7 +162,7 @@ result = pd.concat(
 )
 
 result.to_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "feature_ablation_v1.csv",
     index=False,
 )

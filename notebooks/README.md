@@ -1,58 +1,11 @@
-# HealthSense AI notebooks — V5 & V6
+# notebooks/ — ba nhóm, ba mục đích
 
-Hai notebook này được thiết kế để đặt vào repository `HealthSense_rungtamnhi/notebooks/`.
+| Thư mục | Mục đích | Có huấn luyện model? |
+|---|---|---|
+| `training/` | Sinh ra các model V4, V5, V6C từ dữ liệu đặc trưng, có giải thích từng bước. Bản đọc được của script huấn luyện | **Có** |
+| `review/` | Xem lại kết quả V5 và V6 từ hiện vật đã khoá: ROC, PR, calibration, LODO, PAC/PVC | Không |
+| `defense/` | Bằng chứng tái lập được để bảo vệ trước hội đồng, đọc đúng file CSV đã commit và ghi lại Git HEAD lúc chạy | Không |
 
-## Files
+Mọi notebook tự tìm gốc repo bằng cách đi ngược lên các thư mục cha cho tới khi thấy `src/healthsense_ml`, nên mở từ thư mục nào cũng chạy. Môi trường: `venv/` của repo (`venv\Scripts\jupyter lab`).
 
-- `HealthSense_V5_Visual_Review.ipynb`
-  - frozen V5 RF;
-  - exact 14-feature contract;
-  - imports code feature extraction từ `src/healthsense_ml`;
-  - external validation scripts trong `experiments/06_external_validation`;
-  - ROC / PR / probability distributions / confusion matrix;
-  - PAC/PVC hard-negative visualization.
-
-- `HealthSense_V6_Research_Freeze_Visual_Review.ipynb`
-  - V6C stacking bundle;
-  - locked predictions;
-  - verified temporal streams;
-  - Global Rule V2;
-  - calibration;
-  - exact confidence intervals;
-  - LODO;
-  - PPG_AC matched ablation;
-  - PAC/PVC;
-  - DeepBeat forensic/domain exposure;
-  - research freeze/provenance/checksums.
-
-## Usage
-
-```bash
-cd /home/phuc/Documents/HealthSense_rungtamnhi
-conda activate healthsense-af-v5
-jupyter lab
-```
-
-Mở notebook từ folder `notebooks/`.
-
-Notebook tự tìm repo root nếu đang chạy từ root hoặc từ đường dẫn mặc định:
-
-`/home/phuc/Documents/HealthSense_rungtamnhi`
-
-## Reuse existing `.py`
-
-Notebook không re-implement training pipeline.
-
-- V5 import trực tiếp `src.healthsense_ml.*` và có cell gọi `experiments/06_external_validation/*.py`.
-- V6 đọc artifacts sinh bởi `experiments/08_v6_locked_protocol/*.py`; có cell tùy chọn gọi lại scripts.
-- Các bước retrain/LODO nặng mặc định không tự chạy.
-
-## GitHub recommendation
-
-Trước khi push:
-
-1. Chạy notebook từ đầu trong env `healthsense-af-v5`.
-2. Kiểm tra mọi path.
-3. Chọn giữ outputs/figures nếu muốn GitHub render report trực tiếp.
-4. Nếu notebook quá lớn, Clear Outputs rồi commit figures riêng vào `notebooks/figures/`.
-5. Không commit raw datasets hoặc model 1.88 GB vào git thường; dùng release/LFS/storage phù hợp nếu cần.
+Thứ tự đọc cho người mới: `training/01` → `training/03` → `review/HealthSense_V6_Research_Freeze_Visual_Review` → `defense/02`.

@@ -12,13 +12,13 @@ rng = np.random.default_rng(SEED)
 
 CANDIDATES = {
     "RF_AC": (
-        "experiments/04_feature_model/"
+        "experiments/04_feature_model/outputs/"
         "pred_plus_ac_04d.csv",
         "Random Forest",
     ),
 
     "XGB_COSEN_AC": (
-        "experiments/04_feature_model/"
+        "experiments/04_feature_model/outputs/"
         "pred_plus_cosen_ac_04d.csv",
         "XGBoost",
     ),
@@ -172,7 +172,7 @@ boot["delta_subject"] = (
 
 
 boot.to_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "model_selection_bootstrap.csv",
     index=False,
 )

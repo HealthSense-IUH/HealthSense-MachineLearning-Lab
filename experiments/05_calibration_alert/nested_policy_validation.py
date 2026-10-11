@@ -16,7 +16,7 @@ from healthsense_ml.training import build_model_registry
 
 
 DATA = (
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_features_cosen_ac.csv"
 )
 
@@ -812,19 +812,19 @@ selection_result = pd.DataFrame(
 
 
 subject_result.to_csv(
-    "experiments/05_calibration_alert/"
+    "experiments/05_calibration_alert/outputs/"
     "nested_policy_subject_results.csv",
     index=False,
 )
 
 window_result.to_csv(
-    "experiments/05_calibration_alert/"
+    "experiments/05_calibration_alert/outputs/"
     "nested_policy_window_results.csv",
     index=False,
 )
 
 selection_result.to_csv(
-    "experiments/05_calibration_alert/"
+    "experiments/05_calibration_alert/outputs/"
     "nested_policy_selections.csv",
     index=False,
 )

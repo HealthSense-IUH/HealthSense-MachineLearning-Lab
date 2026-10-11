@@ -1,0 +1,18 @@
+{
+  "version": "v6_locked_global_rule_1",
+  "probability_threshold": 0.5,
+  "uncertainty_threshold": 0.1,
+  "min_consecutive": 1,
+  "min_positive": 1,
+  "logic": "OR",
+  "selection_dataset": "DEV_ONLY",
+  "test_used_for_selection": false,
+  "selection_constraint": "subject-level sensitivity >= 0.80 on every development dataset",
+  "selection_objective": "maximize macro balanced accuracy; then macro specificity; then minimum dataset sensitivity; then macro sensitivity",
+  "development_metrics": {
+    "macro_sensitivity": 1.0,
+    "macro_specificity": 0.2888888888888889,
+    "macro_balanced_accuracy": 0.6444444444444445,
+    "min_dataset_sensitivity": 1.0
+  }
+}

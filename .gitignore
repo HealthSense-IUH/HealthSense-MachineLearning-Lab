@@ -73,6 +73,7 @@ models/multidomain/*.joblib
 experiments/06_external_validation/*_features.csv
 experiments/06_external_validation/*_predictions.csv
 experiments/06_external_validation/*_segment_features.csv
+experiments/06_external_validation/*.csv
 
 # NumPy generated binary artifacts
 experiments/06_external_validation/*.npy
@@ -103,5 +104,9 @@ experiments/07_v6_multidomain/logs/
 # Work-in-progress V7 generated assets
 data/features/v7/
 
-# Local third-party checkout handled separately
-# third_party/
+# Thư viện bên thứ ba chép tay; lấy lại bằng: git clone https://github.com/peterhcharlton/ppg-beats third_party/ppg-beats
+third_party/
+
+# Đầu ra khi chạy lại notebook huấn luyện (notebooks/training)
+models/final/
+models/**/*_retrained.*

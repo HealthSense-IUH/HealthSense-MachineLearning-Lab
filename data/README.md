@@ -49,7 +49,7 @@ flowchart LR
 | `features/v5/` | `afdb_features_v5_afib_only.csv` | `src/healthsense_ml/afdb.py` | Không |
 | `features/v6/` | DeepBeat train/validate/test và MIMIC, 14 đặc trưng (13 HRV + PPG_AC) | `experiments/07_v6_multidomain/extract_deepbeat_v6_features.py` | Không (DUA DeepBeat) |
 | `features/v7/` | `healthsense_af_v6c_pacaware_train.csv` (137 476 cửa sổ, 248 bệnh nhân, 4 domain), `hard_negative_v7_*.csv`, các bảng train V6B | `build_v6b_manifest.py`, `build_v6b_clean_manifest.py` | Không (DUA PulseWatch) |
-| `features/legacy/` | Cache của bảo tàng phiên bản v1–v3 và các bản sao cũ từng nằm ở gốc `data/` (`root_copies/`, nội dung khác bản v4 đã commit, chưa đối chiếu) | Thí nghiệm cũ | Không |
+| `features/legacy/root_copies/` | Ba bản sao cũ từng nằm ở gốc `data/`, nội dung khác bản v4 đã commit, chưa rõ nguồn; xoá được sau khi đối chiếu | Không rõ | Không |
 | `sample/` | Vài tệp nhỏ để chạy test và CI | Cắt từ MIMIC | **Có** |
 
 Các tập DEV/TEST theo bệnh nhân của PulseWatch và Liu nằm ở `experiments/07_v6_multidomain/artifacts/hard_domain_splits/` vì toàn bộ script của protocol V6 đọc đường dẫn đó; dự đoán đã khoá nằm ở `experiments/08_v6_locked_protocol/artifacts/`. Hai nơi này không commit, chỉ commit các bảng tổng hợp.

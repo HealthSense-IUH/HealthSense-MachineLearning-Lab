@@ -175,7 +175,7 @@ for i, (rid, label, path) in enumerate(
 df = pd.DataFrame(rows)
 
 df.to_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "af_specific_features.csv",
     index=False,
 )

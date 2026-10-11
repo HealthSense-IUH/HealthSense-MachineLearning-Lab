@@ -82,7 +82,7 @@ retention = pd.DataFrame(
 )
 
 retention.to_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "iqr_retention.csv",
     index=False,
 )
@@ -250,7 +250,7 @@ for use_iqr in [True, False]:
     )
 
     pred.to_csv(
-        f"experiments/04_feature_model/"
+        f"experiments/04_feature_model/outputs/"
         f"predictions_{tag}.csv",
         index=False,
     )
@@ -266,7 +266,7 @@ result = pd.concat(
 )
 
 result.to_csv(
-    "experiments/04_feature_model/"
+    "experiments/04_feature_model/outputs/"
     "iqr_ablation_results.csv",
     index=False,
 )

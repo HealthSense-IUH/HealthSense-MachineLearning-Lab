@@ -1,0 +1,17 @@
+dataset,group,rows,valid_order,duplicates,monotonic_original,gap_median,gap_p95,gap_max,gap_eq_1_fraction
+pulsewatch_dev,"(17, 'clinical')",155,155,140,False,1.0,1.0,1.0,1.0
+pulsewatch_dev,"(21, 'clinical')",475,475,465,False,1.0,1.0,1.0,1.0
+pulsewatch_dev,"(30, 'clinical')",1813,1813,1800,False,1.0,2.8999999999999986,4.0,0.8333333333333334
+pulsewatch_dev,"(55, 'clinical')",74,74,64,False,1.0,1.0,1.0,1.0
+pulsewatch_dev,"(58, 'clinical')",1185,1185,1173,False,1.0,2.0,3.0,0.9090909090909091
+pulsewatch_dev,"(80, 'clinical')",6477,6477,6460,False,1.0,1.0,1.0,1.0
+pulsewatch_dev,"(87, 'clinical')",11,11,5,False,2.0,2.8,3.0,0.4
+pulsewatch_dev,"(100, 'clinical')",1544,1544,1527,False,1.0,1.0,1.0,1.0
+pulsewatch_dev,"(109, 'clinical')",561,561,551,False,1.0,1.0,1.0,1.0
+pulsewatch_dev,"(118, 'clinical')",3212,3212,3197,False,1.0,1.0,1.0,1.0
+pulsewatch_dev,"(306, 'af_trial')",2,2,0,False,2.0,2.0,2.0,0.0
+pulsewatch_dev,"(307, 'af_trial')",33,33,21,False,1.0,2.0,3.0,0.9090909090909091
+pulsewatch_dev,"(319, 'af_trial')",12,12,0,True,1.0,1.0,1.0,1.0
+pulsewatch_dev,"(327, 'af_trial')",7,7,0,True,1.0,1.75,2.0,0.8333333333333334
+pulsewatch_dev,"(420, 'af_trial')",150,150,134,False,1.0,1.0,1.0,1.0
+pulsewatch_dev,"(421, 'af_trial')",1968,1968,1945,False,1.0,1.0,1.0,1.0

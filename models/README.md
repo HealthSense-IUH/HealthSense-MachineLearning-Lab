@@ -17,28 +17,6 @@ Thư mục này **chỉ chứa model**. Số liệu, biểu đồ, bảng kết 
 
 Thẻ đầy đủ: [`model_card.json`](model_card.json).
 
-## Bốn file `vN.pkl` là gì?
-
-`v1.pkl` … `v4.pkl` là **hiện vật học tập**: nếu mỗi đời pipeline ngày đó đem
-đi triển khai thật thì file model sẽ trông như thế nào. Mỗi file kèm một
-`vN.json` ghi rõ nguồn gốc và **điểm thật** (đo bằng LOSO), không phải điểm
-bản gốc từng công bố.
-
-**Không dùng chúng cho sản phẩm.** Ba lý do, theo mức độ nghiêm trọng:
-
-1. **`v3.pkl` học trên kênh ECG**, không phải PPG. Vòng đeo tay dùng cảm biến
-   quang — đưa đặc trưng PPG vào model học từ ECG là sai loại tín hiệu.
-2. Cả bốn chỉ học trên **35 bệnh nhân MIMIC**, trong khi model triển khai học
-   trên 60 bệnh nhân của hai bộ dữ liệu và đã qua kiểm định chéo.
-3. `v4.pkl` dùng Random Forest để so sánh công bằng với v1–v3, **khác** với
-   XGBoost tinh chỉnh lồng của model triển khai.
-
-Sinh lại bất cứ lúc nào:
-
-```bash
-python src/v1/pipeline.py
-```
-
 ## Hai quy tắc khi xuất model — học từ sai lầm có thật
 
 **1. Luôn gói scaler vào trong Pipeline.**
@@ -54,19 +32,26 @@ chuyện này không thể xảy ra ngay từ đầu.
 
 **2. Luôn kèm thẻ ghi điểm thật.**
 
-Điểm bản gốc của v1–v3 bị thổi phồng 6–7 điểm do data leakage. File model đi
-tới đâu thì con số trung thực đi theo tới đó — đó là việc của `vN.json`.
+Các đời pipeline đầu (v1–v3, nay đã gỡ khỏi repo) từng bị thổi phồng 6–7 điểm do data leakage. File model đi
+tới đâu thì con số trung thực đi theo tới đó — đó là việc của model card `.json` đặt cạnh mỗi `.pkl`.
 
-Cài đặt: [`src/vlab/export.py`](../src/vlab/export.py).
+Notebook `training/` theo đúng quy tắc này: luôn ghi model card JSON cạnh file pkl.
 
 ## Lưu ý về git
 
-Cả 5 file `.pkl` đều **được commit** (`.gitignore` có ngoại lệ `!models/*.pkl`),
-vì mỗi file chỉ khoảng 200 KB và như vậy mở repo lên là thấy đủ hiện vật.
+`healthsense_afib_pipeline.pkl` (248 KB) được commit nhờ ngoại lệ `!models/*.pkl`; các model lớn hơn trong `mimic/`, `multidomain/` không commit.
 
-Riêng `healthsense_afib_pipeline.pkl` thì **bắt buộc** phải commit: nó không
-tái tạo được nữa, script sinh ra nó (`scripts/run_final_model.py`) đã bị gỡ
-khỏi repo. Khôi phục script bằng `git checkout d3123cf -- scripts`.
+File này **bắt buộc** commit vì AI-Service dùng bản
+sao từng byte của nó. Tái tạo bằng `scripts/run_final_model.py` hoặc
+`notebooks/training/01_train_v4_pooled_model.ipynb`; hai cách này ghi ra
+`models/final/` để không đè lên bản đang triển khai, muốn thay thì chép tay.
 
-Bốn file `vN.pkl` thì tái tạo được bất cứ lúc nào bằng
-`python src/vN/pipeline.py`.
+## Các đời sau V4
+
+| Thư mục | Model | Commit? | Cách có |
+|---|---|---|---|
+| `mimic/` | V5: `healthsense_af_v5_rf_ac_frozen.pkl` + `.json`, Random Forest 14 đặc trưng, đóng băng trên MIMIC | Chỉ JSON | `experiments/06/train_frozen_model.py` hoặc `notebooks/training/02` |
+| `multidomain/` | V6C: `healthsense_af_v6c_stacking.pkl` (khoảng 1,4 GB) + các `.json` của V6A, V6B, V6C | Chỉ JSON | `experiments/07/train_v6c_stacking.py` hoặc `notebooks/training/03`; bản chuẩn xin từ máy đã train, đối chiếu SHA-256 trong `data/MANIFEST.csv` |
+| `final/` | Đầu ra của lần chạy lại V4 | Không | Notebook `training/01` |
+
+Notebook 02 và 03 mặc định ghi tên `*_retrained.pkl`, chỉ ghi đè tên đóng băng khi bật `OVERWRITE_FROZEN`.

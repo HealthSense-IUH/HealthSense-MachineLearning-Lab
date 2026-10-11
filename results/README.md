@@ -3,15 +3,6 @@
 Số liệu và biểu đồ. Không có model nào ở đây — model nằm ở
 [`models/`](../models/README.md).
 
-## Bảo tàng phiên bản
-
-| File | Nội dung |
-|---|---|
-| `v1.json` … `v4.json` | Kết quả từng đời pipeline: cấu hình, điểm chấm kiểu cũ, điểm chấm bằng LOSO, phần chênh lệch, danh sách lỗi rò rỉ, và `original_claim` (con số bản gốc từng công bố) |
-
-Sinh lại: `python src/vN/pipeline.py`.
-Đọc dễ hiểu: [`src/report/00_final_report.ipynb`](../src/report/00_final_report.ipynb).
-
 ## Kiểm định pipeline v4 (sản phẩm)
 
 | Thư mục / file | Nội dung |
@@ -22,9 +13,8 @@ Sinh lại: `python src/vN/pipeline.py`.
 | `pooled_loso_predictions.csv` | Dự đoán từng cửa sổ của lần chạy trên |
 | `beat_validation/` | Chấm điểm bộ dò nhịp PPG bằng R-peak trên ECG ghi song song; cũng là nơi lộ ra 2 ca `non_af_012` (nhãn sai) và `non_af_014` (PPG hỏng) |
 
-⚠️ Năm mục này **không sinh lại được**: các script tạo ra chúng
-(`scripts/run_*.py`) đã bị gỡ khỏi repo. Khôi phục bằng:
+Sinh lại bằng bốn script trong `scripts/`: `run_v4_extraction.py` → `run_v4_benchmark.py` → `run_cross_dataset.py` → `run_final_model.py`, hoặc notebook `notebooks/training/01_train_v4_pooled_model.ipynb`.
 
-```bash
-git checkout d3123cf -- scripts
-```
+## Kết quả V5 và V6
+
+Không nằm ở đây. V5: `experiments/06_external_validation/`. V6 (số liệu công bố): `experiments/08_v6_locked_protocol/artifacts/`, gồm bảng cửa sổ, LODO, Global rule V2 mức bệnh nhân, Platt, PAC/PVC; xem README của thư mục đó.
