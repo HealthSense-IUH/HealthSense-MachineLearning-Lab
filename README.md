@@ -195,7 +195,7 @@ Sau các thử nghiệm temporal V6D–V6H, phần đánh giá cuối được r
 | 17 | `deepbeat_lodo_ppg_ac_ablation.py` | PPG_AC trên LODO DeepBeat | `deepbeat_lodo_ppg_ac_ablation_*.csv` |
 | 18 | `finalize_v6_research_freeze.py` | Chốt freeze, ghi SHA-256 mọi hiện vật | `V6_RESEARCH_FREEZE.md`, `V6_RESEARCH_FREEZE_SHA256.csv` |
 
-Các bảng tổng hợp trong `results/v6/` được commit và là nguồn số liệu của bài báo; dự đoán từng cửa sổ và verified streams thì không. Notebook `review_visual` và `defense/` đọc từ đây.
+Các bảng tổng hợp trong `results/v6/` được commit và là nguồn số liệu của bài báo; dự đoán từng cửa sổ và verified streams thì không. Notebook `review_visual` đọc từ đây.
 
 ### Global Rule V2
 
@@ -344,7 +344,7 @@ Máy hiện tại **chưa có** `raw/` của ba domain ngoài MIMIC, nên bướ
 ```text
 HealthSense-MachineLearning-Lab/
 ├── data/                 # raw/ (tải về), features/v4..v7, splits/ (DEV/TEST theo bệnh nhân), MANIFEST.csv — mục 8
-├── notebooks/            # mỗi phiên bản một thư mục, chạy theo số: v4/ v5/ v6/ (+ scripts/, v6/protocol/), defense/
+├── notebooks/            # mỗi phiên bản một thư mục, chạy theo số: v4/ v5/ v6/ (+ scripts/, v6/protocol/)
 ├── src/healthsense_ml/   # thư viện dùng chung: lọc, dò nhịp, 16 đặc trưng HRV, manifest
 ├── models/               # v4/ (pkl triển khai + model card, commit), v5/, v6/ (chỉ commit thẻ JSON, pkl lấy theo MANIFEST)
 └── results/              # v4/, v5/, v6/ (số liệu công bố)
@@ -357,7 +357,6 @@ HealthSense-MachineLearning-Lab/
 | `v4/` | `00_prepare_features` → `01_evaluate_loso_cross_dataset` → `02_train_pooled_model` | `data/features/v4/`, kết quả LOSO và cross-dataset ở `results/v4/`, model `models/v4/` (bản AI-Service đang dùng; notebook ghi `_retrained` trừ khi bật `OVERWRITE_FROZEN`) |
 | `v5/` | `01_train_frozen_rf` → `02_external_validation` → `review_visual` | model V5 ở `models/v5/`, kết quả kiểm định ngoài ở `results/v5/` |
 | `v6/` | `00_extract_features_and_splits` → `01_prepare_training_table` → `02_train_stacking` → `03_locked_protocol` → `review_visual` | `data/features/v6,v7/`, `data/splits/`, model V6C ở `models/v6/`, số liệu công bố ở `results/v6/` |
-| `defense/` | `01_Data_Label_and_Signal_Audit` → `02_Frozen_Metrics_LODO_and_Ablations` → `03_Temporal_Calibration_and_Freeze` | hình và bảng bằng chứng để bảo vệ, xem 9.5 |
 
 Mỗi thư mục phiên bản có `scripts/` (các bước dài, notebook gọi bằng `run(...)`); riêng `v6/protocol/` là 18 script của protocol khoá (mục 4). Mọi notebook tự tìm gốc repo nên mở từ đâu cũng chạy; môi trường là `venv/` của repo. Notebook huấn luyện mặc định ghi `*_retrained` hoặc `*_rebuilt`, chỉ ghi đè hiện vật đóng băng khi bật `OVERWRITE_FROZEN` / `OVERWRITE`. Những bước cần dữ liệu Synapse (V5 kiểm định ngoài, V6 trích đặc trưng, protocol) chỉ chạy được trên máy đã tải dữ liệu đó.
 
@@ -404,21 +403,9 @@ Ba quy tắc:
 
 | Thư mục | Nội dung | Sinh bởi |
 |---|---|---|
-| `v4/` | `benchmark_v4/` LOSO 35 bệnh nhân MIMIC, `cross_dataset/` MIMIC ↔ AFDB, `beat_validation/` dò nhịp so với R-peak ECG, `pooled_loso_*` 60 bệnh nhân; `baseline/`, `label_audit/`, `beat_detector/`, `sqi/` là bảng nhỏ của các kiểm tra sớm mà notebook defense đọc | `notebooks/v4/` |
+| `v4/` | `benchmark_v4/` LOSO 35 bệnh nhân MIMIC, `cross_dataset/` MIMIC ↔ AFDB, `beat_validation/` dò nhịp so với R-peak ECG, `pooled_loso_*` 60 bệnh nhân | `notebooks/v4/` |
 | `v5/` | Bảng tóm tắt, đặc trưng và dự đoán khi kiểm định ngoài V5 (toàn bộ ignore, dẫn xuất từ Synapse) | `notebooks/v5/02_external_validation` |
 | `v6/` | Số liệu công bố: cửa sổ, LODO, Global rule V2, Platt, PAC/PVC, SHA-256 của freeze (commit); dự đoán từng cửa sổ và verified streams (ignore) | `notebooks/v6/03_locked_protocol` |
-
-### 9.5 `notebooks/defense/` — notebook bằng chứng để bảo vệ
-
-Ba notebook biến hiện vật nghiên cứu đã lưu thành bằng chứng trực quan kiểm toán được. Chúng **không train model, không chọn điểm vận hành mới, không ghi đè hiện vật đóng băng**; `healthsense_evidence_utils.py` phải nằm cạnh. Chạy `01` → `02` → `03` bằng Restart Kernel and Run All; đầu ra ghi vào `outputs/healthsense_defense_evidence/<timestamp>/` (hình `.png` + `.pdf`, bảng `.csv`, `*_input_manifest.json` ghi Git HEAD, đường dẫn, SHA-256 của đầu vào). `EVIDENCE_MAP.csv` nối từng hình với tệp nguồn trong `results/`.
-
-| Notebook | Hình / bằng chứng |
-|---|---|
-| `01_Data_Label_and_Signal_Audit` | Kiểm kê dự đoán đã khoá theo dataset/split, kiểm tra trùng bệnh nhân, baseline lịch sử, chênh lệch nhãn AFIB/AFL, bộ dò nhịp PPG, ROC của SQI từ `results/v4/sqi/` |
-| `02_Frozen_Metrics_LODO_and_Ablations` | AUROC / PR-AUC / Brier trên reused TEST kèm CI theo cụm bệnh nhân; 4 domain LODO với TP/TN/FP/FN và sensitivity/specificity/accuracy/F1; ma trận nhầm lẫn; ablation 13F/14F; FPR PAC/PVC; DeepBeat base-vs-stack và FN-vs-TP |
-| `03_Temporal_Calibration_and_Freeze` | Luật cảnh báo chọn trên DEV và ràng buộc chọn; độ phủ verified stream; ma trận nhầm lẫn mức bệnh nhân (exploratory); CI exact của sensitivity; Brier thô so với Platt trên DEV; cổng kiểm tra SHA-256; giới hạn và trạng thái freeze |
-
-Mức bằng chứng cần phân biệt khi trích dẫn: *vẽ lại từ CSV có sẵn* (bảng kết quả gốc), *tính lại từ số đếm nhầm lẫn đã lưu*, *tính lại từ dự đoán đã lưu* (chỉ khi `*_test_locked_predictions.csv` có trên máy và khớp SHA đã khoá), *reused subject-held-out TEST* (tách theo bệnh nhân nhưng đã được xem trong lúc phát triển), *LODO hồi cứu*, *cảnh báo mức bệnh nhân exploratory* (luật chọn trên DEV, không có khẳng định confirmatory). Notebook 02 không bao giờ dựng lại ROC từ một con số AUROC; thiếu tệp thì ghi rõ là thiếu. Kiểm tra hash của model 1,9 GB tắt mặc định, bật bằng `HEALTHSENSE_HASH_LARGE=1`. Các hiện vật thăm dò trong `results/v6/deprecated_exploratory_artifacts.csv` không được nâng lên thành kết quả confirmatory.
 
 ---
 
