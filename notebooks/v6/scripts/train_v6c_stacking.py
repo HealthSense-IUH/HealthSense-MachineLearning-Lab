@@ -59,7 +59,7 @@ df=pd.read_csv(
 X=df[FEATURES]
 y=df.label_v7.astype(int)
 
-groups=df.subject_id.astype(str)
+groups=df.domain.astype(str)+":"+df.subject_id.astype(str)   # mã bệnh nhân trùng giữa các domain
 
 
 models={
