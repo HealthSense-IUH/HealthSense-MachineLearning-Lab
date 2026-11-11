@@ -1,0 +1,40 @@
+{
+ "panel_a": {
+  "subject": "419",
+  "stream_id": "pulsewatch:419:419_2021_11_13_16_22_09:1",
+  "windows": 23,
+  "alert_branch": "two-window high-confidence branch",
+  "alert_time_s": 90.0,
+  "first_windows_t_p_sigma": [
+   [
+    30.0,
+    0.579,
+    0.0964
+   ],
+   [
+    60.0,
+    0.9564,
+    0.0077
+   ],
+   [
+    90.0,
+    0.9498,
+    0.0349
+   ],
+   [
+    120.0,
+    0.9555,
+    0.0125
+   ]
+  ]
+ },
+ "panel_b": {
+  "subject": "90",
+  "stream_id": "pulsewatch:90:090_2021_04_12_16_49_49:2",
+  "windows": 6,
+  "alert": false,
+  "peak_p": 0.9438,
+  "peak_sigma": 0.0296,
+  "peak_time_s": 90.0
+ }
+}
