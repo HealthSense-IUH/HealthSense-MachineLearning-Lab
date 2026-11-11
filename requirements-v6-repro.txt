@@ -1,0 +1,13 @@
+# Verified environment for reproducing the V6 results from the frozen model
+# (models/v6/healthsense_af_v6c_stacking.pkl, SHA-256 e27370c5...), Python 3.15.
+# Checked on 2026-11-11: the model loads and notebooks/v6/protocol scripts 01, 03 and 07
+# reproduce results/v6/pulsewatch_global_rule_v2_subject_results.csv.
+# The model was pickled with scikit-learn 1.9.0 and XGBoost 3.4.0; XGBoost 3.4.1 cannot
+# unpickle it ("input stream corrupted"), so keep xgboost at exactly 3.4.0.
+numpy==2.5.4
+scipy==1.18.1
+pandas==3.1.1
+scikit-learn==1.9.1
+xgboost==3.4.0
+joblib==1.6.0
+matplotlib==3.11.2

@@ -9,7 +9,7 @@ jupyter
 nbconvert
 ipykernel
 lightgbm
-xgboost
+xgboost==3.4.0  # frozen V6 model needs exactly 3.4.0, see requirements-v6-repro.txt
 python-dotenv
 tabpfn-client
 kagglehub
