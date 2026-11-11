@@ -252,6 +252,19 @@ Vì vậy:
 
 PAC/PVC được theo dõi riêng vì đây là nguồn false positive quan trọng ở cấp cửa sổ. Các nghiên cứu smartwatch PPG trước đây cũng chỉ ra rằng PAC/PVC có thể làm giảm độ đặc hiệu của AF screening nếu không được xử lý riêng [5].
 
+### Kiểm chứng ngưỡng spectral concentration của cổng SQI (phân tích bổ sung)
+
+`notebooks/v6/scripts/supp_sqi_spectral_threshold_check.py` kiểm lại ngưỡng `SQI_MIN_SPECTRAL_CONC = 0.70` của AI Service. Dữ liệu là 35 bản ghi MIMIC PERform AF có trong repo và nhiễu trắng mô phỏng. Hàm tính được chép nguyên từ AI Service. Chạy từ gốc repo với `PYTHONPATH=src`.
+
+| Tín hiệu | Số đoạn | Min | Median | Max | < 0.70 |
+|---|---:|---:|---:|---:|---:|
+| MIMIC PERform AF, toàn bản ghi | 35 | 0.834 | 0.961 | 0.994 | 0% |
+| MIMIC PERform AF, đoạn 60 s | 700 | 0.813 | 0.960 | 0.997 | 0% |
+| MIMIC PERform AF, đoạn 30 s | 1400 | 0.806 | 0.960 | 0.997 | 0% |
+| Nhiễu trắng Gauss, đoạn 60 s | 1000 | 0.346 | 0.443 | 0.530 | 100% |
+
+Ngưỡng 0.70 tách hoàn toàn hai nhóm này. Con số "min 0.86" trong ghi chú của AI Service không tái lập được trên đủ 35 bản ghi: min thực tế là 0.834 khi tính theo bản ghi và 0.813 theo đoạn 60 s. Bản ghi từ nguyên mẫu MAX30101/MAX30102 và nhiễu cử động tay chưa có trong repo nên chưa được kiểm. Kết quả nằm ở `results/v6/supplementary/sqi_spectral_*`.
+
 ---
 
 ## 7. Datasets
