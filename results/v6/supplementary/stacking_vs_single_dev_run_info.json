@@ -1,0 +1,25 @@
+{
+ "train_rows": 137475,
+ "train_groups": 248,
+ "dev_rows": {
+  "deepbeat": 4026,
+  "pulsewatch": 17679,
+  "liu": 997
+ },
+ "bootstrap_draws": 1000,
+ "bootstrap_valid_draws": 989,
+ "bootstrap_seed": 20261111,
+ "meta_coefficients_standardized_ET_RF_XGB": [
+  0.6232904116238851,
+  1.442746104858752,
+  0.5042773361617651
+ ],
+ "versions": {
+  "python": "3.15.2",
+  "numpy": "2.5.4",
+  "pandas": "3.1.1",
+  "scikit-learn": "1.9.1",
+  "xgboost": "3.4.1"
+ },
+ "seconds": 404
+}
