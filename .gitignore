@@ -15,6 +15,7 @@
 results/v5/*.csv
 results/v5/*.npy
 results/v6/*predictions.csv
+results/v6/supplementary/*predictions.csv
 results/v6/*verified_streams.csv
 results/v6/dev_global_rule*_grid.csv
 **/*.log
