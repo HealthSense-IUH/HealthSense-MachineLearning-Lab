@@ -206,6 +206,15 @@ Global Rule V2 gồm hai nhánh:
 
 Global Rule V2 hiện là exploratory candidate cho untouched external validation.
 
+**Hình minh hoạ cho bản thảo (Hình 5):** `notebooks/v6/scripts/supp_fig5_temporal_rule_timeline.py` vẽ quy tắc này trên hai người tham gia PulseWatch TEST. Dữ liệu là dự đoán khoá của model đóng băng, sinh bằng protocol 01 và 03. Trục thời gian là thời gian thật trong stream, gồm các đoạn khoảng 30 s không chồng lấn.
+
+| Người tham gia | Diễn biến | Kết quả |
+|---|---|---|
+| 419 (AF) | Cửa sổ đầu 0.579; hai cửa sổ kế tiếp ≥ 0.90 với disagreement ≤ 0.05 | Cảnh báo ở 90 s |
+| 90 (không AF) | Một đỉnh đơn lẻ 0.944 | Không cảnh báo |
+
+Kết quả theo người tạo lại trùng `pulsewatch_global_rule_v2_subject_results.csv`, sai lệch xác suất tối đa khoảng 1e-11. Đầu ra nằm ở `results/v6/supplementary/fig5_temporal_rule_timeline.*`.
+
 ---
 
 ## 5. Leave-One-Domain-Out domain-generalization analysis
