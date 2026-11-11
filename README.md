@@ -459,6 +459,8 @@ pip install -r requirements.txt
 jupyter lab notebooks/
 ```
 
+Để tái lập kết quả V6 từ mô hình đóng băng, dùng môi trường đã kiểm chứng: `pip install -r requirements-v6-repro.txt`. Mô hình được pickle bằng scikit-learn 1.9.0 và XGBoost 3.4.0; XGBoost 3.4.1 không nạp được nó (`input stream corrupted`), nên phải giữ đúng `xgboost==3.4.0`.
+
 Linux/macOS thay dòng kích hoạt bằng `source venv/bin/activate`. Script trong `notebooks/*/scripts/` và `notebooks/v6/protocol/` chạy từ gốc repo với `PYTHONPATH=src` (notebook runner tự đặt). Một số bước như LODO, ablation và bootstrap có thể tốn thời gian. Không nên tuning tiếp trên các benchmark hiện tại nếu mục tiêu là giữ tính độc lập cho bước validation tiếp theo.
 
 ---
