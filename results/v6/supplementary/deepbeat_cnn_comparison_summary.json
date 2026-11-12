@@ -1,0 +1,99 @@
+{
+ "note": "DeepBeat TEST is the primary comparison; DEV was used to develop the DeepBeat networks.",
+ "TEST": {
+  "windows": 1363,
+  "af_windows": 611,
+  "participants": 7,
+  "valid_bootstrap_draws": 904,
+  "models": {
+   "V6 fixed stacked classifier": {
+    "AUROC": 0.9904,
+    "AUROC_CI95": [
+     0.9356,
+     0.9973
+    ],
+    "AP": 0.989,
+    "sensitivity@0.5": 0.982,
+    "specificity@0.5": 0.8577
+   },
+   "deepbeat": {
+    "AUROC": 0.997,
+    "AUROC_CI95": [
+     0.9651,
+     0.9998
+    ],
+    "AP": 0.997,
+    "sensitivity@0.5": 0.9804,
+    "specificity@0.5": 0.984,
+    "dAUROC_V6_minus_model": -0.0066,
+    "dAUROC_CI95": [
+     -0.0341,
+     -0.0019
+    ]
+   },
+   "deepbeat_singletask_pretrained": {
+    "AUROC": 0.9948,
+    "AUROC_CI95": [
+     0.9626,
+     0.9994
+    ],
+    "AP": 0.9944,
+    "sensitivity@0.5": 0.9722,
+    "specificity@0.5": 0.9441,
+    "dAUROC_V6_minus_model": -0.0044,
+    "dAUROC_CI95": [
+     -0.0297,
+     0.004
+    ]
+   }
+  }
+ },
+ "DEV": {
+  "windows": 4026,
+  "af_windows": 509,
+  "participants": 13,
+  "valid_bootstrap_draws": 995,
+  "models": {
+   "V6 fixed stacked classifier": {
+    "AUROC": 0.8079,
+    "AUROC_CI95": [
+     0.7377,
+     0.9735
+    ],
+    "AP": 0.4335,
+    "sensitivity@0.5": 0.444,
+    "specificity@0.5": 0.9161
+   },
+   "deepbeat": {
+    "AUROC": 0.9105,
+    "AUROC_CI95": [
+     0.8432,
+     0.9945
+    ],
+    "AP": 0.7452,
+    "sensitivity@0.5": 0.5521,
+    "specificity@0.5": 0.9869,
+    "dAUROC_V6_minus_model": -0.1026,
+    "dAUROC_CI95": [
+     -0.1502,
+     0.0253
+    ]
+   },
+   "deepbeat_singletask_pretrained": {
+    "AUROC": 0.8269,
+    "AUROC_CI95": [
+     0.7657,
+     0.9966
+    ],
+    "AP": 0.6843,
+    "sensitivity@0.5": 0.5639,
+    "specificity@0.5": 0.9832,
+    "dAUROC_V6_minus_model": -0.0191,
+    "dAUROC_CI95": [
+     -0.0697,
+     0.042
+    ]
+   }
+  }
+ }
+}
