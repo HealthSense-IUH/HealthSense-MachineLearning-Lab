@@ -166,6 +166,8 @@ Các test split dưới đây tách theo subject nhưng đã được inspect nh
 
 Notebook: [HealthSense V6 Research Freeze Visual Review](notebooks/v6/review_visual.ipynb)
 
+**Hình 4 của bản thảo:** `notebooks/v6/scripts/supp_fig4_roc_pr_test.py` vẽ đường ROC và precision-recall của ba TEST từ dự đoán khoá (`<dataset>_test_locked_predictions.csv`, protocol 03) và khoảng tin cậy trong `window_metrics_subject_cluster_bootstrap.csv` (protocol 09). Diện tích dưới đường PR là average precision (`average_precision_score`), nên bản thảo gọi là AP. Đầu ra: `results/v6/supplementary/fig4_roc_pr_test.pdf`.
+
 ---
 
 ## 4. Protocol đánh giá khoá của V6 (nguồn số liệu công bố)
@@ -215,6 +217,8 @@ Global Rule V2 hiện là exploratory candidate cho untouched external validatio
 
 Kết quả theo người tạo lại trùng `pulsewatch_global_rule_v2_subject_results.csv`, sai lệch xác suất tối đa khoảng 1e-11. Đầu ra nằm ở `results/v6/supplementary/fig5_temporal_rule_timeline.*`.
 
+**Quy định hình của SN Computer Science.** Hình 3, 4 và 5 được vẽ ở đúng kích thước in: chữ không chân 8–9 pt, phân biệt các đường bằng kiểu nét hoặc marker ngoài màu, đánh dấu ô bằng (a)/(b) và không đặt tiêu đề trong hình. Hình 5 rộng 150 mm (bằng bề rộng chữ của bản thảo). File PDF trong `results/v6/supplementary/` trùng từng điểm ảnh với file hình trên Overleaf.
+
 ---
 
 ## 5. Leave-One-Domain-Out domain-generalization analysis
@@ -251,18 +255,18 @@ Kết quả tổng thể hỗ trợ giữ `PPG_AC`, nhưng không đồng nghĩa
 
 `notebooks/v6/scripts/supp_stacking_vs_single_dev.py` so sánh stacking với từng base learner và với các baseline đơn giản. Thiết lập giữ nguyên như ablation `PPG_AC`: cùng bảng huấn luyện, cùng GroupKFold theo `domain:subject_id`, cùng ba cohort DEV, không chạm TEST. Chạy từ gốc repo với `PYTHONPATH=src`.
 
-Bảng dưới là số macro trên ba DEV. Δ là stacking trừ mô hình so sánh; khoảng tin cậy 95% lấy từ paired subject-cluster bootstrap (1000 lượt, 989 lượt hợp lệ).
+Bảng dưới là số macro trên ba DEV. ΔAUROC là chênh lệch quan sát được của macro AUROC (stacking trừ mô hình so sánh), giống Bảng 4 của bản thảo. Khoảng tin cậy 95% là percentile của paired subject-cluster bootstrap (1000 lượt, 989 lượt hợp lệ). Trung bình bootstrap của Δ nằm ở cột `dAUROC_mean` của `stacking_vs_single_dev_bootstrap_delta.csv`.
 
 | Mô hình | Macro AUROC | Macro PR-AUC | Macro Brier | ΔAUROC [95% CI] |
 |---|---:|---:|---:|---|
 | Stacking (ET+RF+XGB, LR meta) | 0.9267 | 0.6708 | 0.0606 | — |
-| Soft voting (trung bình ET, RF, XGB) | 0.9280 | 0.6703 | 0.0620 | −0.0009 [−0.0024, 0.0001] |
-| ExtraTrees | 0.9267 | 0.6577 | 0.0597 | 0.0004 [−0.0015, 0.0024] |
-| RandomForest | 0.9246 | 0.6801 | 0.0695 | 0.0016 [−0.0002, 0.0037] |
-| XGBoost | 0.9294 | 0.6955 | 0.0620 | −0.0020 [−0.0076, 0.0025] |
-| Logistic regression (14 đặc trưng) | 0.9117 | 0.6301 | 0.0740 | 0.0140 [−0.0044, 0.0294] |
-| Chỉ RMSSD (LR đơn biến) | 0.7965 | 0.2082 | 0.1090 | 0.1157 [0.0508, 0.2136] |
-| Chỉ CV (LR đơn biến) | 0.8141 | 0.2406 | 0.1187 | 0.1043 [0.0279, 0.1897] |
+| Soft voting (trung bình ET, RF, XGB) | 0.9280 | 0.6703 | 0.0620 | −0.0013 [−0.0024, 0.0001] |
+| ExtraTrees | 0.9267 | 0.6577 | 0.0597 | 0.0000 [−0.0015, 0.0024] |
+| RandomForest | 0.9246 | 0.6801 | 0.0695 | +0.0021 [−0.0002, 0.0037] |
+| XGBoost | 0.9294 | 0.6955 | 0.0620 | −0.0027 [−0.0076, 0.0025] |
+| Logistic regression (14 đặc trưng) | 0.9117 | 0.6301 | 0.0740 | +0.0150 [−0.0044, 0.0294] |
+| Chỉ RMSSD (LR đơn biến) | 0.7965 | 0.2082 | 0.1090 | +0.1302 [0.0508, 0.2136] |
+| Chỉ CV (LR đơn biến) | 0.8141 | 0.2406 | 0.1187 | +0.1126 [0.0279, 0.1897] |
 
 Meta-learner không cải thiện có ý nghĩa so với base learner mạnh nhất. Lợi ích chủ yếu đến từ mô hình cây phi tuyến so với các chỉ số HRV đơn lẻ. Số liệu được tính bằng scikit-learn 1.9.1 / XGBoost 3.4.1 (xem `results/v6/supplementary/stacking_vs_single_dev_run_info.json`), nên lệch nhẹ so với bảng ablation ở trên: tối đa 0.0013 AUROC và 0.0037 PR-AUC. File dự đoán theo cửa sổ được dẫn xuất từ dữ liệu Synapse nên không commit.
 
@@ -275,6 +279,8 @@ Vì vậy:
 - `meta_probability` thô vẫn là probability chính
 - Platt scaling chỉ dùng cho analysis
 - runtime không tự động áp dụng calibration
+
+**Hình 3 của bản thảo:** `notebooks/v6/scripts/supp_fig3_reliability_dev.py` vẽ reliability diagram (10 bin đều) trên PulseWatch DEV và DeepBeat DEV, so sánh `meta_probability` thô với xác suất Platt out-of-fold. Đầu vào là `dev_platt_oof_predictions.csv` do protocol 08 sinh ra. Brier trong chú giải trùng `calibration_summary.csv`. Đầu ra: `results/v6/supplementary/fig3_reliability_dev.pdf`.
 
 ### PAC/PVC challenge
 

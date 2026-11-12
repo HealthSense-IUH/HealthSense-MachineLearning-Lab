@@ -1,0 +1,382 @@
+{
+ "deepbeat": {
+  "DEV": {
+   "windows": 4026,
+   "passed_gate": 4026,
+   "rejected_af_windows": 0,
+   "rejected_non_af_windows": 0,
+   "rejection_reasons": {},
+   "all_windows": {
+    "windows": 4026,
+    "af_windows": 509,
+    "subjects": 13,
+    "AUROC": 0.8079,
+    "AUROC_CI95": [
+     0.7377,
+     0.9735
+    ],
+    "AP": 0.4335,
+    "AP_CI95": [
+     0.1061,
+     0.7131
+    ],
+    "sensitivity@0.5": 0.444,
+    "specificity@0.5": 0.9161,
+    "sensitivity@0.8": 0.334,
+    "specificity@0.8": 0.963,
+    "sensitivity@0.9": 0.2358,
+    "specificity@0.9": 0.9778
+   },
+   "gated_windows": {
+    "windows": 4026,
+    "af_windows": 509,
+    "subjects": 13,
+    "AUROC": 0.8079,
+    "AUROC_CI95": [
+     0.7377,
+     0.9735
+    ],
+    "AP": 0.4335,
+    "AP_CI95": [
+     0.1061,
+     0.7131
+    ],
+    "sensitivity@0.5": 0.444,
+    "specificity@0.5": 0.9161,
+    "sensitivity@0.8": 0.334,
+    "specificity@0.8": 0.963,
+    "sensitivity@0.9": 0.2358,
+    "specificity@0.9": 0.9778
+   },
+   "rule_v2_all_windows": {
+    "af_subjects": 4,
+    "alerted_af": 3,
+    "non_af_subjects": 9,
+    "alerted_non_af": 1
+   },
+   "rule_v2_service_gate": {
+    "af_subjects": 4,
+    "alerted_af": 3,
+    "non_af_subjects": 9,
+    "alerted_non_af": 1
+   }
+  },
+  "TEST": {
+   "windows": 1363,
+   "passed_gate": 1363,
+   "rejected_af_windows": 0,
+   "rejected_non_af_windows": 0,
+   "rejection_reasons": {},
+   "all_windows": {
+    "windows": 1363,
+    "af_windows": 611,
+    "subjects": 7,
+    "AUROC": 0.9904,
+    "AUROC_CI95": [
+     0.9356,
+     0.9973
+    ],
+    "AP": 0.989,
+    "AP_CI95": [
+     0.704,
+     0.9995
+    ],
+    "sensitivity@0.5": 0.982,
+    "specificity@0.5": 0.8577,
+    "sensitivity@0.8": 0.9624,
+    "specificity@0.8": 0.9495,
+    "sensitivity@0.9": 0.9083,
+    "specificity@0.9": 0.9867
+   },
+   "gated_windows": {
+    "windows": 1363,
+    "af_windows": 611,
+    "subjects": 7,
+    "AUROC": 0.9904,
+    "AUROC_CI95": [
+     0.9356,
+     0.9973
+    ],
+    "AP": 0.989,
+    "AP_CI95": [
+     0.704,
+     0.9995
+    ],
+    "sensitivity@0.5": 0.982,
+    "specificity@0.5": 0.8577,
+    "sensitivity@0.8": 0.9624,
+    "specificity@0.8": 0.9495,
+    "sensitivity@0.9": 0.9083,
+    "specificity@0.9": 0.9867
+   },
+   "rule_v2_all_windows": {
+    "af_subjects": 5,
+    "alerted_af": 5,
+    "non_af_subjects": 2,
+    "alerted_non_af": 0
+   },
+   "rule_v2_service_gate": {
+    "af_subjects": 5,
+    "alerted_af": 5,
+    "non_af_subjects": 2,
+    "alerted_non_af": 0
+   }
+  }
+ },
+ "pulsewatch": {
+  "DEV": {
+   "windows": 17679,
+   "passed_gate": 17620,
+   "rejected_af_windows": 10,
+   "rejected_non_af_windows": 49,
+   "rejection_reasons": {
+    "valid_ratio": 45,
+    "spectral": 14
+   },
+   "all_windows": {
+    "windows": 17679,
+    "af_windows": 2320,
+    "subjects": 16,
+    "AUROC": 0.9905,
+    "AUROC_CI95": [
+     0.9785,
+     0.9987
+    ],
+    "AP": 0.939,
+    "AP_CI95": [
+     0.58,
+     0.996
+    ],
+    "sensitivity@0.5": 0.9246,
+    "specificity@0.5": 0.9674,
+    "sensitivity@0.8": 0.8552,
+    "specificity@0.8": 0.9818,
+    "sensitivity@0.9": 0.7638,
+    "specificity@0.9": 0.9898
+   },
+   "gated_windows": {
+    "windows": 17620,
+    "af_windows": 2310,
+    "subjects": 16,
+    "AUROC": 0.9908,
+    "AUROC_CI95": [
+     0.979,
+     0.9988
+    ],
+    "AP": 0.94,
+    "AP_CI95": [
+     0.5804,
+     0.9961
+    ],
+    "sensitivity@0.5": 0.9268,
+    "specificity@0.5": 0.9678,
+    "sensitivity@0.8": 0.858,
+    "specificity@0.8": 0.9818,
+    "sensitivity@0.9": 0.7662,
+    "specificity@0.9": 0.9897
+   },
+   "rule_v2_all_windows": {
+    "af_subjects": 6,
+    "alerted_af": 5,
+    "non_af_subjects": 10,
+    "alerted_non_af": 2
+   },
+   "rule_v2_service_gate": {
+    "af_subjects": 6,
+    "alerted_af": 5,
+    "non_af_subjects": 10,
+    "alerted_non_af": 2
+   }
+  },
+  "TEST": {
+   "windows": 30158,
+   "passed_gate": 30083,
+   "rejected_af_windows": 20,
+   "rejected_non_af_windows": 55,
+   "rejection_reasons": {
+    "valid_ratio": 51,
+    "spectral": 24
+   },
+   "all_windows": {
+    "windows": 30158,
+    "af_windows": 3472,
+    "subjects": 16,
+    "AUROC": 0.9985,
+    "AUROC_CI95": [
+     0.9969,
+     0.9997
+    ],
+    "AP": 0.989,
+    "AP_CI95": [
+     0.7756,
+     0.9972
+    ],
+    "sensitivity@0.5": 0.9683,
+    "specificity@0.5": 0.9914,
+    "sensitivity@0.8": 0.9254,
+    "specificity@0.8": 0.9965,
+    "sensitivity@0.9": 0.854,
+    "specificity@0.9": 0.9987
+   },
+   "gated_windows": {
+    "windows": 30083,
+    "af_windows": 3452,
+    "subjects": 16,
+    "AUROC": 0.9986,
+    "AUROC_CI95": [
+     0.9971,
+     0.9997
+    ],
+    "AP": 0.9896,
+    "AP_CI95": [
+     0.7758,
+     0.9974
+    ],
+    "sensitivity@0.5": 0.9707,
+    "specificity@0.5": 0.9916,
+    "sensitivity@0.8": 0.9276,
+    "specificity@0.8": 0.9966,
+    "sensitivity@0.9": 0.8572,
+    "specificity@0.9": 0.9987
+   },
+   "rule_v2_all_windows": {
+    "af_subjects": 4,
+    "alerted_af": 4,
+    "non_af_subjects": 12,
+    "alerted_non_af": 0
+   },
+   "rule_v2_service_gate": {
+    "af_subjects": 4,
+    "alerted_af": 4,
+    "non_af_subjects": 12,
+    "alerted_non_af": 0
+   }
+  }
+ },
+ "liu": {
+  "DEV": {
+   "windows": 997,
+   "passed_gate": 996,
+   "rejected_af_windows": 0,
+   "rejected_non_af_windows": 1,
+   "rejection_reasons": {
+    "spectral": 1
+   },
+   "all_windows": {
+    "windows": 997,
+    "af_windows": 53,
+    "subjects": 7,
+    "AUROC": 0.9814,
+    "AUROC_CI95": [
+     0.9484,
+     0.9953
+    ],
+    "AP": 0.6677,
+    "AP_CI95": [
+     0.4649,
+     0.8889
+    ],
+    "sensitivity@0.5": 0.9623,
+    "specificity@0.5": 0.9449,
+    "sensitivity@0.8": 0.8868,
+    "specificity@0.8": 0.964,
+    "sensitivity@0.9": 0.7925,
+    "specificity@0.9": 0.9746
+   },
+   "gated_windows": {
+    "windows": 996,
+    "af_windows": 53,
+    "subjects": 7,
+    "AUROC": 0.9814,
+    "AUROC_CI95": [
+     0.9484,
+     0.9953
+    ],
+    "AP": 0.6677,
+    "AP_CI95": [
+     0.4649,
+     0.8889
+    ],
+    "sensitivity@0.5": 0.9623,
+    "specificity@0.5": 0.9449,
+    "sensitivity@0.8": 0.8868,
+    "specificity@0.8": 0.9639,
+    "sensitivity@0.9": 0.7925,
+    "specificity@0.9": 0.9745
+   },
+   "rule_v2_all_windows": {
+    "af_subjects": 4,
+    "alerted_af": 4,
+    "non_af_subjects": 3,
+    "alerted_non_af": 0
+   },
+   "rule_v2_service_gate": {
+    "af_subjects": 4,
+    "alerted_af": 4,
+    "non_af_subjects": 3,
+    "alerted_non_af": 0
+   }
+  },
+  "TEST": {
+   "windows": 920,
+   "passed_gate": 920,
+   "rejected_af_windows": 0,
+   "rejected_non_af_windows": 0,
+   "rejection_reasons": {},
+   "all_windows": {
+    "windows": 920,
+    "af_windows": 440,
+    "subjects": 7,
+    "AUROC": 0.9866,
+    "AUROC_CI95": [
+     0.9422,
+     0.9993
+    ],
+    "AP": 0.978,
+    "AP_CI95": [
+     0.9125,
+     0.9995
+    ],
+    "sensitivity@0.5": 0.9909,
+    "specificity@0.5": 0.9375,
+    "sensitivity@0.8": 0.9795,
+    "specificity@0.8": 0.9479,
+    "sensitivity@0.9": 0.9591,
+    "specificity@0.9": 0.9542
+   },
+   "gated_windows": {
+    "windows": 920,
+    "af_windows": 440,
+    "subjects": 7,
+    "AUROC": 0.9866,
+    "AUROC_CI95": [
+     0.9422,
+     0.9993
+    ],
+    "AP": 0.978,
+    "AP_CI95": [
+     0.9125,
+     0.9995
+    ],
+    "sensitivity@0.5": 0.9909,
+    "specificity@0.5": 0.9375,
+    "sensitivity@0.8": 0.9795,
+    "specificity@0.8": 0.9479,
+    "sensitivity@0.9": 0.9591,
+    "specificity@0.9": 0.9542
+   },
+   "rule_v2_all_windows": {
+    "af_subjects": 5,
+    "alerted_af": 4,
+    "non_af_subjects": 2,
+    "alerted_non_af": 1
+   },
+   "rule_v2_service_gate": {
+    "af_subjects": 5,
+    "alerted_af": 4,
+    "non_af_subjects": 2,
+    "alerted_non_af": 1
+   }
+  }
+ }
+}

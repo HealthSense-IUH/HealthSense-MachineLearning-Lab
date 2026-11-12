@@ -34,8 +34,8 @@ P5, P2, SIG = 0.80, 0.90, 0.05  # như FROZEN_GLOBAL_RULE_V2.json
 K5, K2 = 5, 2
 
 plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["Arial", "DejaVu Sans"],
-                     "font.size": 8, "axes.labelsize": 8, "xtick.labelsize": 7.5, "ytick.labelsize": 7.5,
-                     "legend.fontsize": 7, "pdf.fonttype": 42})
+                     "font.size": 8.5, "axes.labelsize": 8.5, "xtick.labelsize": 8, "ytick.labelsize": 8,
+                     "legend.fontsize": 8, "pdf.fonttype": 42})
 
 
 def stream_table(g):
@@ -82,7 +82,7 @@ gb = s90[sid_b]
 imax = gb["meta_probability"].idxmax()
 ib, _ = first_alert(gb)
 
-fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.9), sharey=True)
+fig, axes = plt.subplots(1, 2, figsize=(5.9, 3.2), sharey=True)
 for ax, g, tag in ((axes[0], ga, "(a)"), (axes[1], gb, "(b)")):
     t = g["t_end"].to_numpy()
     p = g["meta_probability"].to_numpy()
@@ -94,16 +94,16 @@ for ax, g, tag in ((axes[0], ga, "(a)"), (axes[1], gb, "(b)")):
                label=r"$\sigma_{\mathrm{dis}} > 0.05$")
     ax.axhline(P5, color="0.3", linestyle="--", linewidth=0.8, label="0.80: five-window persistence branch")
     ax.axhline(P2, color="0.3", linestyle=":", linewidth=0.9, label="0.90: two-window high-confidence branch")
-    ax.set_xlabel("Time within stream (s); consecutive segments of about 30 s")
+    ax.set_xlabel("Time within stream (s)")
     ax.set_ylim(-0.02, 1.05)
     ax.text(0.01, 1.02, tag, transform=ax.transAxes, fontsize=9, fontweight="bold", va="bottom")
 axes[0].set_ylabel(r"AF probability $P_{\mathrm{meta}}$")
 t_alert = float(ga["t_end"].iloc[ia])
 axes[0].axvline(t_alert, color="#7b2c8f", linewidth=1.0)
-axes[0].text(t_alert, 0.08, f"  alert at {t_alert:.0f} s", color="#7b2c8f", fontsize=7, ha="left")
+axes[0].text(t_alert, 0.08, f"  alert at {t_alert:.0f} s", color="#7b2c8f", fontsize=8, ha="left")
 handles, labels = axes[1].get_legend_handles_labels()
-fig.legend(handles, labels, loc="lower center", ncol=4, frameon=False, fontsize=6.8)
-fig.tight_layout(rect=(0, 0.09, 1, 1))
+fig.legend(handles, labels, loc="lower center", ncol=2, frameon=False, fontsize=8)
+fig.tight_layout(rect=(0, 0.16, 1, 1))
 fig.savefig(OUT / "fig5_temporal_rule_timeline.pdf")
 
 info = {
