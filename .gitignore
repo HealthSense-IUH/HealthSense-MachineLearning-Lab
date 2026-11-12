@@ -1,8 +1,8 @@
 # ---------- data: commit toàn bộ (raw MIMIC, đặc trưng, splits); chỉ *_rebuilt.* là ignore ----------
 
-# ---------- models: chỉ commit V4 triển khai và thẻ JSON; pkl V5/V6 lấy theo data/MANIFEST.csv ----------
+# ---------- models: chỉ commit V4 triển khai và thẻ JSON; pkl V5/V6 lấy theo 1_prepare_data/data/MANIFEST.csv ----------
 *.pkl
-!models/v4/healthsense_afib_pipeline.pkl
+!archive/v4/models/healthsense_afib_pipeline.pkl
 *.joblib
 *.pth
 *.h5
@@ -12,12 +12,12 @@
 **/*_rebuilt.*
 
 # ---------- results: dẫn xuất từ dữ liệu Synapse hoặc quá lớn ----------
-results/v5/*.csv
-results/v5/*.npy
-results/v6/*predictions.csv
-results/v6/supplementary/*predictions.csv
-results/v6/*verified_streams.csv
-results/v6/dev_global_rule*_grid.csv
+1_prepare_data/v5_outputs/*.csv
+1_prepare_data/v5_outputs/*.npy
+3_evaluation/results/*predictions.csv
+4_paper/results/*predictions.csv
+3_evaluation/results/*verified_streams.csv
+3_evaluation/results/dev_global_rule*_grid.csv
 **/*.log
 
 # ---------- python, môi trường, IDE ----------
